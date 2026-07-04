@@ -1,64 +1,95 @@
-# Rovno.dev - Agency web app
+cat > README.md <<'EOF'
+# Unideka UI E-commerce app template
 
-Official source code of the [Rovno.dev](https://rovno.dev) agency web app. 
-The reference of combining shadcn + Unideka UI + Next.js
+A modern, AI-optimized e-commerce application template built with [Next.js](https://nextjs.org/), [Tailwind CSS v4](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/), and the [Unideka UI](https://www.figma.com/community/file/1622312904371459207) design system.
 
-[English](#-english) | [Русский](#-russian)
+This template is designed to be a **production-ready foundation** for your next e-commerce project. It comes with a complete UI component library, theming, layout primitives, and a structured codebase that follows best practices for performance, accessibility, and developer experience.
 
-## 🇺🇸 English
+## AI-Optimized Development
 
-### How to start (local dev)
+This repository is **specifically crafted for AI-assisted development**. It includes:
 
-#### 1. Add subdomains to your hosts file
+- A global `CODING_FOR_AI.md` file that provides strict guidelines for AI agents (like Cursor, Copilot, or custom LLMs) to ensure **surgical, efficient, and context-aware** code changes.
+- Clear separation of concerns, reusable components, and a consistent styling system – making it easy for AI to understand and extend.
+- Minimal boilerplate, maximal reuse: the codebase follows the **Ladder of Laziness** – only write what's necessary, use existing solutions first.
 
-```
-127.0.0.1  fake-api.localhost
-```
+Whether you're using an AI pair programmer or building with a team, this template helps you move fast without sacrificing quality.
 
-#### 2. Install deps
+## Features
 
-```bash
-npm i
-```
+- **⚡ Next.js 16 (Turbopack)** – Blazing fast development and production builds.
+- **🎨 Unideka UI Design System** – A Figma‑first component library with a cohesive, modern aesthetic.
+- **🧩 shadcn/ui Components** – Accessible, customizable, and beautifully styled primitives.
+- **🌗 Dark / Light Theme** – Fully supported, with system preference detection.
+- **📱 Mobile-First Responsive** – Works seamlessly on all screen sizes.
+- **📊 Data Visualization** – Recharts integration for charts and dashboards.
+- **🧩 Combobox, Calendar, Forms** – Rich interactive controls out of the box.
+- **🔧 Developer Experience** – TypeScript, ESLint, and a clean folder structure.
+- **🚀 Deployment Ready** – Dockerfile and standalone output for easy hosting.
 
-#### 3. Run
+## Tech Stack
 
-```bash
-npm run dev
-```
+| Category      | Tools                                                                  |
+| ------------- | ---------------------------------------------------------------------- |
+| Framework     | [Next.js 16](https://nextjs.org/) (Turbopack)                          |
+| Styling       | [Tailwind CSS v4](https://tailwindcss.com/) + CSS Variables            |
+| UI Components | [shadcn/ui](https://ui.shadcn.com/) (Radix UI primitives)              |
+| Design System | [Unideka UI](https://www.figma.com/community/file/1622312904371459207) |
+| Icons         | Unideka Icons (Material Symbols based)                                 |
+| Fonts         | Noto Sans & Oswald                                                     |
+| Charts        | [Recharts](https://recharts.org/)                                      |
+| Date Handling | [date-fns](https://date-fns.org/)                                      |
+| Forms         | [Base UI](https://base-ui.com/) Combobox, Input OTP, etc.              |
 
-### Tech Stack
-- **Framework:** [Next.js 16 Turbopack](https://nextjs.org/)
-- **Engine:** [Tailwind CSS v4](https://tailwindcss.com/) + [shadcn/ui v2](https://ui.shadcn.com/)
-- **UI System:** [Unideka UI v1.2](https://www.figma.com/community/file/1622312904371459207)
-- **Fonts:** Noto Sans & Oswald
-- **Icons:** Unideka Icons (Material Symbols based)
+## Getting Started
 
-### Fair Use & Licensing
-The code is available under the **MIT License**. 
-- You are free to use the logic, configuration, and components.
-- **Brand Identity:** The "Rovno.dev" name, logo, and case studies are NOT open-source. Please don't clone the design 1:1 for commercial use—be creative!
-
-## 🇷🇺 Russian
-
-### Особенности реализации
-- **Tailwind v4:** Полностью на CSS-переменных для максимальной скорости сборки.
-- **Performance:** 100/100 Lighthouse за счет кастомной оптимизации и отсутствия лишних зависимостей.
-- **Zero-Dependency Icons:** Иконки внедрены через оптимизированный SVG-код.
-
-### Правила использования
-Код открыт под лицензией **MIT**. Вы можете использовать наши решения и компоненты в своих проектах.
-- **Бренд:** Название "Rovno.dev", логотип и тексты кейсов защищены авторским правом.
-- **Дизайн:** Мы делимся кодом для обучения и вдохновения. Пожалуйста, не копируйте визуальный стиль сайта точь-в-точь для коммерческих целей.
-
-## Quick Start
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/rovno-dev/rovno-dev-frontend
+git clone https://github.com/niyazgim/unideka-ui-template
+cd unideka-ui-template
+```
 
+### 2. Install dependencies
+
+```bash
 npm install
+```
 
+### 3. Run development server
+
+```bash
 npm run dev
 ```
 
-Built with ❤️ by [Niyaz Gimadiev](https://rovno.dev/u/niyazgim)
+Open http://localhost:3000 to see the app.
+
+### Project Structure
+```text
+app/
+  (HomePage)/          # Homepage components and layout
+  (Subdomains)/        # Subdomain routing (e.g., fake-api)
+  globals.css          # Global styles and theme variables
+  layout.tsx           # Root layout with theme provider
+components/
+  icons/               # SVG icon components
+  layout/              # Layout components (header, footer, etc.)
+  ui/                  # shadcn/unideka UI components
+hooks/                 # Custom React hooks
+lib/                   # Utility functions
+providers/             # Context providers (theme, etc.)
+public/                # Static assets
+utils/                 # Constants, types, and interfaces
+```
+
+### Customization
+
+* Theme Colors: Edit CSS variables in app/globals.css and app/unideka-base.css.
+
+* Typography: Adjust font sizes, weights, and families via CSS custom properties.
+
+* Components: All UI components are located in components/ui/ and are fully customizable using Tailwind classes or by modifying the source.
+
+* Layout: The header, footer, and page structure are in components/layout/.
+
+Built with ❤️ by Niyaz Gimadiev
