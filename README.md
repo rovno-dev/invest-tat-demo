@@ -17,15 +17,13 @@ Whether you're using an AI pair programmer or building with a team, this templat
 
 ## Features
 
-- **⚡ Next.js 16 (Turbopack)** – Blazing fast development and production builds.
-- **🎨 Unideka UI Design System** – A Figma‑first component library with a cohesive, modern aesthetic.
-- **🧩 shadcn/ui Components** – Accessible, customizable, and beautifully styled primitives.
-- **🌗 Dark / Light Theme** – Fully supported, with system preference detection.
-- **📱 Mobile-First Responsive** – Works seamlessly on all screen sizes.
-- **📊 Data Visualization** – Recharts integration for charts and dashboards.
-- **🧩 Combobox, Calendar, Forms** – Rich interactive controls out of the box.
-- **🔧 Developer Experience** – TypeScript, ESLint, and a clean folder structure.
-- **🚀 Deployment Ready** – Dockerfile and standalone output for easy hosting.
+- ** Next.js 16 (Turbopack)** – Blazing fast development and production builds.
+- ** Unideka UI Design System** – A Figma‑first component library with a cohesive, modern aesthetic.
+- ** shadcn/ui Components** – Accessible, customizable, and beautifully styled primitives.
+- ** Mobile-First Responsive** – Works seamlessly on all screen sizes.
+- ** Data Visualization** – Recharts integration for charts and dashboards.
+- ** Developer Experience** – TypeScript, ESLint, and a clean folder structure.
+- ** Deployment Ready** – Dockerfile and standalone output for easy hosting.
 
 ## Tech Stack
 

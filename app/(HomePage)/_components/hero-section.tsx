@@ -1,134 +1,101 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { KeyboardArrowRightIcon } from "@/components/icons";
 import { GithubLogotypeMonoIcon } from "@/components/icons/logotypes/github-logotype-mono-icon";
-import LogotypeIcon from "@/components/layout/logotype/logotype-icon";
 import Link from "next/link";
-
-function HeroFancy() {
-  const [stars, setStars] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchStars() {
-      try {
-        const res = await fetch(
-          "https://api.github.com/repos/niyazgim/unideka-ui-template"
-        );
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        setStars(data.stargazers_count);
-      } catch {
-        setStars(null);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchStars();
-  }, []);
-
-  const starsDisplay = loading ? "…" : stars !== null ? stars.toLocaleString() : "—";
-
-  return (
-    <Card className="relative overflow-hidden p-8 border-(--outline) bg-(--card) shadow-xl group">
-      {/* Logotype background – peeking from the right edge, half hidden */}
-      <div className="absolute inset-0 pointer-events-none">
-        <LogotypeIcon
-          width={400}
-          height={400}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 animate-[breathe_8s_ease-in-out_infinite]"
-          style={{ opacity: 0.05 }}
-        />
-      </div>
-
-      {/* Decorative blobs */}
-      <div className="absolute -top-24 -right-24 size-64 rounded-full bg-primary/5 blur-3xl" />
-      <div className="absolute -bottom-16 -left-16 size-48 rounded-full bg-primary/5 blur-3xl" />
-
-      <div className="relative z-10 space-y-6">
-        <div>
-          <p className="text-body-2 text-(--on-bg-low)">
-            *For designers
-          </p>
-          <p className="text-body-3 text-(--on-bg-low)">
-            It has Figma Community file too. Just copy AI-optimized components and add your beautiful design!
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-3">
-          <Button
-            asChild
-            variant="outlined"
-            size="large"
-            className="w-full gap-2 group/btn relative overflow-hidden border-primary/30 hover:border-primary"
-          >
-            <Link
-              href="https://www.figma.com/community/file/1622312904371459207"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <p>Figma Community file</p>
-            </Link>
-          </Button>
-
-          {/* <div className="grid grid-cols-2 gap-3 text-center">
-            <div className="rounded-lg border border-(--outline) p-3">
-              <p className="text-display-4 text-(--on-bg-high)">{starsDisplay}</p>
-              <p className="text-body-6 text-(--on-bg-low)">Stars</p>
-            </div>
-            <div className="rounded-lg border border-(--outline) p-3">
-              <p className="text-display-4 text-(--on-bg-high)">Apache 2.0</p>
-              <p className="text-body-6 text-(--on-bg-low)">License</p>
-            </div>
-          </div> */}
-        </div>
-
-        <div className="border-t border-(--outline) pt-4">
-          <p className="text-body-4 text-(--on-bg-low) text-center">
-            Built with ❤️ by Niyaz Gimadiev
-          </p>
-        </div>
-      </div>
-    </Card>
-  );
-}
 
 export function HeroSection() {
   return (
-    <section className="relative py-8 md:py-16">
+    <section className="relative py-20 md:py-24 overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-1/3 -right-1/3 w-[800px] h-[800px] rounded-full bg-(--primary) opacity-[0.06] blur-3xl animate-float-slow" />
+        <div className="absolute -bottom-1/3 -left-1/3 w-[600px] h-[600px] rounded-full bg-(--primary) opacity-[0.04] blur-3xl animate-float-slower" />
+        <div className="absolute top-1/4 right-1/4 w-48 h-48 rounded-full border border-(--primary)/10 bg-(--primary)/5 backdrop-blur-2xl pointer-events-none animate-spin-slow" />
+      </div>
+
       <Container>
-        <div className="flex flex-col md:flex-row items-start gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">
           {/* Left column */}
-          <div className="flex-1 text-center md:text-left animate-reveal [animation-delay:0ms]">
-            <h1 className="text-5xl md:text-7xl font-heading font-bold text-(--on-bg-high) mb-4">
-              Unideka UI
-            </h1>
-            <p className="text-body-2 md:text-body-1 text-(--on-bg-medium) mb-8 animate-reveal [animation-delay:100ms]">
-              A modern, accessible component library built with React, Tailwind CSS, and Radix UI primitives.
-            </p>
-            <Button
-              asChild
-              variant="filled"
-              size="large"
-              className="text-lg px-8 py-4 animate-reveal [animation-delay:200ms]"
+          <div className="space-y-6 animate-reveal [animation-delay:0ms]">
+            <Badge
+              variant="glass-static"
+              size="chip-small"
+              className="uppercase tracking-[0.2em] text-[10px] px-4 py-1.5 rounded-full w-fit"
             >
-              <Link
-                href="https://github.com/niyazgim/unideka-ui-template"
-                target="_blank"
-                rel="noopener noreferrer"
+              New Collection
+            </Badge>
+
+            <h1 className="text-display-1 md:text-display-0 font-heading font-bold leading-[1.1] tracking-tight">
+              <span className="bg-gradient-to-r from-(--primary) to-(--brand-4) bg-clip-text text-transparent">
+                Unideka
+              </span>
+              <span className="text-(--on-bg-high)"> Merch</span>
+            </h1>
+
+            <p className="text-body-2 md:text-body-1 text-(--on-bg-medium) max-w-lg leading-relaxed">
+              Premium gear for builders, thinkers, and creators. Hoodies, mugs, notebooks – designed for the AI era.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <Button
+                asChild
+                variant="filled"
+                size="large"
+                className="group relative overflow-hidden rounded-full px-8 py-4 text-base font-medium transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]"
               >
-                <GithubLogotypeMonoIcon className="size-5" />
-                GitHub Repository
-              </Link>
-            </Button>
+                <Link
+                  href="#"
+                  className="flex items-center gap-2"
+                >
+                  <span>Shop now</span>
+                  <KeyboardArrowRightIcon className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+              </Button>
+
+              <Button
+                asChild
+                variant="text"
+                size="small"
+                className="gap-2 text-(--on-bg-low) hover:text-(--on-bg-medium)"
+              >
+                <Link
+                  href="https://github.com/niyazgim/unideka-ui-template"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center"
+                >
+                  <GithubLogotypeMonoIcon className="size-4" />
+                  <span className="text-xs">GitHub</span>
+                </Link>
+              </Button>
+            </div>
+
+            <div className="flex items-center gap-4 pt-2 text-body-5 text-(--on-bg-low)">
+              <span>✦ Free shipping</span>
+              <span className="w-px h-4 bg-(--outline)" />
+              <span>✦ 100% organic cotton</span>
+              <span className="w-px h-4 bg-(--outline)" />
+              <span>✦ AI‑designed</span>
+            </div>
           </div>
 
-          {/* Right column */}
-          <div className="flex-1 animate-reveal [animation-delay:300ms]">
-            <HeroFancy />
+          {/* Right column — floating product image */}
+          <div className="animate-reveal [animation-delay:200ms]">
+            <div className="relative w-full aspect-[4/3] animate-float">
+              <Image
+                src="/_static/products/hoodie.png"
+                alt="Unideka hoodie"
+                fill
+                priority
+                className="object-contain drop-shadow-2xl"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
           </div>
         </div>
       </Container>

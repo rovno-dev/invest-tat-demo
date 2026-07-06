@@ -1,0 +1,97 @@
+"use client";
+
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+interface ProductCardProps {
+  name: string;
+  price: string;
+  image: string;
+  description?: string;
+  rating?: number;
+  reviewCount?: number;
+  inStock?: boolean;
+  isNew?: boolean;
+  isSale?: boolean;
+  className?: string;
+}
+
+export function ProductCard({
+  name,
+  price,
+  image,
+  description,
+  rating,
+  reviewCount,
+  inStock = true,
+  isNew = false,
+  isSale = false,
+  className,
+}: ProductCardProps) {
+  return (
+    <div
+      className={cn(
+        "group relative flex flex-col overflow-hidden rounded-2xl bg-(--card) transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:shadow-lg",
+        className
+      )}
+    >
+      <div className="relative aspect-square w-full bg-(--bg-disabled)">
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          sizes="(max-width: 768px) 50vw, 25vw"
+        />
+        {(isNew || isSale) && (
+          <div className="absolute top-2 left-2 flex gap-1">
+            {isNew && (
+              <Badge variant="filled-static" size="chip-small" className="text-[10px] uppercase tracking-wide">
+                New
+              </Badge>
+            )}
+            {isSale && (
+              <Badge variant="destructive" size="chip-small" className="text-[10px] uppercase tracking-wide">
+                Sale
+              </Badge>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-0.5 p-3">
+        <h3 className="text-body-3 font-medium text-(--on-bg-high)">{name}</h3>
+        {description && (
+          <p className="text-body-5 text-(--on-bg-medium) line-clamp-2">{description}</p>
+        )}
+        <div className="flex items-center justify-between mt-0.5">
+          <p className="text-display-5 text-(--on-bg-high) font-semibold">{price}</p>
+          {rating !== undefined && (
+            <div className="flex items-center gap-1 text-body-5 text-(--on-bg-medium)">
+              <span className="text-(--primary)">★</span>
+              <span>{rating.toFixed(1)}</span>
+              {reviewCount !== undefined && (
+                <span className="text-(--on-bg-low)">({reviewCount})</span>
+              )}
+            </div>
+          )}
+        </div>
+        <div className="mt-1 flex items-center justify-between">
+          <span className="text-body-6 text-(--on-bg-low)">
+            {inStock ? "In stock" : "Sold out"}
+          </span>
+          <Button
+            variant="text"
+            size="chip-small"
+            className="text-(--primary) hover:bg-(--primary-card)"
+            disabled={!inStock}
+          >
+            {inStock ? "Add to cart" : "Notify me"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
