@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { CSSProperties } from "react";
 
 interface ProductCardProps {
   name: string;
@@ -16,6 +17,7 @@ interface ProductCardProps {
   isNew?: boolean;
   isSale?: boolean;
   className?: string;
+  style?: CSSProperties | undefined;
 }
 
 export function ProductCard({
@@ -28,6 +30,7 @@ export function ProductCard({
   inStock = true,
   isNew = false,
   isSale = false,
+  style,
   className,
 }: ProductCardProps) {
   return (
