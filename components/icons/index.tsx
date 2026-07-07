@@ -28,6 +28,8 @@ export * from "./unideka-icons/deployed-code-icon"
 export * from "./unideka-icons/cloud-icon"
 export * from "./unideka-icons/filter-icon"
 export * from "./unideka-icons/x-icon"
+export * from "./unideka-icons/heart-icon"
+export * from "./unideka-icons/heart-filled-icon"
 
 export * from "./logotypes/chrome-logotype-icon"
 export * from "./logotypes/telegram-logotype-icon"

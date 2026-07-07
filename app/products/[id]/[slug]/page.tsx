@@ -12,7 +12,8 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import { products } from "@/app/products/_data";
-import { KeyboardArrowLeftIcon } from "@/components/icons";
+import { KeyboardArrowLeftIcon, HeartIcon, HeartFilledIcon } from "@/components/icons";
+import { WishlistToggle } from "./_components/wishlist-toggle";
 
 // Generate static params for all products
 export async function generateStaticParams() {
@@ -22,7 +23,7 @@ export async function generateStaticParams() {
   }));
 }
 
-// ProductGallery component (inline for simplicity, could be extracted)
+// ProductGallery component (inline for simplicity)
 function ProductGallery({ images, name }: { images: string[]; name: string }) {
   return (
     <Carousel className="w-full max-w-md mx-auto">
@@ -71,30 +72,32 @@ export default async function ProductPage({
         {/* Left: Image Gallery */}
         <div>
           <ProductGallery images={product.images} name={product.name} />
-          {/* Thumbnails (optional) - could add later */}
         </div>
 
         {/* Right: Product Info */}
         <div className="flex flex-col gap-6">
-          <div>
-            <h1 className="text-display-2 md:text-display-1 text-(--on-bg-high) mb-2">
-              {product.name}
-            </h1>
-            <div className="flex items-center gap-2">
-              <p className="text-display-4 text-(--on-bg-high) font-semibold">
-                ${product.price}
-              </p>
-              {product.isNew && (
-                <Badge variant="filled-static" size="chip-small">
-                  New
-                </Badge>
-              )}
-              {product.isSale && (
-                <Badge variant="destructive" size="chip-small">
-                  Sale
-                </Badge>
-              )}
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-display-2 md:text-display-1 text-(--on-bg-high) mb-2">
+                {product.name}
+              </h1>
+              <div className="flex items-center gap-2">
+                <p className="text-display-4 text-(--on-bg-high) font-semibold">
+                  ${product.price}
+                </p>
+                {product.isNew && (
+                  <Badge variant="filled-static" size="chip-small">
+                    New
+                  </Badge>
+                )}
+                {product.isSale && (
+                  <Badge variant="destructive" size="chip-small">
+                    Sale
+                  </Badge>
+                )}
+              </div>
             </div>
+            <WishlistToggle product={product} />
           </div>
 
           <p className="text-body-2 text-(--on-bg-medium) leading-relaxed">

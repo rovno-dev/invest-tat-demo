@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { HeartIcon, HeartFilledIcon } from "@/components/icons";
+import { useWishlist } from "@/providers/wishlist-provider";
 
 interface ProductCardProps {
   id?: string;
@@ -36,6 +38,21 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const productLink = id && slug ? `/products/${id}/${slug}` : null;
+  const { toggleItem, isInWishlist } = useWishlist();
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!id || !slug) return;
+    toggleItem({
+      id,
+      name,
+      price: parseFloat(price.replace(/[^0-9.]/g, "")),
+      image,
+      slug,
+    });
+  };
+
+  const inWishlist = id ? isInWishlist(id) : false;
 
   return (
     <div
@@ -94,6 +111,22 @@ export function ProductCard({
               </div>
             )}
           </>
+        )}
+
+        {/* Wishlist button */}
+        {id && slug && (
+          <Button
+            variant="text"
+            size="icon-small"
+            className="absolute top-2 right-2 bg-white/60 backdrop-blur-sm rounded-full hover:bg-white/80 dark:bg-black/60 dark:hover:bg-black/80"
+            onClick={handleWishlistToggle}
+          >
+            {inWishlist ? (
+              <HeartFilledIcon className="size-5 text-red-500" />
+            ) : (
+              <HeartIcon className="size-5 text-(--on-bg-high)" />
+            )}
+          </Button>
         )}
       </div>
 
