@@ -23,9 +23,11 @@ export function ProductGrid({ products }: ProductGridProps) {
       {products.map((product) => (
         <ProductCard
           key={product.id}
+          id={product.id}
+          slug={product.slug}
           name={product.name}
           price={`$${product.price}`}
-          image={product.image}
+          image={product.images[0]}
           description={product.description}
           rating={product.rating}
           reviewCount={product.reviewCount}

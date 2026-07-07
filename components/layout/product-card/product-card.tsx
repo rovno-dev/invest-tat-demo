@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { CSSProperties } from "react";
 
 interface ProductCardProps {
+  id?: string;
+  slug?: string;
   name: string;
   price: string;
   image: string;
@@ -17,10 +19,11 @@ interface ProductCardProps {
   isNew?: boolean;
   isSale?: boolean;
   className?: string;
-  style?: CSSProperties | undefined;
 }
 
 export function ProductCard({
+  id,
+  slug,
   name,
   price,
   image,
@@ -30,9 +33,10 @@ export function ProductCard({
   inStock = true,
   isNew = false,
   isSale = false,
-  style,
   className,
 }: ProductCardProps) {
+  const productLink = id && slug ? `/products/${id}/${slug}` : null;
+
   return (
     <div
       className={cn(
@@ -40,27 +44,56 @@ export function ProductCard({
         className
       )}
     >
-      <div className="relative aspect-square w-full bg-(--bg-disabled)">
-        <Image
-          src={image}
-          alt={name}
-          fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
-          sizes="(max-width: 768px) 50vw, 25vw"
-        />
-        {(isNew || isSale) && (
-          <div className="absolute top-2 left-2 flex gap-1">
-            {isNew && (
-              <Badge variant="filled-static" size="chip-small" className="text-[10px] uppercase tracking-wide">
-                New
-              </Badge>
+      {/* Image area – clickable if link exists */}
+      <div className="relative aspect-square w-full bg-(--bg-disabled) overflow-hidden">
+        {productLink ? (
+          <Link href={productLink} className="block w-full h-full">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              sizes="(max-width: 768px) 50vw, 25vw"
+            />
+            {(isNew || isSale) && (
+              <div className="absolute top-2 left-2 flex gap-1 pointer-events-none">
+                {isNew && (
+                  <Badge variant="filled-static" size="chip-small" className="text-[10px] uppercase tracking-wide">
+                    New
+                  </Badge>
+                )}
+                {isSale && (
+                  <Badge variant="destructive" size="chip-small" className="text-[10px] uppercase tracking-wide">
+                    Sale
+                  </Badge>
+                )}
+              </div>
             )}
-            {isSale && (
-              <Badge variant="destructive" size="chip-small" className="text-[10px] uppercase tracking-wide">
-                Sale
-              </Badge>
+          </Link>
+        ) : (
+          <>
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              sizes="(max-width: 768px) 50vw, 25vw"
+            />
+            {(isNew || isSale) && (
+              <div className="absolute top-2 left-2 flex gap-1 pointer-events-none">
+                {isNew && (
+                  <Badge variant="filled-static" size="chip-small" className="text-[10px] uppercase tracking-wide">
+                    New
+                  </Badge>
+                )}
+                {isSale && (
+                  <Badge variant="destructive" size="chip-small" className="text-[10px] uppercase tracking-wide">
+                    Sale
+                  </Badge>
+                )}
+              </div>
             )}
-          </div>
+          </>
         )}
       </div>
 

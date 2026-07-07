@@ -61,7 +61,7 @@ export default function RootLayout({
         <ThemeProvider>
           <TooltipProvider>
             <Header />
-            <main className="mt-[46px] md:mt-[70px] mb-[100px]">
+            <main className="pt-[56px] mb-[100px]">
               {children}
             </main>
             <Footer />

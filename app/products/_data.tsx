@@ -1,13 +1,14 @@
 export interface Product {
   id: string;
   name: string;
+  slug: string;
   price: number;
-  image: string;
+  images: string[];
   description: string;
   color: string;
   type: string;
   size: string[];
-  popularity: number; // views or sales count
+  popularity: number;
   inStock?: boolean;
   isNew?: boolean;
   isSale?: boolean;
@@ -15,12 +16,18 @@ export interface Product {
   reviewCount?: number;
 }
 
+const HOODIE_IMAGE = "/_static/products/hoodie.png";
+
+// Duplicate hoodie image for all products (4 images each)
+const hoodieImages = Array(4).fill(HOODIE_IMAGE);
+
 export const products: Product[] = [
   {
     id: "1",
     name: "Unidoka Hoodie",
+    slug: "unidoka-hoodie",
     price: 45,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Organic cotton, embroidered logo, unisex fit.",
     color: "Green",
     type: "Apparel",
@@ -34,8 +41,9 @@ export const products: Product[] = [
   {
     id: "2",
     name: "Unidoka Mug",
+    slug: "unidoka-mug",
     price: 25,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Ceramic, 12 oz, dishwasher safe.",
     color: "White",
     type: "Home",
@@ -48,8 +56,9 @@ export const products: Product[] = [
   {
     id: "3",
     name: "Unidoka Notebook",
+    slug: "unidoka-notebook",
     price: 18,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "160 pages, dot grid, lay-flat binding.",
     color: "Black",
     type: "Stationery",
@@ -63,8 +72,9 @@ export const products: Product[] = [
   {
     id: "4",
     name: "Unidoka Cap",
+    slug: "unidoka-cap",
     price: 32,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Wool blend, adjustable strap, embroidered.",
     color: "Navy",
     type: "Apparel",
@@ -78,8 +88,9 @@ export const products: Product[] = [
   {
     id: "5",
     name: "Unidoka Tote Bag",
+    slug: "unidoka-tote-bag",
     price: 28,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Canvas, reinforced handles, 15L capacity.",
     color: "Beige",
     type: "Accessories",
@@ -92,8 +103,9 @@ export const products: Product[] = [
   {
     id: "6",
     name: "Unidoka Phone Case",
+    slug: "unidoka-phone-case",
     price: 15,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Silicone, shockproof, wireless charging compatible.",
     color: "Clear",
     type: "Accessories",
@@ -107,8 +119,9 @@ export const products: Product[] = [
   {
     id: "7",
     name: "Unidoka Water Bottle",
+    slug: "unidoka-water-bottle",
     price: 35,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Stainless steel, vacuum insulated, 32 oz.",
     color: "Silver",
     type: "Home",
@@ -121,8 +134,9 @@ export const products: Product[] = [
   {
     id: "8",
     name: "Unidoka Desk Mat",
+    slug: "unidoka-desk-mat",
     price: 20,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Large, water-resistant, non-slip base.",
     color: "Dark Gray",
     type: "Office",
@@ -136,8 +150,9 @@ export const products: Product[] = [
   {
     id: "9",
     name: "Unidoka Sticker Pack",
+    slug: "unidoka-sticker-pack",
     price: 8,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Set of 10 vinyl stickers, weatherproof.",
     color: "Multicolor",
     type: "Stationery",
@@ -150,8 +165,9 @@ export const products: Product[] = [
   {
     id: "10",
     name: "Unidoka Socks",
+    slug: "unidoka-socks",
     price: 12,
-    image: "/_static/products/hoodie.png",
+    images: hoodieImages,
     description: "Organic cotton, reinforced heel and toe.",
     color: "Black",
     type: "Apparel",
