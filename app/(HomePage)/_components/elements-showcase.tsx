@@ -130,14 +130,14 @@ export function ElementsShowcase() {
           Components in Action
         </h2>
         <p className="text-body-2 text-(--on-bg-medium) mb-8 max-w-2xl">
-          Interactive elements, data visualization, and form controls — all powered by Unideka UI.
+          Interactive elements, data visualization, and form controls - all powered by Unideka UI.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Form Card – updated */}
+          {/* Form Card - updated */}
           <SupportCostForm />
 
-          {/* Data & Stats Card – now with rich charts */}
+          {/* Data & Stats Card - now with rich charts */}
           <Card className="relative overflow-hidden p-6 border-(--outline) bg-(--card-glass) backdrop-blur-glass shadow-lg">
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-primary/5 pointer-events-none" />
 
@@ -147,7 +147,7 @@ export function ElementsShowcase() {
                 <Badge variant="glass-static" size="chip-small">Example</Badge>
               </div>
 
-              {/* 1. Area Chart – Component Growth */}
+              {/* 1. Area Chart - Component Growth */}
               <div>
                 <h4 className="text-body-4 text-(--on-bg-medium) mb-3">Component Growth</h4>
                 <ChartContainer config={chartConfig} className="h-[160px] w-full">
@@ -167,7 +167,7 @@ export function ElementsShowcase() {
                 </ChartContainer>
               </div>
 
-              {/* 2. Bar Chart – Monthly Downloads */}
+              {/* 2. Bar Chart - Monthly Downloads */}
               <div>
                 <h4 className="text-body-4 text-(--on-bg-medium) mb-3">Downloads (k)</h4>
                 <ChartContainer config={chartConfig} className="h-[140px] w-full">
@@ -181,7 +181,7 @@ export function ElementsShowcase() {
                 </ChartContainer>
               </div>
 
-              {/* 3. Donut Chart – Tech Stack */}
+              {/* 3. Donut Chart - Tech Stack */}
               <div>
                 <h4 className="text-body-4 text-(--on-bg-medium) mb-3">Tech Stack Usage</h4>
                 <div className="flex justify-center">
@@ -215,7 +215,7 @@ export function ElementsShowcase() {
                 </div>
               </div>
 
-              {/* 4. Line Chart – Subscribers & Views */}
+              {/* 4. Line Chart - Subscribers & Views */}
               <div>
                 <h4 className="text-body-4 text-(--on-bg-medium) mb-3">Growth Metrics</h4>
                 <ChartContainer config={chartConfig} className="h-[140px] w-full">
@@ -240,7 +240,7 @@ export function ElementsShowcase() {
                 </div>
               </div>
 
-              {/* 5. Quick Metrics – compact */}
+              {/* 5. Quick Metrics - compact */}
               <div>
                 <h4 className="text-body-4 text-(--on-bg-medium) mb-3">Quick Stats</h4>
                 <div className="grid grid-cols-2 gap-3">

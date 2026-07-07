@@ -10,20 +10,20 @@ This template is designed to be a **production-ready foundation** for your next 
 This repository is **specifically crafted for AI-assisted development**. It includes:
 
 - A global `CODING_FOR_AI.md` file that provides strict guidelines for AI agents (like Cursor, Copilot, or custom LLMs) to ensure **surgical, efficient, and context-aware** code changes.
-- Clear separation of concerns, reusable components, and a consistent styling system – making it easy for AI to understand and extend.
-- Minimal boilerplate, maximal reuse: the codebase follows the **Ladder of Laziness** – only write what's necessary, use existing solutions first.
+- Clear separation of concerns, reusable components, and a consistent styling system - making it easy for AI to understand and extend.
+- Minimal boilerplate, maximal reuse: the codebase follows the **Ladder of Laziness** - only write what's necessary, use existing solutions first.
 
 Whether you're using an AI pair programmer or building with a team, this template helps you move fast without sacrificing quality.
 
 ## Features
 
-- ** Next.js 16 (Turbopack)** – Blazing fast development and production builds.
-- ** Unideka UI Design System** – A Figma‑first component library with a cohesive, modern aesthetic.
-- ** shadcn/ui Components** – Accessible, customizable, and beautifully styled primitives.
-- ** Mobile-First Responsive** – Works seamlessly on all screen sizes.
-- ** Data Visualization** – Recharts integration for charts and dashboards.
-- ** Developer Experience** – TypeScript, ESLint, and a clean folder structure.
-- ** Deployment Ready** – Dockerfile and standalone output for easy hosting.
+- ** Next.js 16 (Turbopack)** - Blazing fast development and production builds.
+- ** Unideka UI Design System** - A Figma‑first component library with a cohesive, modern aesthetic.
+- ** shadcn/ui Components** - Accessible, customizable, and beautifully styled primitives.
+- ** Mobile-First Responsive** - Works seamlessly on all screen sizes.
+- ** Data Visualization** - Recharts integration for charts and dashboards.
+- ** Developer Experience** - TypeScript, ESLint, and a clean folder structure.
+- ** Deployment Ready** - Dockerfile and standalone output for easy hosting.
 
 ## Tech Stack
 

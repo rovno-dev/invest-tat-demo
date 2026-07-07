@@ -61,35 +61,42 @@ export function ProductCard({
         )}
       </div>
 
-      <div className="flex flex-col gap-0.5 p-3">
-        <h3 className="text-body-3 font-medium text-(--on-bg-high)">{name}</h3>
-        {description && (
-          <p className="text-body-5 text-(--on-bg-medium) line-clamp-2">{description}</p>
-        )}
-        <div className="flex items-center justify-between mt-0.5">
-          <p className="text-display-5 text-(--on-bg-high) font-semibold">{price}</p>
-          {rating !== undefined && (
-            <div className="flex items-center gap-1 text-body-5 text-(--on-bg-medium)">
-              <span className="text-(--primary)">★</span>
-              <span>{rating.toFixed(1)}</span>
-              {reviewCount !== undefined && (
-                <span className="text-(--on-bg-low)">({reviewCount})</span>
-              )}
-            </div>
+      <div className="flex flex-col flex-1 p-3">
+        {/* Text content with flex-1 to push bottom section down */}
+        <div className="flex-1">
+          <h3 className="text-body-3 font-medium text-(--on-bg-high)">{name}</h3>
+          {description && (
+            <p className="text-body-5 text-(--on-bg-medium) line-clamp-2">{description}</p>
           )}
         </div>
-        <div className="mt-1 flex items-center justify-between">
-          <span className="text-body-6 text-(--on-bg-low)">
-            {inStock ? "In stock" : "Sold out"}
-          </span>
-          <Button
-            variant="text"
-            size="chip-small"
-            className="text-(--primary) hover:bg-(--primary-card)"
-            disabled={!inStock}
-          >
-            {inStock ? "Add to cart" : "Notify me"}
-          </Button>
+
+        {/* Bottom section: price/rating + stock/button, always at bottom with min margin */}
+        <div className="mt-auto pt-5">
+          <div className="flex items-center justify-between mt-0.5">
+            <p className="text-display-5 text-(--on-bg-high) font-semibold">{price}</p>
+            {rating !== undefined && (
+              <div className="flex items-center gap-1 text-body-5 text-(--on-bg-medium)">
+                <span className="text-(--primary)">★</span>
+                <span>{rating.toFixed(1)}</span>
+                {reviewCount !== undefined && (
+                  <span className="text-(--on-bg-low)">({reviewCount})</span>
+                )}
+              </div>
+            )}
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-body-6 text-(--on-bg-low)">
+              {inStock ? "In stock" : "Sold out"}
+            </span>
+            <Button
+              variant="text"
+              size="chip-small"
+              className="text-(--primary) hover:bg-(--primary-card)"
+              disabled={!inStock}
+            >
+              {inStock ? "Add to cart" : "Notify me"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

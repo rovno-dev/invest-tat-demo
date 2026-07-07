@@ -9,7 +9,7 @@ function getHexFromCSSVar(varName: string): string {
     .getPropertyValue(varName)
     .trim();
 
-  if (!color) return "—";
+  if (!color) return "-";
 
   if (color.startsWith("#")) return color.toUpperCase();
 
@@ -118,7 +118,7 @@ export function TypographyColorShowcase() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <div>
             <h3 className="text-xs uppercase tracking-wider text-(--on-bg-low) mb-3">
-              Display – Oswald
+              Display - Oswald
             </h3>
             <div className="space-y-1.5">
               {[1, 2, 3, 4, 5, 6].map((n) => (
@@ -130,7 +130,7 @@ export function TypographyColorShowcase() {
           </div>
           <div>
             <h3 className="text-xs uppercase tracking-wider text-(--on-bg-low) mb-3">
-              Heading – Noto Sans
+              Heading - Noto Sans
             </h3>
             <div className="space-y-1.5">
               {[1, 2, 3, 4, 5, 6].map((n) => (
@@ -142,7 +142,7 @@ export function TypographyColorShowcase() {
           </div>
           <div>
             <h3 className="text-xs uppercase tracking-wider text-(--on-bg-low) mb-3">
-              Body – Noto Sans
+              Body - Noto Sans
             </h3>
             <div className="space-y-1.5">
               {[1, 2, 3, 4, 5, 6].map((n) => (

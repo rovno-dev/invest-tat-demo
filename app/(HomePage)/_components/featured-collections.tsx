@@ -112,16 +112,14 @@ export function FeaturedCollections() {
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8">
           <Button
-            variant="outlined"
-            size="medium"
+            variant="glass"
+            size="large"
             className="group rounded-full px-6"
           >
             <span>View all collections</span>
-            <span className="inline-flex size-6 items-center justify-center rounded-full bg-(--primary-card) text-(--primary) transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:scale-105">
-              <KeyboardArrowRightIcon className="size-3.5" />
-            </span>
+            <KeyboardArrowRightIcon className="size-3.5" />
           </Button>
         </div>
       </Container>

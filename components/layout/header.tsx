@@ -31,7 +31,7 @@ export default function Header() {
     fetchStars();
   }, []);
 
-  const starsDisplay = loading ? "…" : stars !== null ? stars.toLocaleString() : "—";
+  const starsDisplay = loading ? "…" : stars !== null ? stars.toLocaleString() : "-";
 
   return (
     <header

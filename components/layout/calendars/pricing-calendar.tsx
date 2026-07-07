@@ -42,7 +42,7 @@ export function PricingCalendar({
           className="w-full [&_.rdp-month]:w-full"
         />
       </div>
-      {/* Price bar – directly attached, no extra margin */}
+      {/* Price bar - directly attached, no extra margin */}
       <div className="flex items-center justify-between gap-2 border-t border-(--outline) bg-(--bg)/50 px-4 py-3">
         <div>
           <p className="text-body-5 text-(--on-bg-low)">Workdays</p>

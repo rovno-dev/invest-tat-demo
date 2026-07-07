@@ -31,7 +31,7 @@ import { Badge } from "@/components/ui/badge";
 import { PricingCalendar } from "@/components/layout/calendars/pricing-calendar";
 import { KeyboardArrowDownIcon, CheckCircleIcon } from "@/components/icons";
 
-// Tech options – flattened for fast filtering
+// Tech options - flattened for fast filtering
 const techOptions = [
   { label: "React", group: "Frontend" },
   { label: "Next.js", group: "Frontend" },
@@ -117,7 +117,7 @@ export default function SupportCostForm() {
   // Memoize country list to avoid re-renders
   const countryItems = useMemo(() => countries, []);
 
-  // Memoize tech list – already flat
+  // Memoize tech list - already flat
   const techItems = useMemo(() => techOptions, []);
 
   return (
@@ -157,7 +157,7 @@ export default function SupportCostForm() {
               />
             </div>
 
-            {/* Tech Stack – now with fast filtering */}
+            {/* Tech Stack - now with fast filtering */}
             <div>
               <Label className="text-body-4 block mb-1.5">Tech Stack</Label>
               <Combobox
@@ -189,7 +189,7 @@ export default function SupportCostForm() {
               )}
             </div>
 
-            {/* Date Range – memoized */}
+            {/* Date Range - memoized */}
             <div>
               <Label className="text-body-4 block mb-1.5">Select Date Range</Label>
               <MemoizedPricingCalendar

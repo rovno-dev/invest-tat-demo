@@ -38,15 +38,15 @@ export function HeroSection() {
             </h1>
 
             <p className="text-body-2 md:text-body-1 text-(--on-bg-medium) max-w-lg leading-relaxed">
-              Premium gear for builders, thinkers, and creators. Hoodies, mugs, notebooks – designed for the AI era.
+              Premium gear for builders, thinkers, and creators. Hoodies, mugs, notebooks - designed for the AI era.
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-wrap items-center gap-2 pt-2">
               <Button
                 asChild
                 variant="filled"
                 size="large"
-                className="group relative overflow-hidden rounded-full px-8 py-4 text-base font-medium transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] active:scale-[0.98]"
+                shape={'round'}
               >
                 <Link
                   href="#"
@@ -60,8 +60,8 @@ export function HeroSection() {
               <Button
                 asChild
                 variant="text"
-                size="small"
-                className="gap-2 text-(--on-bg-low) hover:text-(--on-bg-medium)"
+                size="large"
+                shape={'round'}
               >
                 <Link
                   href="https://github.com/niyazgim/unideka-ui-template"
@@ -84,7 +84,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right column — floating product image */}
+          {/* Right column - floating product image */}
           <div className="animate-reveal [animation-delay:200ms]">
             <div className="relative w-full aspect-[4/3] animate-float">
               <Image
