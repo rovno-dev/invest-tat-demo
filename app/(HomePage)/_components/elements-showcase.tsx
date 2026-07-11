@@ -130,7 +130,7 @@ export function ElementsShowcase() {
           Components in Action
         </h2>
         <p className="text-body-2 text-(--on-bg-medium) mb-8 max-w-2xl">
-          Interactive elements, data visualization, and form controls - all powered by Unideka UI.
+          Interactive elements, data visualization, and form controls - all powered by Unidoka UI.
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

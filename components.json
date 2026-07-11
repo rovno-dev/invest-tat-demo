@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "unideka-ui",
+  "style": "unidoka-ui-ui",
   "rsc": true,
   "tsx": true,
   "tailwind": {
@@ -10,7 +10,7 @@
     "cssVariables": true,
     "prefix": ""
   },
-  "iconLibrary": "unideka-icons",
+  "iconLibrary": "unidoka-ui-icons",
   "rtl": false,
   "aliases": {
     "components": "@/components",

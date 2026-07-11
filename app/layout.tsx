@@ -21,7 +21,7 @@ export const Oswald = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Unideka UI",
+  title: "Unidoka UI",
   description: "Framework-agnostic, AI-driven design system based on shadcn",
   icons: {
     icon: '/favicon.png',

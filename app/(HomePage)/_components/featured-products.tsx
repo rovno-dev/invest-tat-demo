@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/layout/product-card/product-card";
 
 const products = [
   {
-    name: "Unideka Hoodie",
+    name: "Unidoka Hoodie",
     price: "$45",
     image: "/_static/products/hoodie.png",
     description: "Organic cotton, embroidered logo, unisex fit.",
@@ -15,7 +15,7 @@ const products = [
     isNew: true,
   },
   {
-    name: "Unideka Mug",
+    name: "Unidoka Mug",
     price: "$25",
     image: "/_static/products/hoodie.png",
     description: "Ceramic, 12 oz, dishwasher safe.",
@@ -24,7 +24,7 @@ const products = [
     inStock: true,
   },
   {
-    name: "Unideka Notebook",
+    name: "Unidoka Notebook",
     price: "$18",
     image: "/_static/products/hoodie.png",
     description: "160 pages, dot grid, lay-flat binding.",
@@ -34,7 +34,7 @@ const products = [
     isSale: true,
   },
   {
-    name: "Unideka Cap",
+    name: "Unidoka Cap",
     price: "$32",
     image: "/_static/products/hoodie.png",
     description: "Wool blend, adjustable strap, embroidered.",

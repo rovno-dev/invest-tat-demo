@@ -1,12 +1,12 @@
 {
-  "name": "unideka-ui-template",
+  "name": "unidoka-ui-ui-template",
   "version": "0.3.0",
   "private": false,
   "author": "Niyaz Gimadiev niyaztutor@gmail.com (https://rovno.dev/niyazgim)",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/niyazgim/unideka-ui-template"
+    "url": "git+https://github.com/niyazgim/unidoka-ui-ui-template"
   },
   "scripts": {
     "dev": "next dev",

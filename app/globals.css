@@ -1,5 +1,5 @@
 /* LLM context: Adding refined motion primitives and global entry animations for high-end feel */
-@import url('./unideka-base.css');
+@import url('./unidoka-ui-base.css');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -399,14 +399,22 @@
 .scroll-reveal.is-visible.animate-reveal {
   animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
 /* Marquee animation for TrustedBrands */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
@@ -415,12 +423,19 @@
 
 /* Marquee animation for TrustedBrands */
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
 .animate-marquee {
   animation: marquee 30s linear infinite;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;

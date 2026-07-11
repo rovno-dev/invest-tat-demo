@@ -32,7 +32,7 @@ export function HeroSection() {
 
             <h1 className="text-display-1 md:text-display-0 font-heading font-bold leading-[1.1] tracking-tight">
               <span className="bg-gradient-to-r from-(--primary) to-(--brand-4) bg-clip-text text-transparent">
-                Unideka
+                Unidoka
               </span>
               <span className="text-(--on-bg-high)"> Merch</span>
             </h1>
@@ -64,7 +64,7 @@ export function HeroSection() {
                 shape={'round'}
               >
                 <Link
-                  href="https://github.com/niyazgim/unideka-ui-template"
+                  href="https://github.com/niyazgim/unidoka-ui-ui-template"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center"
@@ -89,7 +89,7 @@ export function HeroSection() {
             <div className="relative w-full aspect-[4/3] animate-float">
               <Image
                 src="/_static/products/hoodie.png"
-                alt="Unideka hoodie"
+                alt="Unidoka hoodie"
                 fill
                 priority
                 className="object-contain drop-shadow-2xl"

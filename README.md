@@ -1,7 +1,7 @@
 cat > README.md <<'EOF'
-# Unideka UI E-commerce app template
+# Unidoka UI E-commerce app template
 
-A modern, AI-optimized e-commerce application template built with [Next.js](https://nextjs.org/), [Tailwind CSS v4](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/), and the [Unideka UI](https://www.figma.com/community/file/1622312904371459207) design system.
+A modern, AI-optimized e-commerce application template built with [Next.js](https://nextjs.org/), [Tailwind CSS v4](https://tailwindcss.com/), [shadcn/ui](https://ui.shadcn.com/), and the [Unidoka UI](https://www.figma.com/community/file/1622312904371459207) design system.
 
 This template is designed to be a **production-ready foundation** for your next e-commerce project. It comes with a complete UI component library, theming, layout primitives, and a structured codebase that follows best practices for performance, accessibility, and developer experience.
 
@@ -18,7 +18,7 @@ Whether you're using an AI pair programmer or building with a team, this templat
 ## Features
 
 - ** Next.js 16 (Turbopack)** - Blazing fast development and production builds.
-- ** Unideka UI Design System** - A Figma‑first component library with a cohesive, modern aesthetic.
+- ** Unidoka UI Design System** - A Figma‑first component library with a cohesive, modern aesthetic.
 - ** shadcn/ui Components** - Accessible, customizable, and beautifully styled primitives.
 - ** Mobile-First Responsive** - Works seamlessly on all screen sizes.
 - ** Data Visualization** - Recharts integration for charts and dashboards.
@@ -32,8 +32,8 @@ Whether you're using an AI pair programmer or building with a team, this templat
 | Framework     | [Next.js 16](https://nextjs.org/) (Turbopack)                          |
 | Styling       | [Tailwind CSS v4](https://tailwindcss.com/) + CSS Variables            |
 | UI Components | [shadcn/ui](https://ui.shadcn.com/) (Radix UI primitives)              |
-| Design System | [Unideka UI](https://www.figma.com/community/file/1622312904371459207) |
-| Icons         | Unideka Icons (Material Symbols based)                                 |
+| Design System | [Unidoka UI](https://www.figma.com/community/file/1622312904371459207) |
+| Icons         | Unidoka Icons (Material Symbols based)                                 |
 | Fonts         | Noto Sans & Oswald                                                     |
 | Charts        | [Recharts](https://recharts.org/)                                      |
 | Date Handling | [date-fns](https://date-fns.org/)                                      |
@@ -44,8 +44,8 @@ Whether you're using an AI pair programmer or building with a team, this templat
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/niyazgim/unideka-ui-template
-cd unideka-ui-template
+git clone https://github.com/niyazgim/unidoka-ui-ui-template
+cd unidoka-ui-ui-template
 ```
 
 ### 2. Install dependencies
@@ -72,7 +72,7 @@ app/
 components/
   icons/               # SVG icon components
   layout/              # Layout components (header, footer, etc.)
-  ui/                  # shadcn/unideka UI components
+  ui/                  # shadcn/unidoka-ui UI components
 hooks/                 # Custom React hooks
 lib/                   # Utility functions
 providers/             # Context providers (theme, etc.)
@@ -82,7 +82,7 @@ utils/                 # Constants, types, and interfaces
 
 ### Customization
 
-* Theme Colors: Edit CSS variables in app/globals.css and app/unideka-base.css.
+* Theme Colors: Edit CSS variables in app/globals.css and app/unidoka-ui-base.css.
 
 * Typography: Adjust font sizes, weights, and families via CSS custom properties.
 

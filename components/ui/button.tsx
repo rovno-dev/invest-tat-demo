@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "@radix-ui/react-slot"
 import { cn } from "@/lib/utils"
 
-export const buttonUnidekaVariants = {
+export const buttonUnidokaVariants = {
   filled: "bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--state-hover)] cursor-pointer active:scale-[0.98] [&_svg_*]:fill-current",
   outlined: "border border-border bg-transparent text-foreground hover:bg-[var(--state-hover)] cursor-pointer active:scale-[0.98] [&_svg_*]:fill-current",
   tonal: "bg-[var(--primary-card)] text-[var(--on-primary-card)] hover:bg-[var(--state-hover)] cursor-pointer active:scale-[0.98] [&_svg_*]:fill-current",
@@ -39,7 +39,7 @@ const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
-      variant: buttonUnidekaVariants,
+      variant: buttonUnidokaVariants,
       size: {
         ...buttonSizes,
         ...iconButtonSizes,

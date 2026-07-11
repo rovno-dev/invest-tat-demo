@@ -7,7 +7,7 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 import { chipSizes } from "./button";
 
-export const badgeUnidekaVariants = {
+export const badgeUnidokaVariants = {
   "filled-static": "bg-[var(--primary)] text-[var(--on-primary)]",
   "outlined-static": "border border-border bg-transparent text-foreground",
   "tonal-static": "bg-[var(--primary-card)] text-[var(--on-primary-card)]",
@@ -23,7 +23,7 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        ...badgeUnidekaVariants,
+        ...badgeUnidokaVariants,
         default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
         secondary: "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
         destructive: "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",

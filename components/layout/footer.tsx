@@ -84,7 +84,7 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/niyazgim/unideka-ui-template" target="_blank" rel="noopener noreferrer" className="text-body-3 text-(--on-bg-low) hover:text-(--on-bg-high) transition-colors">
+                  <Link href="https://github.com/niyazgim/unidoka-ui-ui-template" target="_blank" rel="noopener noreferrer" className="text-body-3 text-(--on-bg-low) hover:text-(--on-bg-high) transition-colors">
                     GitHub
                   </Link>
                 </li>
