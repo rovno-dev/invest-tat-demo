@@ -13,7 +13,12 @@
     "inStock": true,
     "isNew": true,
     "rating": 4.8,
-    "reviewCount": 24
+    "reviewCount": 24,
+    "reviews": [
+      {"authorId": "u1", "headline": "Perfect fit!", "text": "The hoodie is super comfortable and the logo looks great.", "rating": 5},
+      {"authorId": "u2", "headline": "Good quality", "text": "Nice material, but the green is a bit darker than expected.", "rating": 4},
+      {"authorId": "u3", "headline": "Love it", "text": "My new favorite hoodie. Highly recommend.", "rating": 5}
+    ]
   },
   {
     "id": "2",
@@ -28,7 +33,11 @@
     "popularity": 85,
     "inStock": true,
     "rating": 4.6,
-    "reviewCount": 18
+    "reviewCount": 18,
+    "reviews": [
+      {"authorId": "u4", "headline": "Great mug", "text": "Holds coffee well and looks nice.", "rating": 5},
+      {"authorId": "u5", "headline": "Sturdy", "text": "Feels solid, good for daily use.", "rating": 4}
+    ]
   },
   {
     "id": "3",
@@ -44,7 +53,11 @@
     "inStock": false,
     "isSale": true,
     "rating": 4.9,
-    "reviewCount": 12
+    "reviewCount": 12,
+    "reviews": [
+      {"authorId": "u6", "headline": "Best notebook", "text": "I've bought several, they are great for bullet journaling.", "rating": 5},
+      {"authorId": "u1", "headline": "Nice binding", "text": "Lays flat perfectly.", "rating": 5}
+    ]
   },
   {
     "id": "4",
@@ -60,7 +73,11 @@
     "inStock": true,
     "isNew": true,
     "rating": 4.3,
-    "reviewCount": 9
+    "reviewCount": 9,
+    "reviews": [
+      {"authorId": "u7", "headline": "Nice cap", "text": "Fits well and looks stylish.", "rating": 4},
+      {"authorId": "u8", "headline": "Good quality", "text": "The embroidery is well done.", "rating": 4}
+    ]
   },
   {
     "id": "5",
@@ -75,7 +92,11 @@
     "popularity": 90,
     "inStock": true,
     "rating": 4.7,
-    "reviewCount": 15
+    "reviewCount": 15,
+    "reviews": [
+      {"authorId": "u9", "headline": "Spacious", "text": "Perfect for groceries and books.", "rating": 5},
+      {"authorId": "u10", "headline": "Sturdy handles", "text": "Reinforced handles are great.", "rating": 4}
+    ]
   },
   {
     "id": "6",
@@ -91,7 +112,11 @@
     "inStock": true,
     "isNew": true,
     "rating": 4.5,
-    "reviewCount": 22
+    "reviewCount": 22,
+    "reviews": [
+      {"authorId": "u1", "headline": "Slim and protective", "text": "Fits perfectly and looks clean.", "rating": 5},
+      {"authorId": "u11", "headline": "Good grip", "text": "Nice texture, easy to hold.", "rating": 4}
+    ]
   },
   {
     "id": "7",
@@ -106,7 +131,11 @@
     "popularity": 75,
     "inStock": true,
     "rating": 4.4,
-    "reviewCount": 10
+    "reviewCount": 10,
+    "reviews": [
+      {"authorId": "u12", "headline": "Keeps water cold", "text": "Ice stays for hours.", "rating": 5},
+      {"authorId": "u13", "headline": "Good size", "text": "Fits in my car cup holder.", "rating": 4}
+    ]
   },
   {
     "id": "8",
@@ -122,7 +151,11 @@
     "inStock": true,
     "isNew": true,
     "rating": 4.9,
-    "reviewCount": 28
+    "reviewCount": 28,
+    "reviews": [
+      {"authorId": "u14", "headline": "Great desk mat", "text": "Non-slip and looks premium.", "rating": 5},
+      {"authorId": "u15", "headline": "Smooth surface", "text": "Mouse glides nicely.", "rating": 5}
+    ]
   },
   {
     "id": "9",
@@ -137,7 +170,11 @@
     "popularity": 220,
     "inStock": true,
     "rating": 4.2,
-    "reviewCount": 45
+    "reviewCount": 45,
+    "reviews": [
+      {"authorId": "u16", "headline": "Fun designs", "text": "Great quality stickers.", "rating": 4},
+      {"authorId": "u17", "headline": "Stick well", "text": "They stay on my laptop.", "rating": 5}
+    ]
   },
   {
     "id": "10",
@@ -153,6 +190,10 @@
     "inStock": true,
     "isSale": true,
     "rating": 4.0,
-    "reviewCount": 8
+    "reviewCount": 8,
+    "reviews": [
+      {"authorId": "u18", "headline": "Comfortable", "text": "Soft and breathable.", "rating": 4},
+      {"authorId": "u19", "headline": "Good fit", "text": "Size M fits perfect.", "rating": 4}
+    ]
   }
 ]
