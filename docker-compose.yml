@@ -1,8 +1,8 @@
-name: my-main-stack
+name: e-shop-template
 
 include:
-  - first-path-to-the-docker-compose-file.yml
-  - second-path-to-the-docker-compose-file.yml
+  - server/docker-compose.yml
+  - website/docker-compose.yml
 
 services:
   traefik:
@@ -11,7 +11,7 @@ services:
     command:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=80"
+      - "--entrypoints.web.address=:80"
       # Uncomment for HTTPS
       # - "--entrypoints.websecure.address=443"
       # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
@@ -26,7 +26,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       # - "./letsencrypt:/letsencrypt" # for certs storing
     networks:
-      - main-network   # WARNING: network name need to be the same in child compose files 
+      - main-network
 
 networks:
   main-network:
