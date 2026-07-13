@@ -1,52 +1,21 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from "@/components/ui/carousel";
-import { products } from "@/app/products/_data";
-import { KeyboardArrowLeftIcon, HeartIcon, HeartFilledIcon } from "@/components/icons";
+import { KeyboardArrowLeftIcon } from "@/components/icons";
 import { WishlistToggle } from "./_components/wishlist-toggle";
+import { ProductGallery } from "./_components/product-gallery";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { getProduct, productsData } from "@/lib/api/products";
+import { Product } from "@/utils/interfaces";
 
 // Generate static params for all products
 export async function generateStaticParams() {
-  return products.map((product) => ({
+  return productsData.map((product: Product) => ({
     id: product.id,
     slug: product.slug,
   }));
-}
-
-// ProductGallery component (inline for simplicity)
-function ProductGallery({ images, name }: { images: string[]; name: string }) {
-  return (
-    <Carousel className="w-full max-w-md mx-auto">
-      <CarouselContent>
-        {images.map((src, idx) => (
-          <CarouselItem key={idx}>
-            <div className="relative aspect-square rounded-xl overflow-hidden bg-(--bg-disabled)">
-              <Image
-                src={src}
-                alt={`${name} - image ${idx + 1}`}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      <CarouselPrevious className="left-2" />
-      <CarouselNext className="right-2" />
-    </Carousel>
-  );
 }
 
 export default async function ProductPage({
@@ -55,12 +24,11 @@ export default async function ProductPage({
   params: Promise<{ id: string; slug: string }>;
 }) {
   const { id } = await params;
-  const product = products.find((p) => p.id === id);
+  const product = await getProduct(id);
   if (!product) notFound();
 
   return (
     <ScrollReveal>
-
       <Container className="py-10 md:py-12">
         {/* Breadcrumb / back link */}
         <Link

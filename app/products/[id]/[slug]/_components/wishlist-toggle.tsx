@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { HeartIcon, HeartFilledIcon } from "@/components/icons";
 import { useWishlist } from "@/providers/wishlist-provider";
-import { Product } from "../../../../_data";
+import { Product } from "@/utils/interfaces";
 
 export function WishlistToggle({ product }: { product: Product }) {
   const { toggleItem, isInWishlist } = useWishlist();
