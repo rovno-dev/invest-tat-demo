@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { HeartIcon, HeartFilledIcon } from "@/components/icons";
 import { useWishlist } from "@/providers/wishlist-provider";
+import { CSSProperties } from "react";
 
 interface ProductCardProps {
   id?: string;
@@ -21,6 +22,7 @@ interface ProductCardProps {
   isNew?: boolean;
   isSale?: boolean;
   className?: string;
+  style?: CSSProperties;
 }
 
 export function ProductCard({
@@ -36,6 +38,7 @@ export function ProductCard({
   isNew = false,
   isSale = false,
   className,
+  style,
 }: ProductCardProps) {
   const productLink = id && slug ? `/products/${id}/${slug}` : null;
   const { toggleItem, isInWishlist } = useWishlist();
