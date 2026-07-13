@@ -5,17 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logotype from "./logotype/logotype";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { AuthModal } from "@/components/auth/auth-modal";
 import { HeartIcon } from "@/components/icons";
 import { useWishlist } from "@/providers/wishlist-provider";
 import { Container } from "../ui/container";
@@ -80,53 +70,16 @@ export default function Header() {
               </Button>
             </Link>
 
-            <Dialog open={signInOpen} onOpenChange={setSignInOpen}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="filled"
-                  size="small"
-                  className="rounded-full px-5"
-                >
-                  Sign in
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Sign in to Unidoka</DialogTitle>
-                  <DialogDescription>
-                    Enter your email and password to access your account.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="you@example.com"
-                      autoComplete="email"
-                    />
-                  </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                    />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button variant="outlined" onClick={() => setSignInOpen(false)}>
-                    Cancel
-                  </Button>
-                  <Button variant="filled" onClick={() => setSignInOpen(false)}>
-                    Sign in
-                  </Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            <Button
+              variant="filled"
+              size="small"
+              className="rounded-full px-5"
+              onClick={() => setSignInOpen(true)}
+            >
+              Sign in
+            </Button>
+
+            <AuthModal open={signInOpen} onOpenChange={setSignInOpen} />
           </div>
         </Container>
       </div>

@@ -32,3 +32,5 @@ docker/.env.prod
 services/*/tmp/
 aider*
 repomix*
+
+openapi.json
