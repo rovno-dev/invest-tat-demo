@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logotype from "./logotype/logotype";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/";
 import {
   Dialog,
   DialogContent,
