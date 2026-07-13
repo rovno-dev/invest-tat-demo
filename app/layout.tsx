@@ -58,12 +58,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>
+      <body className="flex flex-col min-h-[100dvh]">
         <ThemeProvider>
           <TooltipProvider>
             <WishlistProvider>
               <Header />
-              <main className="pt-[56px] mb-[100px]">
+              <main className="flex-1 pt-[56px]">
                 {children}
               </main>
               <Footer />

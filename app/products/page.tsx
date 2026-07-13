@@ -6,6 +6,7 @@ import { ProductGrid } from "./_components/product-grid";
 import { SortSelect } from "./_components/sort-select";
 import { FilterDrawer } from "./_components/filter-drawer";
 import { products } from "./_data";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export default function ProductsPage() {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 50]);
@@ -55,33 +56,36 @@ export default function ProductsPage() {
   }, [priceRange, selectedColors, selectedTypes, selectedSizes, sortBy]);
 
   return (
-    <Container className="py-10 md:py-12">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
-        <h1 className="text-display-3 md:text-display-2 text-(--on-bg-high)">
-          All Products
-        </h1>
-        <div className="flex items-center gap-2 flex-wrap">
-          <SortSelect value={sortBy} onChange={setSortBy} />
-          <FilterDrawer
-            products={products}
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
-            selectedColors={selectedColors}
-            setSelectedColors={setSelectedColors}
-            selectedTypes={selectedTypes}
-            setSelectedTypes={setSelectedTypes}
-            selectedSizes={selectedSizes}
-            setSelectedSizes={setSelectedSizes}
-            onReset={resetFilters}
-          />
+    <ScrollReveal>
+
+      <Container className="py-10 md:py-12">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
+          <h1 className="text-display-3 md:text-display-2 text-(--on-bg-high)">
+            All Products
+          </h1>
+          <div className="flex items-center gap-2 flex-wrap">
+            <SortSelect value={sortBy} onChange={setSortBy} />
+            <FilterDrawer
+              products={products}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              selectedColors={selectedColors}
+              setSelectedColors={setSelectedColors}
+              selectedTypes={selectedTypes}
+              setSelectedTypes={setSelectedTypes}
+              selectedSizes={selectedSizes}
+              setSelectedSizes={setSelectedSizes}
+              onReset={resetFilters}
+            />
+          </div>
         </div>
-      </div>
 
-      <p className="text-body-4 text-(--on-bg-medium) mb-6">
-        {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
-      </p>
+        <p className="text-body-4 text-(--on-bg-medium) mb-6">
+          {filteredProducts.length} product{filteredProducts.length !== 1 ? "s" : ""}
+        </p>
 
-      <ProductGrid products={filteredProducts} />
-    </Container>
+        <ProductGrid products={filteredProducts} />
+      </Container>
+    </ScrollReveal>
   );
 }
