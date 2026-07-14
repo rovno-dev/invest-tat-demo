@@ -5,14 +5,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Logotype from "./logotype/logotype";
 import { Button } from "@/components/ui/button";
-import { AuthModal } from "@/components/auth/auth-modal";
 import { HeartIcon } from "@/components/icons";
 import { useWishlist } from "@/providers/wishlist-provider";
 import { Container } from "../ui/container";
 
 export default function Header() {
   const router = useRouter();
-  const [signInOpen, setSignInOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const { items } = useWishlist();
@@ -70,16 +68,15 @@ export default function Header() {
               </Button>
             </Link>
 
-            <Button
-              variant="filled"
-              size="small"
-              className="rounded-full px-5"
-              onClick={() => setSignInOpen(true)}
-            >
-              Sign in
-            </Button>
-
-            <AuthModal open={signInOpen} onOpenChange={setSignInOpen} />
+            <Link href="/login">
+              <Button
+                variant="filled"
+                size="small"
+                className="rounded-full px-5"
+              >
+                Sign in
+              </Button>
+            </Link>
           </div>
         </Container>
       </div>

@@ -1,0 +1,194 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
+import {
+  registerEmail,
+  registerPhone,
+} from '@/lib/api/auth';
+import { Container } from '@/components/ui/container';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PhoneInput } from '@/components/ui/phone-input';
+import { Spinner } from '@/components/ui/spinner';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import Link from 'next/link';
+
+type AuthMethod = 'email' | 'phone';
+
+const emailSchema = z.string().email('Invalid email address');
+const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number (E.164 format)');
+const passwordSchema = z.string().min(8, 'Password must be at least 8 characters');
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login } = useAuth();
+
+  const [method, setMethod] = useState<AuthMethod>(
+    (searchParams.get('method') as AuthMethod) || 'email'
+  );
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const isValid = method === 'email'
+    ? email.trim() !== '' && password.trim() !== ''
+    : phone.trim() !== '' && password.trim() !== '';
+
+  // Sync URL with method state, but only when method changes and the URL doesn't match
+  useEffect(() => {
+    const currentMethod = searchParams.get('method') || 'email';
+    if (currentMethod !== method) {
+      const params = new URLSearchParams(searchParams);
+      params.set('method', method);
+      router.replace(`/register?${params.toString()}`, { scroll: false });
+    }
+  }, [method, searchParams, router]);
+
+  const handleRegister = async () => {
+    try {
+      if (method === 'email') {
+        emailSchema.parse(email);
+        passwordSchema.parse(password);
+      } else {
+        phoneSchema.parse(phone);
+        passwordSchema.parse(password);
+      }
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        toast.error(error.issues[0].message);
+        return;
+      }
+    }
+
+    setLoading(true);
+    try {
+      let res;
+      if (method === 'email') {
+        res = await registerEmail(email, password);
+      } else {
+        res = await registerPhone(phone, password);
+      }
+      login(res);
+      router.push('/');
+      toast.success('Account created and logged in');
+    } catch (err: any) {
+      let message = err.message || 'Registration failed';
+      try {
+        const data = JSON.parse(err.message);
+        if (data.detail) message = data.detail;
+        else if (data.msg) message = data.msg;
+      } catch {}
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-[80vh] flex items-center justify-center py-12">
+      <Container className="max-w-md">
+        <div className="bg-card border border-border rounded-2xl p-8 shadow-lg">
+          <h1 className="text-display-3 font-heading mb-6">Create account</h1>
+
+          <div className="flex border-b border-border mb-6">
+            <button
+              className={`flex-1 pb-2 text-sm font-medium transition-colors ${
+                method === 'email'
+                  ? 'border-b-2 border-primary text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              onClick={() => setMethod('email')}
+            >
+              Email
+            </button>
+            <button
+              className={`flex-1 pb-2 text-sm font-medium transition-colors ${
+                method === 'phone'
+                  ? 'border-b-2 border-primary text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              onClick={() => setMethod('phone')}
+            >
+              SMS
+            </button>
+          </div>
+
+          {method === 'email' && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          {method === 'phone' && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone number</Label>
+                <PhoneInput
+                  id="phone"
+                  value={phone}
+                  onChange={setPhone}
+                  country="RU"
+                  className="w-full"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="At least 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          <Button
+            onClick={handleRegister}
+            disabled={!isValid || loading}
+            className="w-full mt-6"
+            size="large"
+          >
+            {loading ? <Spinner /> : 'Create account'}
+          </Button>
+
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Already have an account?{' '}
+            <Link
+              href="/login"
+              className="text-primary underline-offset-4 hover:underline"
+            >
+              Sign in
+            </Link>
+          </p>
+        </div>
+      </Container>
+    </div>
+  );
+}
