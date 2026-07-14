@@ -6,7 +6,8 @@ import { useAuth } from '@/hooks/use-auth';
 import {
   emailPasswordLogin,
   phoneLogin,
-  verifyOTP,
+  verifyEmailOTP,
+  verifyPhoneOTP,
 } from '@/lib/api/auth';
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
@@ -25,12 +26,56 @@ const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number
 const passwordSchema = z.string().min(8, 'Password must be at least 8 characters');
 const otpSchema = z.string().length(6, 'OTP must be 6 digits');
 
+// Helper to extract error message and field from fetch response
+function parseFieldError(err: any): { field?: string; message: string } {
+  const fallback = { message: 'An unknown error occurred' };
+  if (!err) return fallback;
+  
+  let detail: any = null;
+  if (typeof err === 'string') {
+    try {
+      const parsed = JSON.parse(err);
+      if (parsed.detail) detail = parsed.detail;
+      else if (parsed.msg) return { message: parsed.msg };
+    } catch {}
+  } else if (err.message) {
+    try {
+      const parsed = JSON.parse(err.message);
+      if (parsed.detail) detail = parsed.detail;
+      else if (parsed.msg) return { message: parsed.msg };
+    } catch {}
+  }
+  
+  if (detail) {
+    if (typeof detail === 'string') {
+      const lower = detail.toLowerCase();
+      if (lower.includes('email') || lower.includes('user')) {
+        return { field: 'email', message: detail };
+      }
+      if (lower.includes('password') || lower.includes('credentials')) {
+        return { field: 'password', message: detail };
+      }
+      return { message: detail };
+    }
+    if (Array.isArray(detail)) {
+      const msgs = detail.map((d: any) => d.msg).filter(Boolean);
+      if (msgs.length > 0) {
+        const fields = detail.map((d: any) => d.loc?.[1]).filter(Boolean);
+        if (fields.length > 0 && fields.every(f => f === fields[0])) {
+          return { field: fields[0] as string, message: msgs.join(', ') };
+        }
+        return { message: msgs.join(', ') };
+      }
+    }
+  }
+  return fallback;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
 
-  // Initialize method from URL or default to 'email'
   const [method, setMethod] = useState<AuthMethod>(
     (searchParams.get('method') as AuthMethod) || 'email'
   );
@@ -40,12 +85,18 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string; phone?: string; otp?: string }>({});
 
   const isEmailValid = email.trim() !== '' && password.trim() !== '';
   const isPhoneValid = phone.trim() !== '' && (!otpSent || otp.trim() !== '');
   const isValid = method === 'email' ? isEmailValid : isPhoneValid;
 
-  // Sync URL with method state, but only when method changes and the URL doesn't match
+  // Clear errors when input changes
+  useEffect(() => {
+    setErrors({});
+  }, [email, password, phone, otp]);
+
+  // Sync URL with method state
   useEffect(() => {
     const currentMethod = searchParams.get('method') || 'email';
     if (currentMethod !== method) {
@@ -56,12 +107,14 @@ export default function LoginPage() {
   }, [method, searchParams, router]);
 
   const handleEmailLogin = async () => {
+    setErrors({});
     try {
       emailSchema.parse(email);
       passwordSchema.parse(password);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast.error(error.issues[0].message);
+        const field = error.issues[0].path[0] as string;
+        setErrors({ [field]: error.issues[0].message });
         return;
       }
     }
@@ -73,24 +126,24 @@ export default function LoginPage() {
       router.push('/');
       toast.success('Logged in successfully');
     } catch (err: any) {
-      let message = err.message || 'Login failed';
-      try {
-        const data = JSON.parse(err.message);
-        if (data.detail) message = data.detail;
-        else if (data.msg) message = data.msg;
-      } catch {}
-      toast.error(message);
+      const { field, message } = parseFieldError(err);
+      if (field) {
+        setErrors({ [field]: message });
+      } else {
+        toast.error(message);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handlePhoneLoginSendOTP = async () => {
+    setErrors({});
     try {
       phoneSchema.parse(phone);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast.error(error.issues[0].message);
+        setErrors({ phone: error.issues[0].message });
         return;
       }
     }
@@ -101,40 +154,41 @@ export default function LoginPage() {
       setOtpSent(true);
       toast.success('OTP sent to your phone');
     } catch (err: any) {
-      let message = err.message || 'Failed to send OTP';
-      try {
-        const data = JSON.parse(err.message);
-        if (data.detail) message = data.detail;
-      } catch {}
-      toast.error(message);
+      const { field, message } = parseFieldError(err);
+      if (field) {
+        setErrors({ [field]: message });
+      } else {
+        toast.error(message);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handlePhoneLoginVerify = async () => {
+    setErrors({});
     try {
       otpSchema.parse(otp);
     } catch (error) {
       if (error instanceof z.ZodError) {
-        toast.error(error.issues[0].message);
+        setErrors({ otp: error.issues[0].message });
         return;
       }
     }
 
     setLoading(true);
     try {
-      const res = await verifyOTP(phone, otp);
+      const res = await verifyPhoneOTP(phone, otp);
       login(res);
       router.push('/');
       toast.success('Logged in successfully');
     } catch (err: any) {
-      let message = err.message || 'OTP verification failed';
-      try {
-        const data = JSON.parse(err.message);
-        if (data.detail) message = data.detail;
-      } catch {}
-      toast.error(message);
+      const { field, message } = parseFieldError(err);
+      if (field) {
+        setErrors({ [field]: message });
+      } else {
+        toast.error(message);
+      }
     } finally {
       setLoading(false);
     }
@@ -197,7 +251,11 @@ export default function LoginPage() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className={errors.email ? 'border-red-500' : ''}
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
@@ -207,7 +265,11 @@ export default function LoginPage() {
                   placeholder="At least 8 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className={errors.password ? 'border-red-500' : ''}
                 />
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password}</p>
+                )}
               </div>
             </div>
           )}
@@ -222,7 +284,11 @@ export default function LoginPage() {
                   onChange={setPhone}
                   country="RU"
                   className="w-full"
+                  inputClassName={errors.phone ? 'border-red-500' : ''}
                 />
+                {errors.phone && (
+                  <p className="text-sm text-red-500">{errors.phone}</p>
+                )}
               </div>
               {otpSent && (
                 <div className="space-y-2">
@@ -234,7 +300,11 @@ export default function LoginPage() {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     maxLength={6}
+                    className={errors.otp ? 'border-red-500' : ''}
                   />
+                  {errors.otp && (
+                    <p className="text-sm text-red-500">{errors.otp}</p>
+                  )}
                 </div>
               )}
             </div>

@@ -1,6 +1,6 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost/api/main/v1';
 
-// OTP-based login (kept for reference, not used in new modal)
+// OTP-based login
 export async function emailLogin(email: string) {
   const res = await fetch(`${API_BASE}/login/email`, {
     method: 'POST',
@@ -21,8 +21,8 @@ export async function phoneLogin(phone: string) {
   return res.json();
 }
 
-export async function verifyOTP(identifier: string, code: string) {
-  const res = await fetch(`${API_BASE}/otp/email?email=${encodeURIComponent(identifier)}&code=${encodeURIComponent(code)}`, {
+export async function verifyEmailOTP(email: string, code: string) {
+  const res = await fetch(`${API_BASE}/otp/email?email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
   });
@@ -30,7 +30,16 @@ export async function verifyOTP(identifier: string, code: string) {
   return res.json();
 }
 
-// Password-based login (new)
+export async function verifyPhoneOTP(phone: string, code: string) {
+  const res = await fetch(`${API_BASE}/otp/phone?phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(code)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+// Password-based login
 export async function emailPasswordLogin(email: string, password: string) {
   const res = await fetch(`${API_BASE}/login/email-password`, {
     method: 'POST',
@@ -51,7 +60,7 @@ export async function phonePasswordLogin(phone: string, password: string) {
   return res.json();
 }
 
-// Registration (returns tokens)
+// Registration
 export async function registerEmail(email: string, password: string) {
   const res = await fetch(`${API_BASE}/register/email`, {
     method: 'POST',

@@ -37,12 +37,10 @@ export default function Header() {
     >
       <div className="w-full h-[56px] flex items-center border-b border-black/[0.06] bg-white/[0.65] px-4 md:px-6 shadow-sm shadow-black/5 dark:shadow-white/5 backdrop-blur-[32px] dark:border-white/[0.08] dark:bg-black/[0.65] dark:shadow-[0_12px_40px_rgba(0,0,0,0.4),inset_0_1px_0px_rgba(255,255,255,0.15)]">
         <Container className="flex items-center justify-between">
-          {/* Left: Unidoka Logotype */}
           <Link href="/" className="flex items-center gap-2">
             <Logotype className="h-8 w-auto" />
           </Link>
 
-          {/* Right: Navigation & Actions */}
           <div className="flex items-center gap-3">
             <Button
               variant="text"
