@@ -52,6 +52,8 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = useMemo(() => {
+    // Ensure products is an array
+    if (!Array.isArray(products)) return [];
     let result = [...products];
 
     result = result.filter(
