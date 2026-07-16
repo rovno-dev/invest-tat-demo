@@ -75,6 +75,13 @@ export default function Header() {
                 Sign in
               </Button>
             </Link>
+
+            {/* Admin link - visible for now, later we'll conditionally show it */}
+            <Link href="/admin">
+              <Button variant="outlined" size="small" className="rounded-full px-4">
+                Admin
+              </Button>
+            </Link>
           </div>
         </Container>
       </div>
