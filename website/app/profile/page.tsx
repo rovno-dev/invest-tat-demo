@@ -3,7 +3,7 @@ import { Container } from '@/components/ui/container';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getTokens } from '@/lib/api/auth';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
@@ -12,13 +12,15 @@ export const metadata: Metadata = {
 };
 
 async function getUserData() {
-  const { access } = getTokens();
+  const cookieStore = await cookies();
+  const access = cookieStore.get('access_token')?.value;
   if (!access) {
     redirect('/login');
   }
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'}/api/main/v1/users/me`, {
       headers: { Authorization: `Bearer ${access}` },
+      cache: 'no-store',
     });
     if (!res.ok) {
       redirect('/login');
