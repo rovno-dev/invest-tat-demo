@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from uuid import UUID
+import logging
 
 from app.models.user import User
 from app.schemas.auth.requests import EmailLoginRequest, RegisterViaEmailRequest, OTPConfirmRequest
@@ -13,12 +14,14 @@ from app.services.email_service import send_email
 from app.services.sms_service import send_sms
 from app.services.otp_service import generate_otp, save_otp, verify_otp, parse_and_normalize_login
 from app.services.user_service import create_user
-from app.shared.auth import create_access_token, create_refresh_token, decode_token
+from app.shared.auth import create_access_token, create_refresh_token, decode_token, verify_password, hash_password
 from config.rate_limiter import limit_otp_send
 from database.database import get_db
 from app.schemas.auth.responses import PhoneSendCode
 from app.schemas.token.request import RefreshTokenRequest
 from sqlalchemy import or_
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -62,10 +65,8 @@ async def phone_login(
     db: Session = Depends(get_db),
     _: None = Depends(limit_otp_send),
 ) -> PhoneSendCode:
-    # Convert to string explicitly to avoid Redis TypeErrors
     phone_clean = str(payload.phone).strip()
 
-    # Fix: search by phone, not email
     user_found = db.query(User).filter(User.phone == phone_clean).first()
 
     if not user_found:
@@ -80,7 +81,6 @@ async def phone_login(
         user_found = create_response.user
 
     code = generate_otp()
-    # Fix: use the clean string version for Redis key
     saved = save_otp(phone_clean, code, "reg_phone")
 
     if not saved:
@@ -89,6 +89,52 @@ async def phone_login(
     sent = await send_sms(phone_clean, f"Registration code {code}")
 
     return PhoneSendCode(sent=sent, user_exists=bool(user_found))
+
+
+@router.post("/login/email-password")
+async def email_password_login(
+    payload: EmailLoginRequest,
+    db: Session = Depends(get_db),
+) -> TokenResponse:
+    email_clean = payload.email.lower().strip()
+    user = db.query(User).filter(User.email == email_clean).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if not user.password:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if not verify_password(payload.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if user.blocked:
+        raise HTTPException(status_code=403, detail="User is blocked")
+
+    return TokenResponse(
+        access_token=create_access_token({"sub": str(user.id)}),
+        refresh_token=create_refresh_token({"sub": str(user.id)}),
+        token_type="bearer",
+    )
+
+
+@router.post("/login/phone-password")
+async def phone_password_login(
+    payload: SmsLoginRequest,
+    db: Session = Depends(get_db),
+) -> TokenResponse:
+    phone_clean = str(payload.phone).strip()
+    user = db.query(User).filter(User.phone == phone_clean).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid phone or password")
+    if not user.password:
+        raise HTTPException(status_code=401, detail="Invalid phone or password")
+    if not verify_password(payload.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid phone or password")
+    if user.blocked:
+        raise HTTPException(status_code=403, detail="User is blocked")
+
+    return TokenResponse(
+        access_token=create_access_token({"sub": str(user.id)}),
+        refresh_token=create_refresh_token({"sub": str(user.id)}),
+        token_type="bearer",
+    )
 
 
 @router.post(
@@ -108,13 +154,11 @@ async def confirm_otp(
             detail=str(e)
         )
 
-    # Look up user
     if login_type == "email":
         user = db.query(User).filter(User.email == normalized_login).first()
     else:
         user = db.query(User).filter(User.phone == normalized_login).first()
 
-    # If user not found, create them automatically (same as login endpoints)
     if not user:
         if login_type == "email":
             create_response = create_user(db, email=normalized_login)
@@ -159,6 +203,7 @@ async def registerViaPhone(
         data={"sub": str(result.user.id)}
     )
 
+    logger.info(f"Registration phone: access_token={access_token[:10]}..., refresh_token={refresh_token[:10]}...")
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
@@ -183,6 +228,7 @@ async def registerViaEmail(
         data={"sub": str(result.user.id)}
     )
 
+    logger.info(f"Registration email: access_token={access_token[:10]}..., refresh_token={refresh_token[:10]}...")
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
@@ -195,7 +241,9 @@ async def refresh_access_token(
     payload: RefreshTokenRequest,
     db: Session = Depends(get_db),
 ) -> AccessTokenResponse:
+    logger.info(f"Refresh token request: {payload.refresh_token[:10]}...")
     token_data = decode_token(payload.refresh_token)
+    logger.info(f"Decoded token data: {token_data}")
 
     if token_data is None or token_data.get("type") != "refresh":
         raise HTTPException(

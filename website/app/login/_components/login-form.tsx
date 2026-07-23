@@ -21,7 +21,8 @@ import Link from 'next/link';
 
 type AuthMethod = 'email' | 'phone';
 
-const emailSchema = z.string().email('Invalid email address');
+// Custom regex that allows any TLD (including .test)
+const emailSchema = z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email address');
 const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number (E.164 format)');
 const passwordSchema = z.string().min(8, 'Password must be at least 8 characters');
 const otpSchema = z.string().length(6, 'OTP must be 6 digits');

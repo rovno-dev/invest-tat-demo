@@ -96,8 +96,12 @@ export async function refreshToken(refresh: string) {
 
 // Token management
 export function setTokens(access: string, refresh: string) {
-  localStorage.setItem('access_token', access);
-  localStorage.setItem('refresh_token', refresh);
+  try {
+    localStorage.setItem('access_token', access);
+    localStorage.setItem('refresh_token', refresh);
+  } catch (e) {
+    console.error('Failed to set tokens:', e);
+  }
 }
 
 export function getTokens() {

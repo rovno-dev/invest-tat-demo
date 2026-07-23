@@ -1,7 +1,7 @@
 name: e-shop-template
 
 include:
-  - server/docker-compose.yml
+  - backend/docker-compose.yml
   - website/docker-compose.yml
 
 services:
