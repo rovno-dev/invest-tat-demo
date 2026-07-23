@@ -1,8 +1,8 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost/api/main/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 // OTP-based login
 export async function emailLogin(email: string) {
-  const res = await fetch(`${API_BASE}/login/email`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/login/email`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -12,7 +12,7 @@ export async function emailLogin(email: string) {
 }
 
 export async function phoneLogin(phone: string) {
-  const res = await fetch(`${API_BASE}/login/phone`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/login/phone`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone }),
@@ -22,18 +22,20 @@ export async function phoneLogin(phone: string) {
 }
 
 export async function verifyEmailOTP(email: string, code: string) {
-  const res = await fetch(`${API_BASE}/otp/email?email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/otp`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ login: email, code }),
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
 
 export async function verifyPhoneOTP(phone: string, code: string) {
-  const res = await fetch(`${API_BASE}/otp/phone?phone=${encodeURIComponent(phone)}&code=${encodeURIComponent(code)}`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/otp`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ login: phone, code }),
   });
   if (!res.ok) throw new Error(await res.text());
   return res.json();
@@ -41,7 +43,7 @@ export async function verifyPhoneOTP(phone: string, code: string) {
 
 // Password-based login
 export async function emailPasswordLogin(email: string, password: string) {
-  const res = await fetch(`${API_BASE}/login/email-password`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/login/email-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -51,7 +53,7 @@ export async function emailPasswordLogin(email: string, password: string) {
 }
 
 export async function phonePasswordLogin(phone: string, password: string) {
-  const res = await fetch(`${API_BASE}/login/phone-password`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/login/phone-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone, password }),
@@ -62,7 +64,7 @@ export async function phonePasswordLogin(phone: string, password: string) {
 
 // Registration
 export async function registerEmail(email: string, password: string) {
-  const res = await fetch(`${API_BASE}/register/email`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/register/email`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
@@ -72,7 +74,7 @@ export async function registerEmail(email: string, password: string) {
 }
 
 export async function registerPhone(phone: string, password: string) {
-  const res = await fetch(`${API_BASE}/register/phone`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/register/phone`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone, password }),
@@ -83,7 +85,7 @@ export async function registerPhone(phone: string, password: string) {
 
 // Token refresh
 export async function refreshToken(refresh: string) {
-  const res = await fetch(`${API_BASE}/refresh`, {
+  const res = await fetch(`${API_BASE}/api/main/v1/refresh`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ refresh_token: refresh }),

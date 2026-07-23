@@ -9,6 +9,7 @@ async def send_sms(phone: str, text: str) -> bool:
     sender = os.getenv("PHONE_NAME_SENDER")
     provider_url = os.getenv("PHONE_PROVIDER_URL")
 
+    # If credentials are missing, log the OTP and pretend success
     if not api_key or not sender or not provider_url:
         logger.warning("SMS provider credentials not configured. SMS would have been: %s", text)
         # In development, pretend it worked
@@ -36,15 +37,16 @@ async def send_sms(phone: str, text: str) -> bool:
                     "apiKey": api_key
                 },
             )
-        if response.status_code == 200:
-            logger.info(f"SMS sent successfully, code: {text}")
-            return True
-        else:
-            logger.error("SMS failed with status %d: %s", response.status_code, response.text)
-            return False
+        response.raise_for_status()
+        logger.info("SMS sent successfully to %s", phone)
+        return True
     except httpx.TimeoutException:
         logger.error("SMS provider timeout for %s", phone)
-        return False
+    except httpx.RequestError as e:
+        logger.error("SMS provider request error: %s", e)
     except Exception as e:
         logger.error("SMS error: %s", e)
-        return False
+
+    # If any error occurs, log the OTP for manual use in development
+    logger.info("=== DEVELOPMENT: OTP for %s is: %s ===", phone, text)
+    return False

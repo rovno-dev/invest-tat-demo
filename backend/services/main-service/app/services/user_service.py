@@ -20,16 +20,16 @@ def create_user(
         filters.append(User.email == email)
 
     if not filters:
-        raise ValueError("Нужен хотя бы email или phone")
+        raise ValueError("Either email or phone is required")
 
     db_user = db.query(User).filter(or_(*filters)).first()
 
     if db_user:
         errors = {}
         if phone and db_user.phone == phone:
-            errors["phone"] = "Пользователь с таким телефоном уже зарегистрирован"
+            errors["phone"] = "User with this phone already exists"
         if email and db_user.email == email:
-            errors["email"] = "Пользователь с такой почтой уже зарегистрирован"
+            errors["email"] = "User with this email already exists"
 
         return UserCreateResponse(
             created=False,

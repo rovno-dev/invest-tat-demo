@@ -8,12 +8,21 @@ import { Button } from "@/components/ui/button";
 import { HeartIcon } from "@/components/icons";
 import { useWishlist } from "@/providers/wishlist-provider";
 import { Container } from "../ui/container";
+import { useAuth } from "@/hooks/use-auth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Header() {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const { items } = useWishlist();
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +38,11 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    router.push('/');
+  };
 
   return (
     <header
@@ -66,22 +80,37 @@ export default function Header() {
               </Button>
             </Link>
 
-            <Link href="/login">
-              <Button
-                variant="filled"
-                size="small"
-                className="rounded-full px-5"
-              >
-                Sign in
-              </Button>
-            </Link>
-
-            {/* Admin link - visible for now, later we'll conditionally show it */}
-            <Link href="/admin">
-              <Button variant="outlined" size="small" className="rounded-full px-4">
-                Admin
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="text" size="icon-small" className="rounded-full">
+                    <Avatar className="size-8">
+                      <AvatarFallback>
+                        {user?.email?.[0]?.toUpperCase() || user?.phone?.[0]?.toUpperCase() || 'U'}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="min-w-40">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-red-500">
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button
+                  variant="filled"
+                  size="small"
+                  className="rounded-full px-5"
+                >
+                  Sign in
+                </Button>
+              </Link>
+            )}
           </div>
         </Container>
       </div>

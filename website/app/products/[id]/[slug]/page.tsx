@@ -12,6 +12,7 @@ import { Product } from "@/utils/interfaces";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { ProductCard } from "@/components/layout/product-card/product-card";
+import { Metadata, ResolvingMetadata } from "next";
 
 // Generate static params for all products
 export async function generateStaticParams() {
@@ -26,6 +27,37 @@ function getRecommendedProducts(currentProduct: Product, allProducts: Product[])
   return allProducts
     .filter(p => p.id !== currentProduct.id && p.type === currentProduct.type)
     .slice(0, 4);
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ id: string; slug: string }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProduct(id);
+  if (!product) {
+    return {
+      title: 'Product Not Found',
+      description: 'The requested product could not be found.',
+    };
+  }
+
+  return {
+    title: product.name,
+    description: product.description || `Shop ${product.name} at Unidoka UI.`,
+    openGraph: {
+      title: product.name,
+      description: product.description || `Shop ${product.name} at Unidoka UI.`,
+      url: `/products/${product.id}/${product.slug}`,
+      images: [
+        {
+          url: product.images[0] || '/favicon.png',
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+  };
 }
 
 export default async function ProductPage({

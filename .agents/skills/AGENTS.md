@@ -17,7 +17,9 @@ CODE
 EOF
 ```
 
-Write all paths in bash commands inside commas please. If there're no files with that name you need to create it first to prevent errors (including dir)
+Write all paths in bash commands inside commas please. If there're no files with that name you need to create it first to prevent errors (including dir).
+
+Does not do anything with docker compose. I made it by myself.
 
 # Ponytail, lazy senior dev mode
 

@@ -22,8 +22,33 @@ export const Oswald = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Unidoka UI",
-  description: "Framework-agnostic, AI-driven design system based on shadcn",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  title: {
+    default: 'Unidoka UI - Premium E-commerce',
+    template: '%s | Unidoka UI',
+  },
+  description: 'Framework-agnostic, AI-driven design system based on shadcn. Modern e-commerce starter with Next.js, Tailwind, and Unidoka UI.',
+  openGraph: {
+    title: 'Unidoka UI',
+    description: 'Premium e-commerce template with Unidoka UI design system.',
+    url: '/',
+    siteName: 'Unidoka UI',
+    images: [
+      {
+        url: '/favicon.png',
+        width: 512,
+        height: 512,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Unidoka UI',
+    description: 'Premium e-commerce template with Unidoka UI design system.',
+    images: ['/favicon.png'],
+  },
   icons: {
     icon: '/favicon.png',
   },
