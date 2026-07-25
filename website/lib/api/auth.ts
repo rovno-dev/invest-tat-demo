@@ -69,7 +69,11 @@ export async function registerEmail(email: string, password: string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   });
-  if (!res.ok) throw new Error(await res.text());
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText);
+  }
+  console.log('hui')
   return res.json();
 }
 
@@ -79,7 +83,10 @@ export async function registerPhone(phone: string, password: string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ phone, password }),
   });
-  if (!res.ok) throw new Error(await res.text());
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText);
+  }
   return res.json();
 }
 
@@ -96,12 +103,8 @@ export async function refreshToken(refresh: string) {
 
 // Token management
 export function setTokens(access: string, refresh: string) {
-  try {
-    localStorage.setItem('access_token', access);
-    localStorage.setItem('refresh_token', refresh);
-  } catch (e) {
-    console.error('Failed to set tokens:', e);
-  }
+  localStorage.setItem('access_token', access);
+  localStorage.setItem('refresh_token', refresh);
 }
 
 export function getTokens() {

@@ -114,27 +114,27 @@ async def email_password_login(
     )
 
 
-@router.post("/login/phone-password")
-async def phone_password_login(
-    payload: SmsLoginRequest,
-    db: Session = Depends(get_db),
-) -> TokenResponse:
-    phone_clean = str(payload.phone).strip()
-    user = db.query(User).filter(User.phone == phone_clean).first()
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid phone or password")
-    if not user.password:
-        raise HTTPException(status_code=401, detail="Invalid phone or password")
-    if not verify_password(payload.password, user.password):
-        raise HTTPException(status_code=401, detail="Invalid phone or password")
-    if user.blocked:
-        raise HTTPException(status_code=403, detail="User is blocked")
+# @router.post("/login/phone-password")
+# async def phone_password_login(
+#     payload: SmsLoginRequest,
+#     db: Session = Depends(get_db),
+# ) -> TokenResponse:
+#     phone_clean = str(payload.phone).strip()
+#     user = db.query(User).filter(User.phone == phone_clean).first()
+#     if not user:
+#         raise HTTPException(status_code=401, detail="Invalid phone or password")
+#     if not user.password:
+#         raise HTTPException(status_code=401, detail="Invalid phone or password")
+#     if not verify_password(payload.password, user.password):
+#         raise HTTPException(status_code=401, detail="Invalid phone or password")
+#     if user.blocked:
+#         raise HTTPException(status_code=403, detail="User is blocked")
 
-    return TokenResponse(
-        access_token=create_access_token({"sub": str(user.id)}),
-        refresh_token=create_refresh_token({"sub": str(user.id)}),
-        token_type="bearer",
-    )
+#     return TokenResponse(
+#         access_token=create_access_token({"sub": str(user.id)}),
+#         refresh_token=create_refresh_token({"sub": str(user.id)}),
+#         token_type="bearer",
+#     )
 
 
 @router.post(
@@ -194,7 +194,7 @@ async def registerViaPhone(
     result = create_user(db=db, **phone.model_dump())
 
     if result.errors:
-        return result.errors
+        raise HTTPException(status_code=422, detail=result.errors)
 
     access_token = create_access_token(
         data={"sub": str(result.user.id)}
@@ -219,7 +219,7 @@ async def registerViaEmail(
     result = create_user(db=db, **email.model_dump())
 
     if result.errors:
-        return result.errors
+        raise HTTPException(status_code=422, detail=result.errors)
 
     access_token = create_access_token(
         data={"sub": str(result.user.id)}

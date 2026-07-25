@@ -31,41 +31,73 @@ function parseFieldError(err: any, status?: number): { field?: string; message: 
 
   const fallback = { message: 'Unknown error' };
   if (!err) return fallback;
-  
+
+  // If err is a string, try to parse JSON
   let detail: any = null;
   if (typeof err === 'string') {
     try {
       const parsed = JSON.parse(err);
-      if (parsed.detail) detail = parsed.detail;
-      else if (parsed.msg) return { message: parsed.msg };
-    } catch {}
+      detail = parsed;
+    } catch {
+      return { message: err };
+    }
   } else if (err.message) {
     try {
       const parsed = JSON.parse(err.message);
-      if (parsed.detail) detail = parsed.detail;
-      else if (parsed.msg) return { message: parsed.msg };
-    } catch {}
-  }
-  
-  if (detail) {
-    if (typeof detail === 'string') {
-      const lower = detail.toLowerCase();
-      if (lower.includes('email')) return { field: 'email', message: detail };
-      if (lower.includes('phone')) return { field: 'phone', message: detail };
-      if (lower.includes('password')) return { field: 'password', message: detail };
-      return { message: detail };
+      detail = parsed;
+    } catch {
+      return { message: err.message };
     }
-    if (Array.isArray(detail)) {
-      const msgs = detail.map((d: any) => d.msg).filter(Boolean);
-      if (msgs.length > 0) {
-        const fields = detail.map((d: any) => d.loc?.[1]).filter(Boolean);
-        if (fields.length > 0 && fields.every(f => f === fields[0])) {
-          return { field: fields[0] as string, message: msgs.join(', ') };
-        }
-        return { message: msgs.join(', ') };
+  } else {
+    detail = err;
+  }
+
+  // Handle different error shapes
+  if (typeof detail === 'string') {
+    const lower = detail.toLowerCase();
+    if (lower.includes('email')) return { field: 'email', message: detail };
+    if (lower.includes('phone')) return { field: 'phone', message: detail };
+    if (lower.includes('password')) return { field: 'password', message: detail };
+    return { message: detail };
+  }
+
+  // Handle object with field keys (e.g., { "email": "User with this email already exists" })
+  if (typeof detail === 'object' && detail !== null) {
+    // Check if there's a field key like 'email', 'phone', 'password'
+    // Handle FastAPI format: { detail: { field: "message" } }
+    // Check if there's a field key like 'email', 'phone', 'password'
+    if (detail.detail && typeof detail.detail === 'object' && detail.detail !== null) {
+      // Check if there's a field key like 'email', 'phone', 'password'
+      detail = detail.detail;
+      // Check if there's a field key like 'email', 'phone', 'password'
+    }
+    // Check if there's a field key like 'email', 'phone', 'password'
+    const fieldKeys = ['email', 'phone', 'password'];
+    for (const key of fieldKeys) {
+      if (detail[key] && typeof detail[key] === 'string') {
+        return { field: key, message: detail[key] };
       }
     }
+    // If no matching field, take the first value
+    const firstKey = Object.keys(detail)[0];
+    if (firstKey && typeof detail[firstKey] === 'string') {
+      return { field: firstKey, message: detail[firstKey] };
+    }
+    return { message: JSON.stringify(detail) };
   }
+
+  // Handle array of errors (FastAPI style)
+  if (Array.isArray(detail)) {
+    const msgs = detail.map((d: any) => d.msg).filter(Boolean);
+    if (msgs.length > 0) {
+      const fields = detail.map((d: any) => d.loc?.[1]).filter(Boolean);
+      if (fields.length > 0 && fields.every(f => f === fields[0])) {
+        return { field: fields[0] as string, message: msgs.join(', ') };
+      }
+      return { message: msgs.join(', ') };
+    }
+  }
+
   return fallback;
 }
 
@@ -128,15 +160,17 @@ export function RegisterForm() {
       } else {
         res = await registerPhone(phone, password);
       }
-      console.log('[Register] Response:', res);
+      // Only call login if registration succeeded (no error thrown)
       login(res);
       router.push('/');
       toast.success('Account created and logged in');
     } catch (err: any) {
+      console.error('[Register] Error:', err);
       const status = err?.status || (err?.response?.status);
       const { field, message } = parseFieldError(err, status);
       if (field) {
         setErrors({ [field]: message });
+        toast.error(message); // Also show toast for visibility
       } else {
         toast.error(message);
       }
@@ -153,21 +187,19 @@ export function RegisterForm() {
 
           <div className="flex border-b border-border mb-6">
             <button
-              className={`flex-1 pb-2 text-sm font-medium transition-colors ${
-                method === 'email'
-                  ? 'border-b-2 border-primary text-foreground'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
+              className={`flex-1 pb-2 text-sm font-medium transition-colors ${method === 'email'
+                ? 'border-b-2 border-primary text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+                }`}
               onClick={() => setMethod('email')}
             >
               Email
             </button>
             <button
-              className={`flex-1 pb-2 text-sm font-medium transition-colors ${
-                method === 'phone'
-                  ? 'border-b-2 border-primary text-foreground'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
+              className={`flex-1 pb-2 text-sm font-medium transition-colors ${method === 'phone'
+                ? 'border-b-2 border-primary text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+                }`}
               onClick={() => setMethod('phone')}
             >
               SMS
@@ -244,6 +276,7 @@ export function RegisterForm() {
             onClick={handleRegister}
             disabled={!isValid || loading}
             className="w-full mt-6"
+            variant="filled"
             size="large"
           >
             {loading ? <Spinner /> : 'Create account'}

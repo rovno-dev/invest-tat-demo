@@ -13,40 +13,44 @@ def create_user(
     email = kwargs.get("email")
     password = kwargs.get("password")
 
-    filters = []
-    if phone:
-        filters.append(User.phone == phone)
-    if email:
-        filters.append(User.email == email)
-
-    if not filters:
+    # Проверяем обязательность наличия хотя бы одного из параметров: phone или email
+    if not any([phone, email]):
         raise ValueError("Either email or phone is required")
+    
+    errors = {}
 
-    db_user = db.query(User).filter(or_(*filters)).first()
-
-    if db_user:
-        errors = {}
-        if phone and db_user.phone == phone:
+    # Отдельная проверка существования пользователя с данным номером телефона
+    if phone:
+        existing_phone_user = db.query(User).filter(User.phone == phone).first()
+        if existing_phone_user:
             errors["phone"] = "User with this phone already exists"
-        if email and db_user.email == email:
+
+    # Отдельная проверка существования пользователя с данной электронной почтой
+    if email:
+        existing_email_user = db.query(User).filter(User.email == email).first()
+        if existing_email_user:
             errors["email"] = "User with this email already exists"
 
+    # Если найдены ошибки - прерываем создание пользователя
+    if errors:
         return UserCreateResponse(
             created=False,
             errors=errors,
             user=None
         )
 
+    # Хешируем пароль перед сохранением
     if password:
         kwargs["password"] = hash_password(password)
 
-    user = User(**kwargs)
-    db.add(user)
+    # Создаем нового пользователя
+    new_user = User(**kwargs)
+    db.add(new_user)
     db.commit()
-    db.refresh(user)
+    db.refresh(new_user)
 
     return UserCreateResponse(
         created=True,
         errors=None,
-        user=user
+        user=new_user
     )

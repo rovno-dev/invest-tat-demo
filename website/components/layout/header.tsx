@@ -101,15 +101,26 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href="/login">
+              <>
                 <Button
+                  asChild
                   variant="filled"
                   size="small"
-                  className="rounded-full px-5"
                 >
-                  Sign in
+                  <Link href="/login">
+                    Sign in
+                  </Link>
                 </Button>
-              </Link>
+                <Button
+                  asChild
+                  variant="filled"
+                  size="small"
+                >
+                  <Link href="/register">
+                    Create account
+                  </Link>
+                </Button>
+              </>
             )}
           </div>
         </Container>
