@@ -40,6 +40,10 @@ class RegisterViaPhoneRequest(BaseModel):
         return v
 
 
+class EmailPasswordLoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
 class RegisterViaEmailRequest(BaseModel):
     email: EmailStr
     password: str

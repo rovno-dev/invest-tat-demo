@@ -5,7 +5,7 @@ from uuid import UUID
 import logging
 
 from app.models.user import User
-from app.schemas.auth.requests import EmailLoginRequest, RegisterViaEmailRequest, OTPConfirmRequest
+from app.schemas.auth.requests import EmailLoginRequest, RegisterViaEmailRequest, OTPConfirmRequest, EmailPasswordLoginRequest
 from app.schemas.auth.requests import RegisterViaPhoneRequest
 from app.schemas.auth.requests import SmsLoginRequest
 from app.schemas.auth.responses import EmailSendCode
@@ -93,7 +93,7 @@ async def phone_login(
 
 @router.post("/login/email-password")
 async def email_password_login(
-    payload: EmailLoginRequest,
+    payload: EmailPasswordLoginRequest,
     db: Session = Depends(get_db),
 ) -> TokenResponse:
     email_clean = payload.email.lower().strip()
@@ -112,30 +112,6 @@ async def email_password_login(
         refresh_token=create_refresh_token({"sub": str(user.id)}),
         token_type="bearer",
     )
-
-
-# @router.post("/login/phone-password")
-# async def phone_password_login(
-#     payload: SmsLoginRequest,
-#     db: Session = Depends(get_db),
-# ) -> TokenResponse:
-#     phone_clean = str(payload.phone).strip()
-#     user = db.query(User).filter(User.phone == phone_clean).first()
-#     if not user:
-#         raise HTTPException(status_code=401, detail="Invalid phone or password")
-#     if not user.password:
-#         raise HTTPException(status_code=401, detail="Invalid phone or password")
-#     if not verify_password(payload.password, user.password):
-#         raise HTTPException(status_code=401, detail="Invalid phone or password")
-#     if user.blocked:
-#         raise HTTPException(status_code=403, detail="User is blocked")
-
-#     return TokenResponse(
-#         access_token=create_access_token({"sub": str(user.id)}),
-#         refresh_token=create_refresh_token({"sub": str(user.id)}),
-#         token_type="bearer",
-#     )
-
 
 @router.post(
     "/otp",

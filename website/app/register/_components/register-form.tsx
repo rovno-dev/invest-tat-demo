@@ -23,6 +23,17 @@ const emailSchema = z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid emai
 const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number (E.164 format)');
 const passwordSchema = z.string().min(8, 'Password must be at least 8 characters');
 
+// Object schemas for validation with named fields
+const emailFormSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+const phoneFormSchema = z.object({
+  phone: phoneSchema,
+  password: passwordSchema,
+});
+
 // Helper to extract error message and field from fetch response
 function parseFieldError(err: any, status?: number): { field?: string; message: string } {
   if (status === 500) {
@@ -124,6 +135,10 @@ export function RegisterForm() {
     setErrors({});
   }, [email, password, phone]);
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
   // Sync URL with method state
   useEffect(() => {
     const currentMethod = searchParams.get('method') || 'email';
@@ -138,11 +153,9 @@ export function RegisterForm() {
     setErrors({});
     try {
       if (method === 'email') {
-        emailSchema.parse(email);
-        passwordSchema.parse(password);
+        emailFormSchema.parse({ email, password });
       } else {
-        phoneSchema.parse(phone);
-        passwordSchema.parse(password);
+        phoneFormSchema.parse({ phone, password });
       }
     } catch (error) {
       if (error instanceof z.ZodError) {

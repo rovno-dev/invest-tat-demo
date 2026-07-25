@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/use-auth';
 import {
   emailPasswordLogin,
   phoneLogin,
-  verifyEmailOTP,
   verifyPhoneOTP,
 } from '@/lib/api/auth';
 import { Container } from '@/components/ui/container';
@@ -21,11 +20,25 @@ import Link from 'next/link';
 
 type AuthMethod = 'email' | 'phone';
 
-// Custom regex that allows any TLD (including .test)
+// Atomic schemas
 const emailSchema = z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Invalid email address');
 const phoneSchema = z.string().regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number (E.164 format)');
 const passwordSchema = z.string().min(8, 'Password must be at least 8 characters');
 const otpSchema = z.string().length(6, 'OTP must be 6 digits');
+
+// Object schemas for validation with named fields
+const emailLoginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
+
+const phoneLoginSchema = z.object({
+  phone: phoneSchema,
+});
+
+const otpVerifySchema = z.object({
+  otp: otpSchema,
+});
 
 // Helper to extract error message and field from fetch response
 function parseFieldError(err: any, status?: number): { field?: string; message: string } {
@@ -36,36 +49,33 @@ function parseFieldError(err: any, status?: number): { field?: string; message: 
 
   const fallback = { message: 'Unknown error' };
   if (!err) return fallback;
-  
+
   let detail: any = null;
   if (typeof err === 'string') {
     try {
       const parsed = JSON.parse(err);
       if (parsed.detail) detail = parsed.detail;
       else if (parsed.msg) return { message: parsed.msg };
-    } catch {}
+    } catch { }
   } else if (err.message) {
     try {
       const parsed = JSON.parse(err.message);
       if (parsed.detail) detail = parsed.detail;
       else if (parsed.msg) return { message: parsed.msg };
-    } catch {}
+    } catch { }
   }
-  
+
   if (detail) {
     // Handle FastAPI validation errors (array of objects)
     if (Array.isArray(detail)) {
-      // If there's a field name in loc, we can map it
       const fieldErrors: { field?: string; message: string }[] = detail.map((d: any) => {
-        const field = d.loc?.[1]; // typically the field name
+        const field = d.loc?.[1];
         const msg = d.msg || 'Validation error';
         return { field, message: msg };
       });
-      // If all errors are for the same field, return one
       if (fieldErrors.length === 1) {
         return { field: fieldErrors[0].field, message: fieldErrors[0].message };
       }
-      // Otherwise join messages
       const messages = fieldErrors.map(e => e.message).join(', ');
       return { message: messages };
     }
@@ -83,7 +93,6 @@ function parseFieldError(err: any, status?: number): { field?: string; message: 
       if (lower.includes('otp')) {
         return { field: 'otp', message: detail };
       }
-      // General error
       return { message: detail };
     }
   }
@@ -131,8 +140,7 @@ export function LoginForm() {
     setErrors({});
     setGeneralError(null);
     try {
-      emailSchema.parse(email);
-      passwordSchema.parse(password);
+      emailLoginSchema.parse({ email, password });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const field = error.issues[0].path[0] as string;
@@ -148,7 +156,6 @@ export function LoginForm() {
       router.push('/');
       toast.success('Logged in successfully');
     } catch (err: any) {
-      // If the error is a fetch response, we can get status
       const status = err?.status || (err?.response?.status);
       const { field, message } = parseFieldError(err, status);
       if (field) {
@@ -166,7 +173,7 @@ export function LoginForm() {
     setErrors({});
     setGeneralError(null);
     try {
-      phoneSchema.parse(phone);
+      phoneLoginSchema.parse({ phone });
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors({ phone: error.issues[0].message });
@@ -197,7 +204,7 @@ export function LoginForm() {
     setErrors({});
     setGeneralError(null);
     try {
-      otpSchema.parse(otp);
+      otpVerifySchema.parse({ otp });
     } catch (error) {
       if (error instanceof z.ZodError) {
         setErrors({ otp: error.issues[0].message });
@@ -258,21 +265,19 @@ export function LoginForm() {
 
           <div className="flex border-b border-border mb-6">
             <button
-              className={`flex-1 pb-2 text-sm font-medium transition-colors ${
-                method === 'email'
+              className={`flex-1 pb-2 text-sm font-medium transition-colors ${method === 'email'
                   ? 'border-b-2 border-primary text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
+                }`}
               onClick={() => setMethod('email')}
             >
               Email
             </button>
             <button
-              className={`flex-1 pb-2 text-sm font-medium transition-colors ${
-                method === 'phone'
+              className={`flex-1 pb-2 text-sm font-medium transition-colors ${method === 'phone'
                   ? 'border-b-2 border-primary text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
-              }`}
+                }`}
               onClick={() => setMethod('phone')}
             >
               SMS
