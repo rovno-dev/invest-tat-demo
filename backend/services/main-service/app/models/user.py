@@ -1,10 +1,15 @@
 import uuid
 from datetime import datetime
+import enum
 
-from sqlalchemy import Column, UUID, String, Boolean, DateTime
+from sqlalchemy import Column, UUID, String, Boolean, DateTime, Enum
 
 from database.database import Base
 
+class UserRole(str, enum.Enum):
+    USER = "user"
+    ADMIN = "admin"
+    ROOT = "root"
 
 class User(Base):
     __tablename__ = "users"
@@ -16,3 +21,8 @@ class User(Base):
     blocked = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    role = Column(
+        Enum(UserRole, name="user_role"),   # PostgreSQL will create the ENUM type
+        nullable=False,
+        default=UserRole.USER
+    )
