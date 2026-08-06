@@ -103,6 +103,12 @@
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
       "computedHash": "66e8a50c83c3c724fcfe0769701b665c56cec220cc4f49cc1aee8bdfc07de94a"
     },
+    "lazy-accurate": {
+      "source": "niyazgim/uniskilla",
+      "sourceType": "github",
+      "skillPath": ".agents/lazy-accurate/SKILL.md",
+      "computedHash": "25c1dfd5405749ba9c17dc48c56b635d546d11983bccae89f968b3d6b3b4d46f"
+    },
     "minimalist-ui": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",
