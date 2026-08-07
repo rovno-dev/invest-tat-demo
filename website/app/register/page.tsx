@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { RegisterWidget } from '@/widgets/register-widget/register-widget';
+import { RegisterWidget } from '@/components/ui/register-widget';
 
 export const metadata: Metadata = {
   title: 'Create Account',

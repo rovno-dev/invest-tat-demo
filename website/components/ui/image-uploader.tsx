@@ -21,7 +21,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/lib/utils";
 import { CloseSmallIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";

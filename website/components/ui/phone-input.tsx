@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/lib/utils";
 
 const countryData: Record<string, { code: string; mask: string; placeholder: string; maxDigits: number }> = {
   RU: { code: "+7", mask: "(999) 999-99-99", placeholder: "(999) 999-99-99", maxDigits: 10 },

@@ -2,7 +2,7 @@
 
 import { Container } from "@/components/ui/container";
 import { ProductCard } from "@/components/layout/product-card/product-card";
-import { useWishlist } from "@/shared/providers/wishlist-provider";
+import { useWishlist } from "@/providers/wishlist-provider";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

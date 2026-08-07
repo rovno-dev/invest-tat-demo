@@ -1,12 +1,13 @@
 import {Input} from "@/components/ui/input"
 import {useState} from "react"
 import {Button} from "@/components/ui/button"
-import {$fetch} from "@/shared/lib/api/fetch"
+import {$fetch} from "@/lib/api/fetch"
 import {Spinner} from "@/components/ui/spinner"
 import {useRouter} from "next/navigation"
-import {toast} from "sonner"
+import {safeLocalStorage} from "@/lib/safeLocalStorage"
+import {useUser} from "@/lib/user/model/UserContext"
 
-export default function RegisterViaEmail() {
+export default function LoginViaEmail() {
 
     const [errors, setErrors] = useState<Record<string, any> | null>(null)
     const [email, setEmail] = useState<string | null>(null)
@@ -16,12 +17,16 @@ export default function RegisterViaEmail() {
 
     const router = useRouter()
 
-    async function handleSubmit() {
+    const {setToken} = useUser()
+
+    async function handleSubmit(e) {
+
+        e.preventDefault()
 
         setErrors(null)
         setIsLoading(true)
 
-        const response = await $fetch("/register/email", {
+        const response = await $fetch("/login/email-password", {
             method: "POST",
             body: JSON.stringify({
                 email: email,
@@ -41,11 +46,16 @@ export default function RegisterViaEmail() {
             return
         }
 
-        if (response?.response?.ok) {
-            toast.success("Вы успешно зарегистрировались")
-            router.push("/")
-        }
+        const refresh_token = response?.json?.refresh_token
+        const access_token = response?.json?.access_token
 
+        if (!refresh_token || !access_token) return
+
+        safeLocalStorage.setItem("refresh_token", refresh_token)
+        safeLocalStorage.setItem("access_token", access_token)
+
+        setToken(access_token)
+        router.push("/profile")
     }
 
     const isValid = email && password
@@ -66,12 +76,11 @@ export default function RegisterViaEmail() {
                 id="password"
                 type="password"
                 label="Password"
-                placeholder="At least 8 characters"
+                placeholder="your-password"
                 onChange={(e) => setPassword(e.target.value)}
                 error={errors?.password}
                 setIsOpen={setIsShowPassword}
                 isOpen={isShowPassword}
-
             />
 
             <Button
@@ -81,7 +90,7 @@ export default function RegisterViaEmail() {
                 variant="filled"
                 size="large"
             >
-                {isLoading ? <Spinner/> : 'Create account'}
+                {isLoading ? <Spinner/> : 'Sign IN'}
             </Button>
 
         </form>

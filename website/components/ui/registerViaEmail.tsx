@@ -1,15 +1,15 @@
 import {Input} from "@/components/ui/input"
 import {useState} from "react"
 import {Button} from "@/components/ui/button"
-import {$fetch} from "@/shared/lib/api/fetch"
+import {$fetch} from "@/lib/api/fetch"
 import {Spinner} from "@/components/ui/spinner"
 import {useRouter} from "next/navigation"
 import {toast} from "sonner"
 
-export default function RegisterViaPhone() {
+export default function RegisterViaEmail() {
 
     const [errors, setErrors] = useState<Record<string, any> | null>(null)
-    const [phone, setPhone] = useState<string | null>(null)
+    const [email, setEmail] = useState<string | null>(null)
     const [password, setPassword] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
@@ -21,10 +21,10 @@ export default function RegisterViaPhone() {
         setErrors(null)
         setIsLoading(true)
 
-        const response = await $fetch("/register/phone", {
+        const response = await $fetch("/register/email", {
             method: "POST",
             body: JSON.stringify({
-                phone: phone,
+                email: email,
                 password: password
             }),
             headers: {
@@ -48,22 +48,22 @@ export default function RegisterViaPhone() {
 
     }
 
-
-    const isValid = phone && password
+    const isValid = email && password
 
     return (
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
 
             <Input
-                type="phone"
-                label="Phone"
-                placeholder="+77777777777"
-                mask="+00000000000"
-                onChange={(e) => setPhone(e.target.value)}
-                error={errors?.phone}
+                id="email"
+                type="email"
+                label="Email address"
+                placeholder="you@example.com"
+                onChange={(e) => setEmail(e.target.value)}
+                error={errors?.email}
             />
 
             <Input
+                id="password"
                 type="password"
                 label="Password"
                 placeholder="At least 8 characters"
@@ -71,6 +71,7 @@ export default function RegisterViaPhone() {
                 error={errors?.password}
                 setIsOpen={setIsShowPassword}
                 isOpen={isShowPassword}
+
             />
 
             <Button

@@ -1,16 +1,16 @@
 import {Input} from "@/components/ui/input"
 import {useState} from "react"
 import {Button} from "@/components/ui/button"
-import {$fetch} from "@/shared/lib/api/fetch"
+import {$fetch} from "@/lib/api/fetch"
 import {Spinner} from "@/components/ui/spinner"
 import {useRouter} from "next/navigation"
-import {safeLocalStorage} from "@/shared/lib/safeLocalStorage"
-import {useUser} from "@/entities/user/model/UserContext"
+import {safeLocalStorage} from "@/lib/safeLocalStorage"
+import {useUser} from "@/lib/user/model/UserContext"
 
-export default function LoginViaEmail() {
+export default function LoginViaPhone() {
 
     const [errors, setErrors] = useState<Record<string, any> | null>(null)
-    const [email, setEmail] = useState<string | null>(null)
+    const [phone, setPhone] = useState<string | null>(null)
     const [password, setPassword] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
@@ -26,10 +26,10 @@ export default function LoginViaEmail() {
         setErrors(null)
         setIsLoading(true)
 
-        const response = await $fetch("/login/email-password", {
+        const response = await $fetch("/login/phone-password", {
             method: "POST",
             body: JSON.stringify({
-                email: email,
+                phone: phone,
                 password: password
             }),
             headers: {
@@ -58,18 +58,18 @@ export default function LoginViaEmail() {
         router.push("/profile")
     }
 
-    const isValid = email && password
+    const isValid = phone && password
 
     return (
         <form className="space-y-4" onSubmit={handleSubmit}>
 
             <Input
-                id="email"
-                type="email"
-                label="Email address"
-                placeholder="you@example.com"
-                onChange={(e) => setEmail(e.target.value)}
-                error={errors?.email}
+                type="phone"
+                label="Phone"
+                placeholder="+77777777777"
+                mask="+00000000000"
+                onChange={(e) => setPhone(e.target.value)}
+                error={errors?.phone}
             />
 
             <Input

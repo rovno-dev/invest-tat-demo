@@ -9,7 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useTheme } from "@/shared/providers/theme-provider"
+import { useTheme } from "@/providers/theme-provider"
 import { SystemThemeIcon, SunIcon, NightIcon } from "../icons"
 
 export function ThemeSwitcher() {

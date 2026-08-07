@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils"
+import { cn } from "@/lib/utils"
 
 export function Container({ variant = 'default', className, ...props }: React.ComponentProps<"div"> & { variant?: 'default' | 'full-width' }) {
   return (

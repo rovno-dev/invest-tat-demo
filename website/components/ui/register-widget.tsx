@@ -2,9 +2,9 @@
 
 import {Container} from '@/components/ui/container'
 import Link from 'next/link'
-import {useStepNavigation} from "@/shared/hooks/use-step-navigation"
-import RegisterViaEmail from "@/features/register-via-email/registerViaEmail"
-import RegisterViaPhone from "@/features/register-via-phone/RegisterVIaPhone"
+import {useStepNavigation} from "@/hooks/use-step-navigation"
+import RegisterViaEmail from "@/components/ui/registerViaEmail"
+import RegisterViaPhone from "@/components/ui/RegisterVIaPhone"
 
 export function RegisterWidget() {
 

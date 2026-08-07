@@ -1,6 +1,6 @@
 import {Metadata} from 'next'
 import {Container} from '@/components/ui/container'
-import UserWidget from "@/widgets/user-widget/UserWidget"
+import UserWidget from "@/components/ui/UserWidget"
 
 export const metadata: Metadata = {
     title: 'Profile',

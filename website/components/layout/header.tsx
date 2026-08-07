@@ -6,11 +6,11 @@ import {useRouter} from "next/navigation"
 import Logotype from "./logotype/logotype"
 import {Button} from "@/components/ui/button"
 import {HeartIcon} from "@/components/icons"
-import {useWishlist} from "@/shared/providers/wishlist-provider"
+import {useWishlist} from "@/providers/wishlist-provider"
 import {Container} from "../ui/container"
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu"
 import {Avatar, AvatarFallback} from "@/components/ui/avatar"
-import {useUser} from "@/entities/user/model/UserContext"
+import {useUser} from "@/lib/user/model/UserContext"
 
 export default function Header() {
     const router = useRouter()

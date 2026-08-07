@@ -1,14 +1,14 @@
 import "./globals.css"
 import type {Metadata} from "next"
 import {TooltipProvider} from "@/components/ui/tooltip"
-import {cn} from "@/shared/lib/utils"
+import {cn} from "@/lib/utils"
 import localFont from 'next/font/local'
-import {ThemeProvider} from "@/shared/providers/theme-provider"
-import {WishlistProvider} from "@/shared/providers/wishlist-provider"
+import {ThemeProvider} from "@/providers/theme-provider"
+import {WishlistProvider} from "@/providers/wishlist-provider"
 import Header from "@/components/layout/header"
 import Footer from "@/components/layout/footer"
-import {ToasterProvider} from "@/shared/providers/toast-provider"
-import UserProvider, {UserContext} from "@/entities/user/model/UserContext"
+import {ToasterProvider} from "@/providers/toast-provider"
+import UserProvider from "@/lib/user/model/UserContext"
 
 // Import your fonts
 export const NotoSans = localFont({

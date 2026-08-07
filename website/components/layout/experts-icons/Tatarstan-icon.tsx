@@ -1,4 +1,4 @@
-import { IconProps } from "@/shared/utils/interfaces";
+import { IconProps } from "utils/interfaces";
 
 
 export default function TatarstanIcon(props: IconProps) {

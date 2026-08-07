@@ -1,10 +1,10 @@
 "use client"
 
 import {createContext, ReactNode, useCallback, useContext, useEffect, useState} from "react"
-import {fetchMe} from "../api/fetchMe"
-import {safeLocalStorage} from "@/shared/lib/safeLocalStorage"
-import {getTokenExpiration} from "@/shared/lib/GetTokenExpiration"
-import {$fetch} from "@/shared/lib/api/fetch"
+import {fetchMe} from "@/lib/user/api/fetchMe"
+import {safeLocalStorage} from "@/lib/safeLocalStorage"
+import {getTokenExpiration} from "@/lib/GetTokenExpiration"
+import {$fetch} from "@/lib/api/fetch"
 
 interface UserContextType {
     user: any

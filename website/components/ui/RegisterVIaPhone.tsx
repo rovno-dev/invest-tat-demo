@@ -1,13 +1,12 @@
 import {Input} from "@/components/ui/input"
 import {useState} from "react"
 import {Button} from "@/components/ui/button"
-import {$fetch} from "@/shared/lib/api/fetch"
+import {$fetch} from "@/lib/api/fetch"
 import {Spinner} from "@/components/ui/spinner"
 import {useRouter} from "next/navigation"
-import {safeLocalStorage} from "@/shared/lib/safeLocalStorage"
-import {useUser} from "@/entities/user/model/UserContext"
+import {toast} from "sonner"
 
-export default function LoginViaPhone() {
+export default function RegisterViaPhone() {
 
     const [errors, setErrors] = useState<Record<string, any> | null>(null)
     const [phone, setPhone] = useState<string | null>(null)
@@ -17,16 +16,12 @@ export default function LoginViaPhone() {
 
     const router = useRouter()
 
-    const {setToken} = useUser()
-
-    async function handleSubmit(e) {
-
-        e.preventDefault()
+    async function handleSubmit() {
 
         setErrors(null)
         setIsLoading(true)
 
-        const response = await $fetch("/login/phone-password", {
+        const response = await $fetch("/register/phone", {
             method: "POST",
             body: JSON.stringify({
                 phone: phone,
@@ -46,22 +41,18 @@ export default function LoginViaPhone() {
             return
         }
 
-        const refresh_token = response?.json?.refresh_token
-        const access_token = response?.json?.access_token
+        if (response?.response?.ok) {
+            toast.success("Вы успешно зарегистрировались")
+            router.push("/")
+        }
 
-        if (!refresh_token || !access_token) return
-
-        safeLocalStorage.setItem("refresh_token", refresh_token)
-        safeLocalStorage.setItem("access_token", access_token)
-
-        setToken(access_token)
-        router.push("/profile")
     }
+
 
     const isValid = phone && password
 
     return (
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-4">
 
             <Input
                 type="phone"
@@ -73,10 +64,9 @@ export default function LoginViaPhone() {
             />
 
             <Input
-                id="password"
                 type="password"
                 label="Password"
-                placeholder="your-password"
+                placeholder="At least 8 characters"
                 onChange={(e) => setPassword(e.target.value)}
                 error={errors?.password}
                 setIsOpen={setIsShowPassword}
@@ -90,7 +80,7 @@ export default function LoginViaPhone() {
                 variant="filled"
                 size="large"
             >
-                {isLoading ? <Spinner/> : 'Sign IN'}
+                {isLoading ? <Spinner/> : 'Create account'}
             </Button>
 
         </form>

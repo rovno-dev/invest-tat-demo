@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import {LoginWidget} from "@/widgets/login-widget/loginWidget"
+import {LoginWidget} from "@/components/ui/loginWidget"
 
 export const metadata: Metadata = {
   title: 'Sign In',

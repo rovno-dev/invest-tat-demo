@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductCard } from "@/components/layout/product-card/product-card";
-import { Product } from "@/shared/utils/interfaces";
+import { Product } from "utils/interfaces";
 
 interface ProductGridProps {
   products: Product[];

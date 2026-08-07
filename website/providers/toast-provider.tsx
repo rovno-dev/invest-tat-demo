@@ -1,7 +1,7 @@
 "use client";
 
 import { Toaster } from "sonner";
-import { useTheme} from "@/shared/providers/theme-provider";
+import { useTheme} from "@/providers/theme-provider";
 
 export function ToasterProvider() {
     const { theme } = useTheme()

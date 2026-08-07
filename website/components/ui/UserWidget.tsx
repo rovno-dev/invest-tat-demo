@@ -1,7 +1,7 @@
 "use client"
 
 import {Card} from "@/components/ui/card"
-import {useUser} from "@/entities/user/model/UserContext"
+import {useUser} from "@/lib/user/model/UserContext"
 import Link from "next/link"
 import {Button} from "@/components/ui/button"
 
@@ -32,7 +32,7 @@ export default function UserWidget() {
                     )}
                 </div>
                 <div className="mt-6">
-                    <Link href="/">
+                    <Link href="/public">
                         <Button variant="outlined" size="medium">Back to Home</Button>
                     </Link>
                 </div>

@@ -1,5 +1,5 @@
 import productsData from '@/app/products/data.json';
-import { Product } from '@/shared/utils/interfaces';
+import { Product } from '@/utils/interfaces';
 
 export interface ProductsResponse {
   items: Product[];

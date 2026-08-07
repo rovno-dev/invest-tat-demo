@@ -1,5 +1,5 @@
 import { toast } from "sonner"
-import {safeLocalStorage} from "@/shared/lib/safeLocalStorage";
+import {safeLocalStorage} from "@/lib/safeLocalStorage";
 
 export interface FetchResult {
     response?: any

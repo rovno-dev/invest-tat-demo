@@ -1,6 +1,6 @@
 "use client"
 
-import { cn } from "@/shared/lib/utils"
+import { cn } from "@/lib/utils"
 import React, { Dispatch, InputHTMLAttributes, ReactNode, SetStateAction, useEffect, useRef, useState, forwardRef } from 'react'
 import { IMaskInput } from 'react-imask'
 import Eye from "@/components/ui/eye"

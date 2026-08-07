@@ -1,6 +1,6 @@
 "use client"
 
-import { ROUTES } from "@/shared/utils/constants/routes";
+import { ROUTES } from "utils/constants/routes";
 import { Container } from "../ui/container";
 import { useState } from "react";
 // import MakeOrderModal from "./make-order-modal/make-order-modal";

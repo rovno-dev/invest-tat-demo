@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { KeyboardArrowRightIcon } from "@/components/icons";
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/lib/utils";
 
 const collections = [
   {

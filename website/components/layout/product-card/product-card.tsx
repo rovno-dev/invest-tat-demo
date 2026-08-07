@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/shared/lib/utils";
+import { cn } from "@/lib/utils";
 import { HeartIcon, HeartFilledIcon } from "@/components/icons";
-import { useWishlist } from "@/shared/providers/wishlist-provider";
+import { useWishlist } from "@/providers/wishlist-provider";
 import { CSSProperties } from "react";
 
 interface ProductCardProps {

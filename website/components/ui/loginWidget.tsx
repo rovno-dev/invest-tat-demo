@@ -2,9 +2,9 @@
 
 import {Container} from '@/components/ui/container'
 import Link from 'next/link'
-import {useStepNavigation} from "@/shared/hooks/use-step-navigation"
-import LoginViaEmail from "@/features/login-via-email/loginViaEmail"
-import LoginViaPhone from "@/features/login-via-phone/LoginViaPhone"
+import {useStepNavigation} from "@/hooks/use-step-navigation"
+import LoginViaEmail from "@/components/ui/loginViaEmail"
+import LoginViaPhone from "@/components/ui/LoginViaPhone"
 
 export function LoginWidget() {
 

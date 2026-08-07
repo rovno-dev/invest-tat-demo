@@ -1,5 +1,5 @@
-import {$fetch} from "@/shared/lib/api/fetch";
-import {safeLocalStorage} from "@/shared/lib/safeLocalStorage";
+import {$fetch} from "@/lib/api/fetch";
+import {safeLocalStorage} from "@/lib/safeLocalStorage";
 
 export async function emailLogin(email: string) {
   const res = await $fetch(`/login/email`, {

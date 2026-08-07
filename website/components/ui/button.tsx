@@ -5,7 +5,7 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "@radix-ui/react-slot"
-import { cn } from "@/shared/lib/utils"
+import { cn } from "@/lib/utils"
 
 export const buttonUnidokaVariants = {
   filled: "bg-[var(--primary)] text-[var(--on-primary)] hover:bg-[var(--state-hover)] cursor-pointer active:scale-[0.98] [&_svg_*]:fill-current",
