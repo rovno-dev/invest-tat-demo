@@ -14,7 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { FilterIcon } from "@/components/icons";
-import { Product } from "@/utils/interfaces";
+import { Product } from "@/shared/utils/interfaces";
 
 interface FilterDrawerProps {
   products: Product[];

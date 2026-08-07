@@ -5,7 +5,7 @@
 "use client";
 
 import { Container } from "@/components/ui/container";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import React from "react";
 
 interface PageHeadingSectionProps {

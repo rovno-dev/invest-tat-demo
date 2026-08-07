@@ -10,6 +10,7 @@ from app.schemas.auth.requests import RegisterViaPhoneRequest
 from app.schemas.auth.requests import SmsLoginRequest
 from app.schemas.auth.responses import EmailSendCode
 from app.schemas.token.responses import TokenResponse, AccessTokenResponse
+from app.schemas.auth.requests import LoginPhoneSchema
 from app.services.email_service import send_email
 from app.services.sms_service import send_sms
 from app.services.otp_service import generate_otp, save_otp, verify_otp, parse_and_normalize_login
@@ -20,6 +21,10 @@ from database.database import get_db
 from app.schemas.auth.responses import PhoneSendCode
 from app.schemas.token.request import RefreshTokenRequest
 from sqlalchemy import or_
+from fastapi.responses import JSONResponse
+
+from app.shared.auth import get_current_user
+
 
 logger = logging.getLogger(__name__)
 
@@ -98,20 +103,71 @@ async def email_password_login(
 ) -> TokenResponse:
     email_clean = payload.email.lower().strip()
     user = db.query(User).filter(User.email == email_clean).first()
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-    if not user.password:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-    if not verify_password(payload.password, user.password):
-        raise HTTPException(status_code=401, detail="Invalid email or password")
+    if not user or not verify_password(payload.password, user.password):
+        return JSONResponse(
+            status_code=401,
+            content={
+                "message": "Invalid email or password",
+                "errors": {
+                    "email": " ",
+                    "phone": " "
+                }
+            }
+        )
+
     if user.blocked:
-        raise HTTPException(status_code=403, detail="User is blocked")
+        return JSONResponse(
+            status_code=403,
+            content={
+                "message": "User is blocked",
+            }
+        )
 
     return TokenResponse(
         access_token=create_access_token({"sub": str(user.id)}),
         refresh_token=create_refresh_token({"sub": str(user.id)}),
         token_type="bearer",
     )
+
+
+@router.post("/login/phone-password")
+async def login_via_phone(
+    payload: LoginPhoneSchema,
+    db: Session = Depends(get_db),
+):
+    user = db.query(User).filter(User.phone == payload.phone).first()
+
+    if not user or not verify_password(payload.password, user.password):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "errors": {
+                    "phone": "Неверный номер телефона или пароль"
+                }
+            }
+        )
+
+    if user.blocked:
+        return JSONResponse(
+            status_code=403,
+            content={
+                "message": "User is blocked",
+            }
+        )
+
+    access_token = create_access_token(data={"sub": str(user.id), "type": "access"})
+    refresh_token = create_refresh_token(data={"sub": str(user.id), "type": "refresh"})
+
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content={
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "token_type": "bearer",
+        }
+    )
+
+
 
 @router.post(
     "/otp",
@@ -125,9 +181,11 @@ async def confirm_otp(
     try:
         login_type, normalized_login = parse_and_normalize_login(payload.login)
     except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e)
+        return JSONResponse(
+            status_code=400,
+            content={
+                "message": str(e)
+            }
         )
 
     if login_type == "email":
@@ -142,17 +200,22 @@ async def confirm_otp(
             create_response = create_user(db, phone=normalized_login)
 
         if not create_response.created:
-            raise HTTPException(
+            return JSONResponse(
                 status_code=400,
-                detail=create_response.errors or "Failed to create user"
+                content={
+                    "errors": create_response.errors,
+                    "message": "Failed to create user"
+                }
             )
 
         user = create_response.user
 
     if not verify_otp(normalized_login, payload.code):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired code"
+        return JSONResponse(
+            status_code=401,
+            content={
+                "message": "Invalid or expired code"
+            }
         )
 
     return TokenResponse(
@@ -195,7 +258,12 @@ async def registerViaEmail(
     result = create_user(db=db, **email.model_dump())
 
     if result.errors:
-        raise HTTPException(status_code=422, detail=result.errors)
+        return JSONResponse(
+            status_code=422,
+            content={
+                "errors": result.errors
+            }
+        )
 
     access_token = create_access_token(
         data={"sub": str(result.user.id)}
@@ -222,26 +290,62 @@ async def refresh_access_token(
     logger.info(f"Decoded token data: {token_data}")
 
     if token_data is None or token_data.get("type") != "refresh":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired refresh token",
+        return JSONResponse(
+            status_code=401,
+            content={
+                "message": "Invalid or expired refresh token"
+            }
         )
+        # raise HTTPException(
+        #     status_code=status.HTTP_401_UNAUTHORIZED,
+        #     detail="Invalid or expired refresh token",
+        # )
 
     try:
         user_id = UUID(token_data["sub"])
     except (KeyError, ValueError):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid refresh token",
+        return JSONResponse(
+            status_code=401,
+            content={
+                "message": "Invalid refresh token"
+            },
         )
 
     user = db.get(User, user_id)
     if user is None or user.blocked:
-        raise HTTPException(
+        return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User not found or blocked",
+            content={
+                "message": "User not found or blocked",
+            }
         )
 
     return AccessTokenResponse(
         access_token=create_access_token({"sub": str(user.id)}),
+    )
+
+@router.post(
+    "/logout",
+    summary="User logout",
+    description="Invalidates the refresh token session"
+)
+async def logout(
+    payload: RefreshTokenRequest,
+    current_user: User = Depends(get_current_user),
+):
+    token_data = decode_token(payload.refresh_token)
+
+    if not token_data or token_data.get("type") != "refresh" or token_data.get("sub") != str(current_user.id):
+        return JSONResponse(
+            status_code=400,
+            content={
+                "message": "Invalid refresh token"
+            }
+        )
+
+    return JSONResponse(
+        status_code=200,
+        content={
+            "message": "Successfully logged out"
+        }
     )

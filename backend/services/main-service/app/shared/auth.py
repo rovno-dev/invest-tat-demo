@@ -12,6 +12,8 @@ from app.models.user import User
 from uuid import UUID
 from sqlalchemy.orm import Session
 
+from fastapi.responses import JSONResponse
+
 
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
@@ -85,7 +87,6 @@ def get_current_user(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Недействительный или истёкший токен",
-            headers={"WWW-Authenticate": "Bearer"},
         )
 
     user = db.get(User, user_id)

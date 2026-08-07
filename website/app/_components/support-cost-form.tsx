@@ -132,30 +132,24 @@ export default function SupportCostForm() {
           </div>
 
           <div className="space-y-4">
-            {/* Name */}
-            <div>
-              <Label htmlFor="name" className="text-body-4">Full Name</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="John Doe"
-                className="mt-1 bg-(--card)/50 backdrop-blur-sm"
-              />
-            </div>
+            <Input
+              id="name"
+              label="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="John Doe"
+              className="mt-1 bg-(--card)/50 backdrop-blur-sm"
+            />
 
-            {/* Email */}
-            <div>
-              <Label htmlFor="email" className="text-body-4">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="john@example.com"
-                className="mt-1 bg-(--card)/50 backdrop-blur-sm"
-              />
-            </div>
+            <Input
+              id="email"
+              type="email"
+              label="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="john@example.com"
+              className="mt-1 bg-(--card)/50 backdrop-blur-sm"
+            />
 
             {/* Tech Stack - now with fast filtering */}
             <div>

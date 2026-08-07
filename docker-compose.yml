@@ -2,7 +2,6 @@ name: e-shop-template
 
 include:
   - backend/docker-compose.yml
-  - website/docker-compose.yml
 
 services:
   traefik:

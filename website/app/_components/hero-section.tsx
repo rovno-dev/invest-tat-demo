@@ -11,12 +11,6 @@ import Link from "next/link";
 export function HeroSection() {
   return (
     <section className="relative py-20 md:py-24 overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-1/3 -right-1/3 w-[800px] h-[800px] rounded-full bg-(--primary) opacity-[0.06] blur-3xl animate-float-slow" />
-        <div className="absolute -bottom-1/3 -left-1/3 w-[600px] h-[600px] rounded-full bg-(--primary) opacity-[0.04] blur-3xl animate-float-slower" />
-        <div className="absolute top-1/4 right-1/4 w-48 h-48 rounded-full border border-(--primary)/10 bg-(--primary)/5 backdrop-blur-2xl pointer-events-none animate-spin-slow" />
-      </div>
 
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16">

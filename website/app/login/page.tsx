@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { LoginForm } from './_components/login-form';
+import {LoginWidget} from "@/widgets/login-widget/loginWidget"
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <LoginForm />;
+  return <LoginWidget />;
 }

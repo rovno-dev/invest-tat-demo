@@ -90,6 +90,10 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
+```bash
+docker exec -it main-service alembic upgrade head
+```
+
 ### Доступ к API
 - Swagger: http://localhost/docs
 - Health check: http://localhost/health

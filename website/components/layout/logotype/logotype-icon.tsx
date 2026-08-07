@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/interfaces";
+import { IconProps } from "@/shared/utils/interfaces";
 
 
 export default function LogotypeIcon({ width = 26, height = 26, style, className }: IconProps) {

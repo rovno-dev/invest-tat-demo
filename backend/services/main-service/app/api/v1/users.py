@@ -4,7 +4,7 @@ from app.schemas.user.response import UserResponse
 from app.shared.auth import get_current_user
 from app.models.user import User
 
-router = APIRouter(prefix="/users")  # added prefix
+router = APIRouter()  # added prefix
 
 @router.get("/me")
 async def me(

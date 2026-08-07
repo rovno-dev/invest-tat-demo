@@ -1,5 +1,5 @@
 import { buttonUnidokaVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 export default function IllustrationCard({ icon, className, style }: { icon: React.ReactNode, className?: string, style?: React.CSSProperties }) {
   return (

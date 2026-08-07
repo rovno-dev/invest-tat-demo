@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getProducts } from '@/lib/api/products';
+import { getProducts } from '@/shared/lib/api/products';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';

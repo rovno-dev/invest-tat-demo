@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { Product } from "@/utils/interfaces";
-import { getProduct } from "@/lib/api/products";
+import { Product } from "@/shared/utils/interfaces";
+import { getProduct } from "@/shared/lib/api/products";
 
 export function EditProductForm({ id }: { id: string }) {
   const router = useRouter();

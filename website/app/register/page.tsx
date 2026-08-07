@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { RegisterForm } from './_components/register-form';
+import { RegisterWidget } from '@/widgets/register-widget/register-widget';
 
 export const metadata: Metadata = {
   title: 'Create Account',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function RegisterPage() {
-  return <RegisterForm />;
+  return <RegisterWidget />;
 }

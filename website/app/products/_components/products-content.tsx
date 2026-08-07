@@ -6,8 +6,8 @@ import { ProductGrid } from "./product-grid";
 import { SortSelect } from "./sort-select";
 import { FilterDrawer } from "./filter-drawer";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
-import { Product } from "@/utils/interfaces";
-import { getProducts } from "@/lib/api/products";
+import { Product } from "@/shared/utils/interfaces";
+import { getProducts } from "@/shared/lib/api/products";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Skeleton loader for product cards

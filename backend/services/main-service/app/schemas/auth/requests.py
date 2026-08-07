@@ -46,8 +46,23 @@ class EmailPasswordLoginRequest(BaseModel):
 
 class RegisterViaEmailRequest(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=8, description="Минимум 8 символов")
+
+    @field_validator('password')
+    @classmethod
+    def check_password_strength(cls, v: str) -> str:
+        if not any(char.isdigit() for char in v):
+            raise ValueError('Пароль должен содержать хотя бы одну цифру')
+        if not any(char.isupper() for char in v):
+            raise ValueError('Пароль должен содержать хотя бы одну заглавную букву')
+        return v
+
 
 class OTPConfirmRequest(BaseModel):
     login: str = Field(description="Email или телефон в любом формате")
     code: str = Field(min_length=6, max_length=6, description="6-значный код")
+
+
+class LoginPhoneSchema(BaseModel):
+    phone: str = Field(..., example="+79990000000")
+    password: str = Field(..., example="your-password")

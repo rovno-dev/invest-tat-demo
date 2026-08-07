@@ -22,7 +22,7 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     role = Column(
-        Enum(UserRole, name="user_role"),   # PostgreSQL will create the ENUM type
+        Enum(UserRole, name="user_role"),
         nullable=False,
         default=UserRole.USER
     )

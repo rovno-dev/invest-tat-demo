@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { HeartIcon, HeartFilledIcon } from "@/components/icons";
-import { useWishlist } from "@/providers/wishlist-provider";
-import { Product } from "@/utils/interfaces";
+import { useWishlist } from "@/shared/providers/wishlist-provider";
+import { Product } from "@/shared/utils/interfaces";
 
 export function WishlistToggle({ product }: { product: Product }) {
   const { toggleItem, isInWishlist } = useWishlist();
