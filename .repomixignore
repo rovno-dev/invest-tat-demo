@@ -18,3 +18,9 @@ go.work.sum
 services/*/tmp/
 .aider*
 repomix*
+
+*/package-lock.json
+skills-lock.json
+
+docker-compose.yml.bak
+*/docker-compose.yml.bak
