@@ -29,3 +29,6 @@ aider*
 repomix-output*
 
 openapi.json
+
+.idea
+.vscode
