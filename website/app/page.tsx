@@ -20,7 +20,7 @@ export default function Home() {
       <div className="mb-8 text-center text-(--on-bg-medium) text-body-4 max-w-md">
         <p className="mt-3">
           Check the <code className="rounded bg-white/10 px-2 py-1 font-mono">@/app/admin/</code>, <code className="rounded bg-white/10 px-2 py-1 font-mono">@/app/admin/</code>{" "}
-          to see simple admin and user dashboard pages implementation
+          to see simple admin and user dashboard pages implementation (it has credentials check, so setup backend first)
         </p>
 
         <p className="mt-3">
