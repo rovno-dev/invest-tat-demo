@@ -1,68 +1,28 @@
-from typing import Annotated, Union
 from pydantic import BaseModel, EmailStr, Field, field_validator
-from pydantic_extra_types.phone_numbers import PhoneNumber, PhoneNumberValidator
 
-E164Phone = Annotated[
-    Union[str, PhoneNumber],
-    PhoneNumberValidator(default_region="RU", number_format="E164")
-]
-
-
-class EmailLoginRequest(BaseModel):
+class RegisterEmailRequest(BaseModel):
     email: EmailStr
-
-
-class EmailConfirmRequest(BaseModel):
-    code: str
-
-
-class SmsLoginRequest(BaseModel):
-    phone: E164Phone = Field(
-        description="Номер телефона. Принимает любые форматы, в БД сохраняет +79991234567"
-    )
-
-
-class SmsConfirmRequest(BaseModel):
-    code: str
-
-
-class RegisterViaPhoneRequest(BaseModel):
-    phone: E164Phone = Field(description="Номер телефона")
-    password: str = Field(min_length=8, description="Минимум 8 символов")
+    password: str = Field(..., min_length=8)
 
     @field_validator('password')
     @classmethod
     def check_password_strength(cls, v: str) -> str:
         if not any(char.isdigit() for char in v):
-            raise ValueError('Пароль должен содержать хотя бы одну цифру')
+            raise ValueError('Password must contain at least one digit')
         if not any(char.isupper() for char in v):
-            raise ValueError('Пароль должен содержать хотя бы одну заглавную букву')
+            raise ValueError('Password must contain at least one uppercase letter')
         return v
 
+class VerifyEmailRequest(BaseModel):
+    email: EmailStr
+    code: str = Field(..., min_length=6, max_length=6)
 
 class EmailPasswordLoginRequest(BaseModel):
     email: EmailStr
     password: str
 
-class RegisterViaEmailRequest(BaseModel):
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
+    
+class ResendVerificationRequest(BaseModel):
     email: EmailStr
-    password: str = Field(min_length=8, description="Минимум 8 символов")
-
-    @field_validator('password')
-    @classmethod
-    def check_password_strength(cls, v: str) -> str:
-        if not any(char.isdigit() for char in v):
-            raise ValueError('Пароль должен содержать хотя бы одну цифру')
-        if not any(char.isupper() for char in v):
-            raise ValueError('Пароль должен содержать хотя бы одну заглавную букву')
-        return v
-
-
-class OTPConfirmRequest(BaseModel):
-    login: str = Field(description="Email или телефон в любом формате")
-    code: str = Field(min_length=6, max_length=6, description="6-значный код")
-
-
-class LoginPhoneSchema(BaseModel):
-    phone: str = Field(..., example="+79990000000")
-    password: str = Field(..., example="your-password")

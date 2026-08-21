@@ -33,7 +33,6 @@ export default function LoginPage() {
     e.preventDefault()
     setErrors(null); setIsLoading(true)
 
-    // Защита от ботов – проверка времени
     if (Date.now() - pageLoadTime < 3000) {
       toast.error("Пожалуйста, подождите немного перед отправкой")
       setIsLoading(false); return

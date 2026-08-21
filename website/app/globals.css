@@ -1,5 +1,5 @@
 /* LLM context: Adding refined motion primitives and global entry animations for high-end feel */
-@import url('./unideka-base.css');
+@import url('./amorfa-base.css');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -63,40 +63,40 @@
   --g-dark: linear-gradient(to top, var(--dark-4) 0%, color-mix(in srgb, var(--dark-4), transparent 100%) 100%);
   --on-g-dark: var(--white);
 
+  /* --font-heading: "OtherLocalFont", sans-serif; */
   --font-sans: "Geist", sans-serif;
-  --font-heading: "Oswald", sans-serif;
 
   --lh-heading: 1.2;
   --lh-body: 1.5;
 
   --display-1-size: 3rem;
-  --display-1-weight: 600;
-  --display-1-font-face: var(--font-heading);
+  --display-1-weight: 500;
+  --display-1-font-face: var(--font-sans);
   --display-1-lh: var(--lh-heading);
 
   --display-2-size: 2.25rem;
-  --display-2-weight: 600;
-  --display-2-font-face: var(--font-heading);
+  --display-2-weight: 500;
+  --display-2-font-face: var(--font-sans);
   --display-2-lh: var(--lh-heading);
 
   --display-3-size: 2rem;
-  --display-3-weight: 600;
-  --display-3-font-face: var(--font-heading);
+  --display-3-weight: 500;
+  --display-3-font-face: var(--font-sans);
   --display-3-lh: var(--lh-heading);
 
   --display-4-size: 1.5rem;
-  --display-4-weight: 600;
-  --display-4-font-face: var(--font-heading);
+  --display-4-weight: 500;
+  --display-4-font-face: var(--font-sans);
   --display-4-lh: var(--lh-heading);
 
   --display-5-size: 1.25rem;
-  --display-5-weight: 600;
-  --display-5-font-face: var(--font-heading);
+  --display-5-weight: 500;
+  --display-5-font-face: var(--font-sans);
   --display-5-lh: var(--lh-heading);
 
   --display-6-size: 1.125rem;
-  --display-6-weight: 600;
-  --display-6-font-face: var(--font-heading);
+  --display-6-weight: 500;
+  --display-6-font-face: var(--font-sans);
   --display-6-lh: var(--lh-heading);
 
   --heading-1-size: 1.875rem;
@@ -161,7 +161,7 @@
 }
 
 @theme inline {
-  --font-heading: var(--font-heading);
+  --font-sans: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--yellow-10);
   --color-sidebar-border: var(--outline);
@@ -376,8 +376,6 @@
 }
 
 @layer components {
-
-  /* ponytail: Mimic the premium stacking and border-contrast from reference */
   [data-sonner-toast] {
     --toast-border-radius: 18px;
     --toast-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.1);
@@ -388,7 +386,6 @@
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s !important;
   }
 
-  /* The "stack" effect styling (the toasts behind) */
   [data-sonner-toast][data-expanded="false"][data-front="false"] {
     border-color: transparent !important;
     opacity: 0.6 !important;
@@ -396,11 +393,9 @@
 
   .dark [data-sonner-toast] {
     background: #121212 !important;
-    /* Deep charcoal for reference match */
     border-color: rgba(255, 255, 255, 0.08) !important;
   }
 
-  /* Force icon alignment to match the screenshot exactly */
   [data-sonner-toast] [data-icon] {
     margin-top: 2px;
     display: flex;
@@ -408,7 +403,6 @@
     justify-content: center;
   }
 
-  /* Close button style fix */
   [data-close-button] {
     top: 50% !important;
     right: 12px !important;
@@ -424,8 +418,6 @@
 }
 
 @layer components {
-
-  /* ponytail: Force close button to the right and vertically center it to match reference */
   [data-sonner-toast] [data-close-button] {
     left: auto !important;
     right: 12px !important;
@@ -450,15 +442,12 @@
     border-radius: 6px !important;
   }
 
-  /* ponytail: adjust content padding to prevent text overlapping the close button */
   [data-sonner-toast] [data-content] {
     padding-right: 32px !important;
   }
 }
 
 @layer components {
-
-  /* Target the specific close button within the toast container */
   [data-sonner-toast] [data-close-button] {
     /* Reset Sonner's default left/top placement */
     left: auto !important;
@@ -466,7 +455,6 @@
     top: 50% !important;
     transform: translateY(-50%) !important;
 
-    /* Style cleanup to match the high-end reference */
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
@@ -481,116 +469,7 @@
     background: var(--state-hover) !important;
   }
 
-  /* Increase right padding on the content so text doesn't hit the X */
   [data-sonner-toast] [data-content] {
     padding-right: 36px !important;
-  }
-}
-
-@layer utilities {
-  .animate-circuit-draw {
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
-    animation: circuit-draw 2s ease-out forwards;
-  }
-
-  .animate-pulse-flow {
-    stroke-dasharray: 40, 1000;
-    stroke-dashoffset: 1000;
-    animation: pulse-flow 4s linear infinite;
-  }
-
-  @keyframes circuit-draw {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes pulse-flow {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  .bg-grid-white {
-    background-size: 40px 40px;
-    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  }
-}
-
-@layer utilities {
-  @keyframes pulse-move {
-    0% {
-      stroke-dashoffset: 1;
-    }
-
-    100% {
-      stroke-dashoffset: -1;
-    }
-  }
-
-  .animate-pulse-path {
-    animation: pulse-move 3s linear infinite;
-  }
-
-  /* CPU Pins Styling */
-  [data-connector] {
-    @apply block bg-zinc-700 rounded-sm;
-  }
-
-  [data-side="top"] [data-connector],
-  [data-side="bottom"] [data-connector] {
-    @apply w-1 h-2.5;
-  }
-
-  [data-side="left"] [data-connector],
-  [data-side="right"] [data-connector] {
-    @apply h-1 w-2.5;
-  }
-}
-
-/* Animated grid background with larger gaps */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, var(--on-bg-high) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--on-bg-high) 1px, transparent 1px);
-  background-size: 80px 80px;
-  opacity: 0.08;
-  animation: gridMove 30s linear infinite;
-}
-
-@keyframes gridMove {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 80px 80px;
-  }
-}
-
-/* Hero section background gradient */
-.hero-gradient-bg {
-  background: radial-gradient(ellipse at 50% 30%, var(--primary-glass) 0%, transparent 60%);
-}
-
-/* Animated grid background with larger gaps */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, var(--on-bg-high) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--on-bg-high) 1px, transparent 1px);
-  background-size: 80px 80px;
-  opacity: 0.08;
-  animation: gridMove 30s linear infinite;
-  will-change: background-position;
-}
-
-@keyframes gridMove {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 80px 80px;
   }
 }
