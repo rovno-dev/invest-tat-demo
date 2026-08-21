@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useUser } from "@/entities/user/model/user-context";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,10 +9,12 @@ import { toast } from "sonner";
 import { $fetch } from "@/utils/fetch";
 
 export default function ProfilePage() {
+  const router = useRouter();
   const { user } = useUser();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -23,18 +26,32 @@ export default function ProfilePage() {
   if (!user) return null;
 
   async function handleSave() {
+    setLoading(true);
     const res = await $fetch("/api/v1/me", {
       method: "PATCH",
       body: JSON.stringify({ name, email }),
       headers: { "Content-Type": "application/json" },
       isToast: false,
     });
+
+    if (res.response?.status === 401) {
+      router.push("/login");
+      return;
+    }
+
+    if (res.response && res.response.status >= 500) {
+      toast.error("Server error. Please try again later.");
+      setLoading(false);
+      return;
+    }
+
     if (res.response?.ok) {
       toast.success("Profile updated");
       setEditing(false);
     } else {
-      toast.error("Failed to update");
+      toast.error(res.json?.message || "Failed to update profile");
     }
+    setLoading(false);
   }
 
   return (
@@ -67,7 +84,9 @@ export default function ProfilePage() {
               <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="flex gap-2">
-              <Button onClick={handleSave}>Save</Button>
+              <Button onClick={handleSave} disabled={loading}>
+                {loading ? "Saving..." : "Save"}
+              </Button>
               <Button variant="text" onClick={() => setEditing(false)}>
                 Cancel
               </Button>
