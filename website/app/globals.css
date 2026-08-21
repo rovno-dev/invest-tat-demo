@@ -1,5 +1,5 @@
 /* LLM context: Adding refined motion primitives and global entry animations for high-end feel */
-@import url('./unidoka-ui-base.css');
+@import url('./unideka-base.css');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -9,6 +9,7 @@
 
 :root {
   --primary: var(--brand-9);
+  --primary-gradient: linear-gradient(180deg, var(--brand-8), var(--brand-9));
   --on-primary: var(--white);
   --primary-card: var(--brand-0);
   --on-primary-card: var(--gray-9);
@@ -62,7 +63,7 @@
   --g-dark: linear-gradient(to top, var(--dark-4) 0%, color-mix(in srgb, var(--dark-4), transparent 100%) 100%);
   --on-g-dark: var(--white);
 
-  --font-sans: "Noto Sans", sans-serif;
+  --font-sans: "Geist", sans-serif;
   --font-heading: "Oswald", sans-serif;
 
   --lh-heading: 1.2;
@@ -167,7 +168,7 @@
   --color-sidebar-accent: var(--sidebar-accent);
   --color-sidebar: var(--card);
   --color-ring: var(--primary);
-  --color-input: var(--input);
+  --color-input: var(--outline);
   --color-border: var(--outline);
   --color-destructive: var(--error);
   --color-muted-foreground: var(--on-bg-disabled);
@@ -212,6 +213,7 @@
 
 .dark {
   --primary: var(--brand-9);
+  --primary-gradient: linear-gradient(135deg, var(--brand-8), var(--brand-9));
   --on-primary: var(--white);
   --primary-card: var(--brand-3);
   --on-primary-card: var(--dark-9);
@@ -220,6 +222,7 @@
   --bg-disabled: var(--gray-9);
   --on-bg-disabled: var(--gray-7);
   --card: var(--dark-9);
+  --sidebar-accent: var(--dark-7);
   --on-bg-high: var(--white);
   --on-bg-medium: var(--dark-1);
   --on-bg-low: var(--dark-2);
@@ -312,132 +315,282 @@
   }
 }
 
-/* Global scrollbar styles */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--outline) transparent;
-}
-
-*::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: var(--outline);
-  border-radius: 4px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: var(--on-bg-low);
-}
-
-/* Custom animations for hero */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Utility classes for animations */
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-.animate-float-slow {
-  animation: float 12s ease-in-out infinite;
-}
-
-.animate-float-slower {
-  animation: float 14s ease-in-out infinite 2s;
-}
-
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
-/* Scroll reveal base */
-.scroll-reveal {
+/* Scroll Reveal Observer Styles */
+.reveal-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  will-change: transform, opacity;
 }
 
-.scroll-reveal.is-visible {
+.reveal-on-scroll.is-visible {
+  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Optimized Scroll Reveal Primitives */
+.scroll-reveal-container {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.scroll-reveal-container.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Если вы используете animate-reveal (keyframes) одновременно,
-   то можно совместить: сначала скрыто, потом анимация */
-.scroll-reveal.animate-reveal {
-  animation: none;
-  /* отключаем анимацию по умолчанию */
+/* Fancy Toast Animations & Styling */
+[data-sonner-toast] {
+  --normal-bg: var(--card);
+  --normal-border: var(--outline);
+  --normal-text: var(--on-bg-high);
 }
 
-.scroll-reveal.is-visible.animate-reveal {
-  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.dark [data-sonner-toast] {
+  background: rgba(13, 13, 17, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Marquee animation for TrustedBrands */
-@keyframes marquee {
+[data-sonner-toast][data-variant="success"] {
+  border-left: 4px solid #22c55e !important;
+}
+
+[data-sonner-toast][data-variant="error"] {
+  border-left: 4px solid #ef4444 !important;
+}
+
+@layer components {
+
+  /* ponytail: Ensure Sonner toasts adhere to the 1px solid utilitarian border rule */
+  [data-sonner-toast] {
+    border: 1px solid var(--outline) !important;
+    background: var(--card) !important;
+    font-family: var(--font-sans) !important;
+  }
+
+  .dark [data-sonner-toast] {
+    background: var(--dark-9) !important;
+    border-color: var(--dark-6) !important;
+  }
+}
+
+@layer components {
+
+  /* ponytail: Mimic the premium stacking and border-contrast from reference */
+  [data-sonner-toast] {
+    --toast-border-radius: 18px;
+    --toast-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.1);
+
+    border: 1px solid var(--outline) !important;
+    background: var(--card) !important;
+    box-shadow: var(--toast-shadow) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s !important;
+  }
+
+  /* The "stack" effect styling (the toasts behind) */
+  [data-sonner-toast][data-expanded="false"][data-front="false"] {
+    border-color: transparent !important;
+    opacity: 0.6 !important;
+  }
+
+  .dark [data-sonner-toast] {
+    background: #121212 !important;
+    /* Deep charcoal for reference match */
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Force icon alignment to match the screenshot exactly */
+  [data-sonner-toast] [data-icon] {
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Close button style fix */
+  [data-close-button] {
+    top: 50% !important;
+    right: 12px !important;
+    transform: translateY(-50%) !important;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+  }
+
+  [data-close-button]:hover {
+    opacity: 1;
+    background: transparent !important;
+  }
+}
+
+@layer components {
+
+  /* ponytail: Force close button to the right and vertically center it to match reference */
+  [data-sonner-toast] [data-close-button] {
+    left: auto !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background: transparent !important;
+    border: none !important;
+    opacity: 0.4;
+    color: var(--on-bg-high) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: opacity 0.2s, background 0.2s !important;
+    padding: 4px !important;
+    height: 24px !important;
+    width: 24px !important;
+  }
+
+  [data-sonner-toast] [data-close-button]:hover {
+    opacity: 1;
+    background: var(--state-hover) !important;
+    border-radius: 6px !important;
+  }
+
+  /* ponytail: adjust content padding to prevent text overlapping the close button */
+  [data-sonner-toast] [data-content] {
+    padding-right: 32px !important;
+  }
+}
+
+@layer components {
+
+  /* Target the specific close button within the toast container */
+  [data-sonner-toast] [data-close-button] {
+    /* Reset Sonner's default left/top placement */
+    left: auto !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    /* Style cleanup to match the high-end reference */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--on-bg-low) !important;
+    opacity: 0.5;
+    transition: opacity 0.2s, color 0.2s;
+  }
+
+  [data-sonner-toast] [data-close-button]:hover {
+    opacity: 1;
+    color: var(--on-bg-high) !important;
+    background: var(--state-hover) !important;
+  }
+
+  /* Increase right padding on the content so text doesn't hit the X */
+  [data-sonner-toast] [data-content] {
+    padding-right: 36px !important;
+  }
+}
+
+@layer utilities {
+  .animate-circuit-draw {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: circuit-draw 2s ease-out forwards;
+  }
+
+  .animate-pulse-flow {
+    stroke-dasharray: 40, 1000;
+    stroke-dashoffset: 1000;
+    animation: pulse-flow 4s linear infinite;
+  }
+
+  @keyframes circuit-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes pulse-flow {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .bg-grid-white {
+    background-size: 40px 40px;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+}
+
+@layer utilities {
+  @keyframes pulse-move {
+    0% {
+      stroke-dashoffset: 1;
+    }
+
+    100% {
+      stroke-dashoffset: -1;
+    }
+  }
+
+  .animate-pulse-path {
+    animation: pulse-move 3s linear infinite;
+  }
+
+  /* CPU Pins Styling */
+  [data-connector] {
+    @apply block bg-zinc-700 rounded-sm;
+  }
+
+  [data-side="top"] [data-connector],
+  [data-side="bottom"] [data-connector] {
+    @apply w-1 h-2.5;
+  }
+
+  [data-side="left"] [data-connector],
+  [data-side="right"] [data-connector] {
+    @apply h-1 w-2.5;
+  }
+}
+
+/* Animated grid background with larger gaps */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, var(--on-bg-high) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--on-bg-high) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.08;
+  animation: gridMove 30s linear infinite;
+}
+
+@keyframes gridMove {
   0% {
-    transform: translateX(0);
+    background-position: 0 0;
   }
 
   100% {
-    transform: translateX(-50%);
+    background-position: 80px 80px;
   }
 }
 
-.animate-marquee {
-  animation: marquee 30s linear infinite;
+/* Hero section background gradient */
+.hero-gradient-bg {
+  background: radial-gradient(ellipse at 50% 30%, var(--primary-glass) 0%, transparent 60%);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
-  }
+/* Animated grid background with larger gaps */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, var(--on-bg-high) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--on-bg-high) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.08;
+  animation: gridMove 30s linear infinite;
+  will-change: background-position;
 }
 
-/* Marquee animation for TrustedBrands */
-@keyframes marquee {
+@keyframes gridMove {
   0% {
-    transform: translateX(0);
+    background-position: 0 0;
   }
 
   100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
+    background-position: 80px 80px;
   }
 }

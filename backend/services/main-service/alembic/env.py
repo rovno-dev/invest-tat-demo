@@ -5,11 +5,8 @@ from alembic import context
 
 # Импортируем твою Base и модели
 # Важно: импортируй все модели, чтобы Alembic их "увидел"
-from database.database import Base, DATABASE_URL 
+from database.database import Base, DATABASE_URL
 from app.models.user import User
-from app.models.product import Product
-from app.models.category import Category
-from app.models.product_image import ProductImage
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -25,6 +22,7 @@ config.set_main_option("sqlalchemy.url", DATABASE_URL)
 # Указываем метаданные для autogenerate
 target_metadata = Base.metadata
 
+
 def run_migrations_offline():
     """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
@@ -38,6 +36,7 @@ def run_migrations_offline():
     with context.begin_transaction():
         context.run_migrations()
 
+
 def run_migrations_online():
     """Run migrations in 'online' mode."""
     connectable = engine_from_config(
@@ -47,13 +46,11 @@ def run_migrations_online():
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection,
-            target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()

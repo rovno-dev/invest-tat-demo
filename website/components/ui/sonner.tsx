@@ -1,8 +1,7 @@
 "use client"
-
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
-import { CheckCircleIcon, InfoIcon, WarningIcon, OctagonIcon, ProgressActivityIcon } from "@/components/icons"
+import { CircleCheck, Info, LoaderCircle, TriangleAlert } from "lucide-react"
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
@@ -11,34 +10,19 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
+      closeButton={true}
       icons={{
-        success: (
-          <CheckCircleIcon className="size-4" />
-        ),
-        info: (
-          <InfoIcon className="size-4" />
-        ),
-        warning: (
-          <WarningIcon className="size-4" />
-        ),
-        error: (
-          <OctagonIcon className="size-4" />
-        ),
-        loading: (
-          <ProgressActivityIcon className="size-4 animate-spin" />
-        ),
+        success: <CircleCheck className="size-4 [&>path]:fill-(--success)" />,
+        info: <Info className="size-4 [&>path]:fill-blue-500" />,
+        warning: <TriangleAlert className="size-4 [&>path]:fill-(--warning)" />,
+        error: <TriangleAlert className="size-4 [&>path]:fill-(--error)" />,
+        loading: <LoaderCircle className="size-4 animate-spin [&>path]:fill-primary" />,
       }}
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
-        } as React.CSSProperties
-      }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast: "group toast group-[.toaster]:bg-card group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-2xl group-[.toaster]:rounded-2xl group-[.toaster]:px-4 group-[.toaster]:py-4",
+          title: "text-sm font-medium font-sans",
+          description: "text-xs text-muted-foreground font-sans",
         },
       }}
       {...props}

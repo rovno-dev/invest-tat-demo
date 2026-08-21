@@ -7,7 +7,7 @@ import useEmblaCarousel, {
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { KeyboardArrowLeftIcon, KeyboardArrowRightIcon } from "@/components/icons"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -173,7 +173,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
 
 function CarouselPrevious({
   className,
-  variant = "outlined",
+  variant = "glass",
   size = "icon-small",
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -195,7 +195,7 @@ function CarouselPrevious({
       onClick={scrollPrev}
       {...props}
     >
-      <KeyboardArrowLeftIcon />
+      <ChevronLeft />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -203,7 +203,7 @@ function CarouselPrevious({
 
 function CarouselNext({
   className,
-  variant = "outlined",
+  variant = "glass",
   size = "icon-small",
   ...props
 }: React.ComponentProps<typeof Button>) {
@@ -225,7 +225,7 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      <KeyboardArrowRightIcon />
+      <ChevronRight />
       <span className="sr-only">Next slide</span>
     </Button>
   )

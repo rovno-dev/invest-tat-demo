@@ -1,351 +1,161 @@
-from fastapi import APIRouter, HTTPException, status
-from fastapi.params import Depends
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
-from uuid import UUID
+from fastapi.responses import JSONResponse
 import logging
-
 from app.models.user import User
-from app.schemas.auth.requests import EmailLoginRequest, RegisterViaEmailRequest, OTPConfirmRequest, EmailPasswordLoginRequest
-from app.schemas.auth.requests import RegisterViaPhoneRequest
-from app.schemas.auth.requests import SmsLoginRequest
-from app.schemas.auth.responses import EmailSendCode
-from app.schemas.token.responses import TokenResponse, AccessTokenResponse
-from app.schemas.auth.requests import LoginPhoneSchema
+from app.schemas.auth.requests import (
+    RegisterEmailRequest,
+    VerifyEmailRequest,
+    EmailPasswordLoginRequest,
+    RefreshTokenRequest,
+    ResendVerificationRequest,
+)
+from app.schemas.auth.responses import TokenResponse, AccessTokenResponse, EmailSendCodeResponse
 from app.services.email_service import send_email
-from app.services.sms_service import send_sms
-from app.services.otp_service import generate_otp, save_otp, verify_otp, parse_and_normalize_login
-from app.services.user_service import create_user
-from app.shared.auth import create_access_token, create_refresh_token, decode_token, verify_password, hash_password
+from app.services.otp_service import generate_otp, save_otp, verify_otp
+from app.services.user_service import create_user, get_user_by_email, set_user_verified
+from app.shared.auth import (
+    create_access_token,
+    create_refresh_token,
+    decode_token,
+    verify_password,
+    get_current_user,
+)
 from config.rate_limiter import limit_otp_send
 from database.database import get_db
-from app.schemas.auth.responses import PhoneSendCode
-from app.schemas.token.request import RefreshTokenRequest
-from sqlalchemy import or_
-from fastapi.responses import JSONResponse
-
-from app.shared.auth import get_current_user
-
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
-
 router = APIRouter()
 
-
-@router.post("/login/email")
-async def email_login(
-        payload: EmailLoginRequest,
-        db: Session = Depends(get_db),
-        _: None = Depends(limit_otp_send),
-) -> EmailSendCode:
-    email_clean = payload.email.lower().strip()
-
-    user_found = db.query(User).filter(User.email == email_clean).first()
-
-    if not user_found:
-        create_response = create_user(db, email=email_clean)
-
-        if not create_response.created:
-            raise HTTPException(
-                status_code=400,
-                detail=create_response.errors or "Failed to create user"
-            )
-
-        user_found = create_response.user
-
-    code = generate_otp()
-    saved = save_otp(email_clean, code, "reg_email")
-
-    if not saved:
-        raise HTTPException(status_code=503, detail="OTP storage unavailable")
-
-    subject = "Login code" if user_found else "Registration code"
-    sent = await send_email(email_clean, subject, code)
-
-    return EmailSendCode(sent=sent, user_exists=bool(user_found))
-
-
-@router.post("/login/phone")
-async def phone_login(
-    payload: SmsLoginRequest,
+@router.post("/register/email")
+async def register_email(
+    request: Request,
+    payload: RegisterEmailRequest,
     db: Session = Depends(get_db),
     _: None = Depends(limit_otp_send),
-) -> PhoneSendCode:
-    phone_clean = str(payload.phone).strip()
-
-    user_found = db.query(User).filter(User.phone == phone_clean).first()
-
-    if not user_found:
-        create_response = create_user(db, phone=phone_clean)
-
-        if not create_response.created:
-            raise HTTPException(
-                status_code=400,
-                detail=create_response.errors or "Failed to create user"
-            )
-
-        user_found = create_response.user
-
+) -> EmailSendCodeResponse:
+    existing = get_user_by_email(db, payload.email)
+    if existing:
+        raise HTTPException(status_code=422, detail="Email already registered")
+    user = create_user(db, payload.email, payload.password, verified=False)
+    logger.info(f"User created: {user.id} with email {user.email}")
     code = generate_otp()
-    saved = save_otp(phone_clean, code, "reg_phone")
-
-    if not saved:
+    if not save_otp(payload.email, code):
         raise HTTPException(status_code=503, detail="OTP storage unavailable")
+    sent = await send_email(
+        payload.email,
+        "Verification code",
+        f"Your verification code is: {code}"
+    )
+    return EmailSendCodeResponse(sent=sent)
 
-    sent = await send_sms(phone_clean, f"Registration code {code}")
+@router.post("/verify-email")
+async def verify_email(
+    payload: VerifyEmailRequest,
+    db: Session = Depends(get_db),
+) -> TokenResponse:
+    user = get_user_by_email(db, payload.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.verified:
+        raise HTTPException(status_code=400, detail="User already verified")
+    if not verify_otp(payload.email, payload.code):
+        raise HTTPException(status_code=401, detail="Invalid or expired code")
+    user = set_user_verified(db, user)
+    access_token = create_access_token({"sub": str(user.id)})
+    refresh_token = create_refresh_token({"sub": str(user.id)})
+    return TokenResponse(access_token=access_token, refresh_token=refresh_token)
 
-    return PhoneSendCode(sent=sent, user_exists=bool(user_found))
-
-
-@router.post("/login/email-password")
-async def email_password_login(
+@router.post("/login/email")
+async def login_email_password(
+    request: Request,
     payload: EmailPasswordLoginRequest,
     db: Session = Depends(get_db),
 ) -> TokenResponse:
-    email_clean = payload.email.lower().strip()
-    user = db.query(User).filter(User.email == email_clean).first()
-    if not user or not verify_password(payload.password, user.password):
-        return JSONResponse(
-            status_code=401,
-            content={
-                "message": "Invalid email or password",
-                "errors": {
-                    "email": " ",
-                    "phone": " "
-                }
-            }
-        )
-
-    if user.blocked:
-        return JSONResponse(
-            status_code=403,
-            content={
-                "message": "User is blocked",
-            }
-        )
-
-    return TokenResponse(
-        access_token=create_access_token({"sub": str(user.id)}),
-        refresh_token=create_refresh_token({"sub": str(user.id)}),
-        token_type="bearer",
-    )
-
-
-@router.post("/login/phone-password")
-async def login_via_phone(
-    payload: LoginPhoneSchema,
-    db: Session = Depends(get_db),
-):
-    user = db.query(User).filter(User.phone == payload.phone).first()
-
-    if not user or not verify_password(payload.password, user.password):
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={
-                "errors": {
-                    "phone": "Неверный номер телефона или пароль"
-                }
-            }
-        )
-
-    if user.blocked:
-        return JSONResponse(
-            status_code=403,
-            content={
-                "message": "User is blocked",
-            }
-        )
-
-    access_token = create_access_token(data={"sub": str(user.id), "type": "access"})
-    refresh_token = create_refresh_token(data={"sub": str(user.id), "type": "refresh"})
-
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content={
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "token_type": "bearer",
-        }
-    )
-
-
-
-@router.post(
-    "/otp",
-    summary="Confirm OTP",
-    description="Accepts JSON with login and code and verifies it in Valkey"
-)
-async def confirm_otp(
-    payload: OTPConfirmRequest,
-    db: Session = Depends(get_db),
-) -> TokenResponse:
-    try:
-        login_type, normalized_login = parse_and_normalize_login(payload.login)
-    except ValueError as e:
-        return JSONResponse(
-            status_code=400,
-            content={
-                "message": str(e)
-            }
-        )
-
-    if login_type == "email":
-        user = db.query(User).filter(User.email == normalized_login).first()
-    else:
-        user = db.query(User).filter(User.phone == normalized_login).first()
-
+    user = get_user_by_email(db, payload.email)
     if not user:
-        if login_type == "email":
-            create_response = create_user(db, email=normalized_login)
-        else:
-            create_response = create_user(db, phone=normalized_login)
-
-        if not create_response.created:
-            return JSONResponse(
-                status_code=400,
-                content={
-                    "errors": create_response.errors,
-                    "message": "Failed to create user"
-                }
-            )
-
-        user = create_response.user
-
-    if not verify_otp(normalized_login, payload.code):
+        logger.warning(f"Login attempt with non-existent email: {payload.email}")
         return JSONResponse(
             status_code=401,
-            content={
-                "message": "Invalid or expired code"
-            }
+            content={"message": "Invalid email or password"}
         )
-
-    return TokenResponse(
-        access_token=create_access_token({"sub": str(user.id)}),
-        refresh_token=create_refresh_token({"sub": str(user.id)}),
-        token_type="bearer",
-    )
-
-
-@router.post("/register/phone")
-async def registerViaPhone(
-    phone: RegisterViaPhoneRequest,
-    db: Session = Depends(get_db)
-):
-    result = create_user(db=db, **phone.model_dump())
-
-    if result.errors:
-        raise HTTPException(status_code=422, detail=result.errors)
-
-    access_token = create_access_token(
-        data={"sub": str(result.user.id)}
-    )
-    refresh_token = create_refresh_token(
-        data={"sub": str(result.user.id)}
-    )
-
-    logger.info(f"Registration phone: access_token={access_token[:10]}..., refresh_token={refresh_token[:10]}...")
-    return TokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_token,
-        token_type="bearer"
-    )
-
-
-@router.post("/register/email")
-async def registerViaEmail(
-    email: RegisterViaEmailRequest,
-    db: Session = Depends(get_db)
-):
-    result = create_user(db=db, **email.model_dump())
-
-    if result.errors:
+    if not verify_password(payload.password, user.password):
+        logger.warning(f"Password mismatch for email: {payload.email}")
         return JSONResponse(
-            status_code=422,
-            content={
-                "errors": result.errors
-            }
+            status_code=401,
+            content={"message": "Invalid email or password"}
         )
-
-    access_token = create_access_token(
-        data={"sub": str(result.user.id)}
-    )
-    refresh_token = create_refresh_token(
-        data={"sub": str(result.user.id)}
-    )
-
-    logger.info(f"Registration email: access_token={access_token[:10]}..., refresh_token={refresh_token[:10]}...")
-    return TokenResponse(
-        access_token=access_token,
-        refresh_token=refresh_token,
-        token_type="bearer"
-    )
-
+    if user.blocked:
+        logger.warning(f"Login attempt for blocked user: {payload.email}")
+        return JSONResponse(
+            status_code=403,
+            content={"message": "User is blocked"}
+        )
+    if not user.verified:
+        logger.info(f"Login attempt for unverified user: {payload.email} – returning 403")
+        return JSONResponse(
+            status_code=403,
+            content={"message": "User not verified"}
+        )
+    access_token = create_access_token({"sub": str(user.id)})
+    refresh_token = create_refresh_token({"sub": str(user.id)})
+    logger.info(f"Successful login for user: {payload.email}")
+    return TokenResponse(access_token=access_token, refresh_token=refresh_token)
 
 @router.post("/refresh", response_model=AccessTokenResponse)
 async def refresh_access_token(
     payload: RefreshTokenRequest,
     db: Session = Depends(get_db),
 ) -> AccessTokenResponse:
-    logger.info(f"Refresh token request: {payload.refresh_token[:10]}...")
     token_data = decode_token(payload.refresh_token)
-    logger.info(f"Decoded token data: {token_data}")
-
-    if token_data is None or token_data.get("type") != "refresh":
-        return JSONResponse(
-            status_code=401,
-            content={
-                "message": "Invalid or expired refresh token"
-            }
-        )
-        # raise HTTPException(
-        #     status_code=status.HTTP_401_UNAUTHORIZED,
-        #     detail="Invalid or expired refresh token",
-        # )
-
+    if not token_data or token_data.get("type") != "refresh":
+        return JSONResponse(status_code=401, content={"message": "Invalid or expired refresh token"})
     try:
         user_id = UUID(token_data["sub"])
     except (KeyError, ValueError):
-        return JSONResponse(
-            status_code=401,
-            content={
-                "message": "Invalid refresh token"
-            },
-        )
-
+        return JSONResponse(status_code=401, content={"message": "Invalid refresh token"})
     user = db.get(User, user_id)
     if user is None or user.blocked:
-        return JSONResponse(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            content={
-                "message": "User not found or blocked",
-            }
-        )
+        return JSONResponse(status_code=401, content={"message": "User not found or blocked"})
+    new_access = create_access_token({"sub": str(user.id)})
+    return AccessTokenResponse(access_token=new_access)
 
-    return AccessTokenResponse(
-        access_token=create_access_token({"sub": str(user.id)}),
-    )
-
-@router.post(
-    "/logout",
-    summary="User logout",
-    description="Invalidates the refresh token session"
-)
+@router.get("/me")
+async def get_me(current_user: User = Depends(get_current_user)):
+    return {
+        "id": str(current_user.id),
+        "email": current_user.email,
+        "name": current_user.name,
+        "surname": current_user.surname,
+        "role": current_user.user_role.value,
+        "verified": current_user.verified,
+        "blocked": current_user.blocked,
+    }
+@router.post("/logout")
 async def logout(
     payload: RefreshTokenRequest,
     current_user: User = Depends(get_current_user),
 ):
     token_data = decode_token(payload.refresh_token)
-
     if not token_data or token_data.get("type") != "refresh" or token_data.get("sub") != str(current_user.id):
-        return JSONResponse(
-            status_code=400,
-            content={
-                "message": "Invalid refresh token"
-            }
-        )
+        return JSONResponse(status_code=400, content={"message": "Invalid refresh token"})
+    return JSONResponse(status_code=200, content={"message": "Logged out"})
 
-    return JSONResponse(
-        status_code=200,
-        content={
-            "message": "Successfully logged out"
-        }
-    )
+@router.post("/resend-verification")
+async def resend_verification(
+    request: Request,
+    payload: ResendVerificationRequest,
+    db: Session = Depends(get_db),
+    _: None = Depends(limit_otp_send),
+) -> EmailSendCodeResponse:
+    user = get_user_by_email(db, payload.email)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    if user.verified:
+        raise HTTPException(status_code=400, detail="User already verified")
+    code = generate_otp()
+    if not save_otp(payload.email, code):
+        raise HTTPException(status_code=503, detail="OTP storage unavailable")
+    sent = await send_email(payload.email, "Verification code", f"Your verification code is: {code}. Please, don't reply to this message.")
+    return EmailSendCodeResponse(sent=sent)

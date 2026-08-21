@@ -5,7 +5,7 @@ import { Dialog as DialogPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { CloseSmallIcon } from "@/components/icons"
+import { X } from "lucide-react"
 
 function Dialog({
   ...props
@@ -58,6 +58,7 @@ function DialogContent({
   return (
     <DialogPortal>
       <DialogOverlay />
+      <DialogTitle></DialogTitle>
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
@@ -74,8 +75,7 @@ function DialogContent({
               className="absolute top-2 right-2"
               size="icon-small"
             >
-              <CloseSmallIcon
-              />
+              <X className="size-3!" />
               <span className="sr-only">Close</span>
             </Button>
           </DialogPrimitive.Close>
@@ -130,7 +130,7 @@ function DialogTitle({
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        "font-heading text-display-3 leading-none font-medium",
+        "font-heading text-base leading-none font-medium",
         className
       )}
       {...props}

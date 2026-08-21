@@ -1,111 +1,73 @@
-import "./globals.css"
-import type {Metadata} from "next"
-import {TooltipProvider} from "@/components/ui/tooltip"
-import {cn} from "@/lib/utils"
+import "./globals.css";
+import type { Metadata } from "next";
+import { TooltipProvider } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils";
 import localFont from 'next/font/local'
-import {ThemeProvider} from "@/providers/theme-provider"
-import {WishlistProvider} from "@/providers/wishlist-provider"
-import Header from "@/components/layout/header"
-import Footer from "@/components/layout/footer"
-import {ToasterProvider} from "@/providers/toast-provider"
-import UserProvider from "@/lib/user/model/UserContext"
+import { ThemeProvider } from "@/providers/theme-provider";
+import BottomAppBar from "@/components/layout/nav/bottom-app-bar";
+import Header from "@/components/layout/nav/header";
+import Footer from "@/components/layout/nav/footer";
+import { Toaster } from "@/components/ui/sonner";
+import { YandexMetrika } from "@/components/layout/marketing/yandex-metrika";
+import { CookieConsent } from "@/components/layout/marketing/cookie-consent";
+import UserProvider from "@/entities/user/model/user-context";
+import ClientRootLayout from "./client-layout";
 
-// Import your fonts
-export const NotoSans = localFont({
-    src: '../public/fonts/NotoSans.woff2',
-    variable: '--font-sans',
-})
-
+export const Geist = localFont({
+  src: '../public/fonts/Geist-VariableFont_wght.woff2',
+  variable: '--font-sans',
+});
 export const Oswald = localFont({
-    src: '../public/fonts/Oswald.woff2',
-    variable: '--font-heading',
-})
-
+  src: '../public/fonts/Oswald.woff2',
+  variable: '--font-heading',
+});
 export const metadata: Metadata = {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
-    title: {
-        default: 'Unidoka UI - Premium E-commerce',
-        template: '%s | Unidoka UI',
-    },
-    description: 'Framework-agnostic, AI-driven design system based on shadcn. Modern e-commerce starter with Next.js, Tailwind, and Unidoka UI.',
-    openGraph: {
-        title: 'Unidoka UI',
-        description: 'Premium e-commerce template with Unidoka UI design system.',
-        url: '/',
-        siteName: 'Unidoka UI',
-        images: [
-            {
-                url: '/favicon.png',
-                width: 512,
-                height: 512,
-            },
-        ],
-        locale: 'en_US',
-        type: 'website',
-    },
-    twitter: {
-        card: 'summary_large_image',
-        title: 'Unidoka UI',
-        description: 'Premium e-commerce template with Unidoka UI design system.',
-        images: ['/favicon.png'],
-    },
-    icons: {
-        icon: '/favicon.png',
-    },
-}
-
+  title: "Цифровое агентство полного цикла Rovno.dev",
+  description: "Digital-агентство полного цикла Rovno.dev - дизайн, LLM, сайты, приложения, логотипы и айдентика, 3D",
+};
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
-    children: React.ReactNode;
+  children,
+}: Readonly<{
+  children: React.ReactNode;
 }>) {
-    return (
-        <html
-            lang="en"
-            className={cn(NotoSans.className, "font-sans")}
-            suppressHydrationWarning
-        >
-        <head>
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                    (function() {
-                      try {
-                        var theme = localStorage.getItem('theme') || 'system';
-                        var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                        if (theme === 'dark' || (theme === 'system' && supportDarkMode)) {
-                          document.documentElement.classList.add('dark');
-                        } else {
-                          document.documentElement.classList.remove('dark');
-                        }
-                      } catch (e) {}
-                    })();
-                  `,
-                }}
-            />
-        </head>
-        <body className="flex flex-col min-h-[100dvh]">
-            <UserProvider>
-                <ThemeProvider>
-                    <TooltipProvider>
-                        <WishlistProvider>
-
-                            <Header/>
-
-                            <main className="flex-1 pt-[56px]">
-                                {children}
-                            </main>
-
-                            <Footer/>
-
-                            <ToasterProvider/>
-
-                            {/* <BottomAppBar /> */}
-                        </WishlistProvider>
-                    </TooltipProvider>
-                </ThemeProvider>
-            </UserProvider>
-        </body>
-        </html>
-    )
+  return (
+    <html
+      lang="en"
+      className={cn(Geist.className, "font-sans")}
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme') || 'system';
+                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (theme === 'dark' || (theme === 'system' && supportDarkMode)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body>
+        <ThemeProvider>
+          <UserProvider>
+            <TooltipProvider>
+              <ClientRootLayout>
+                {children}
+              </ClientRootLayout>
+              <CookieConsent />
+            </TooltipProvider>
+          </UserProvider>
+        </ThemeProvider>
+        <YandexMetrika />
+      </body>
+    </html>
+  );
 }

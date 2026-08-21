@@ -1,51 +1,38 @@
-from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from app.models.user import User
-from app.schemas.user.response import UserCreateResponse
 from app.shared.auth import hash_password
+import logging
 
+logger = logging.getLogger(__name__)
 
-def create_user(
-    db: Session,
-    **kwargs
-) -> UserCreateResponse:
-    phone = kwargs.get("phone")
-    email = kwargs.get("email")
-    password = kwargs.get("password")
-
-    if not any([phone, email]):
-        raise ValueError("Either email or phone is required")
-
-    errors = {}
-
-    if phone:
-        existing_phone_user = db.query(User).filter(User.phone == phone).first()
-        if existing_phone_user:
-            errors["phone"] = "User with this phone already exists"
-
-    if email:
-        existing_email_user = db.query(User).filter(User.email == email).first()
-        if existing_email_user:
-            errors["email"] = "User with this email already exists"
-
-    if errors:
-
-        return UserCreateResponse(
-            created=False,
-            errors=errors,
-            user=None
-        )
-
-    if password:
-        kwargs["password"] = hash_password(password)
-
-    new_user = User(**kwargs)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return UserCreateResponse(
-        created=True,
-        errors=None,
-        user=new_user
+def create_user(db: Session, email: str, password: str, verified: bool = False) -> User:
+    hashed = hash_password(password)
+    local_part = email.split('@')[0]
+    user = User(
+        email=email.lower(),
+        password=hashed,
+        verified=verified,
+        name=local_part,
+        surname=""
     )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    logger.info(f"Created user: {user.id} with email {user.email}")
+    return user
+
+def get_user_by_email(db: Session, email: str) -> User | None:
+    lower_email = email.lower()
+    logger.info(f"Looking for user with email: {lower_email}")
+    user = db.query(User).filter(User.email == lower_email).first()
+    if user:
+        logger.info(f"Found user: {user.id} with email {user.email}")
+    else:
+        logger.warning(f"No user found for email {lower_email}")
+    return user
+
+def set_user_verified(db: Session, user: User) -> User:
+    user.verified = True
+    db.commit()
+    db.refresh(user)
+    return user

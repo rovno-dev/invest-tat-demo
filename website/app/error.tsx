@@ -1,36 +1,23 @@
-'use client';
+"use client";
+import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-import { useEffect } from 'react';
-import Link from 'next/link';
-import { Container } from '@/components/ui/container';
-import { Button } from '@/components/ui/button';
-
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
+export default function ErrorPage() {
   return (
-    <div className="min-h-[80vh] flex items-center justify-center">
-      <Container className="text-center">
-        <h1 className="text-display-1 md:text-display-0 text-(--on-bg-high) mb-4">500</h1>
-        <h2 className="text-display-3 text-(--on-bg-medium) mb-6">Something went wrong</h2>
-        <p className="text-body-1 text-(--on-bg-low) max-w-md mx-auto mb-8">
-          We're working on fixing it. Please try again later.
+    <main className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none grid-bg" />
+      <div className="z-10 absolute inset-0 bg-gradient-to-t from-(--bg) to-(--bg)/0 to-20%" />
+      <Container className="relative z-10 text-center">
+        <h1 className="text-[10rem] font-heading font-bold text-(--on-bg-high) leading-none">500</h1>
+        <h2 className="text-display-3 mb-4">Ошибка сервера</h2>
+        <p className="text-body-1 text-(--on-bg-medium) max-w-md mx-auto mb-8">
+          Произошла внутренняя ошибка. Мы уже работаем над её устранением. Попробуйте обновить страницу или зайти позже.
         </p>
-        <div className="flex gap-4 justify-center">
-          <Button variant="filled" size="large" onClick={reset}>Try again</Button>
-          <Link href="/">
-            <Button variant="outlined" size="large">Go home</Button>
-          </Link>
-        </div>
+        <Button size="large" shape="round" asChild>
+          <Link href="/">На главную</Link>
+        </Button>
       </Container>
-    </div>
+    </main>
   );
 }

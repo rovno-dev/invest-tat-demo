@@ -8,19 +8,24 @@
 
 *.out
 
-vendor/*
+vendor/
 
 go.work
 go.work.sum
 
 .env
+.env.dev
+.env.prod
+docker/.env
+docker/.env.dev
+docker/.env.prod
 
 services/*/tmp/
-.aider*
-repomix*
+aider*
+repomix-output*
 
-*/package-lock.json
+openapi.json
+
+letsencrypt/
+
 skills-lock.json
-
-docker-compose.yml.bak
-*/docker-compose.yml.bak
