@@ -1,5 +1,9 @@
 {
   "output": {
-    "style": "markdown"
+    "style": "markdown",
+    "filePath": "repomix-output-amorfa.md",
+    "removeComments": false,
+    "removeEmptyLines": true,
+    "showLineNumbers": false
   }
 }
