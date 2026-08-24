@@ -1,12 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  output: "standalone",
   async rewrites() {
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+    // Normalize API base URL - always ensure it has a protocol
+    let apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+    if (!/^https?:\/\//i.test(apiBase)) {
+      apiBase = `http://${apiBase}`;
+    }
+    
     return [
       {
-        source: '/api/:path*',
+        source: "/api/:path*",
         destination: `${apiBase}/api/:path*`,
       },
     ];

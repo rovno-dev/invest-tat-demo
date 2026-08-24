@@ -1,16 +1,16 @@
 :root {
   --white: #ffffff;
 
-  --brand-0: #ccdbff;
-  --brand-1: #b2c8ff;
-  --brand-2: #a6bfff;
-  --brand-3: #99b6ff;
-  --brand-4: #8cadff;
-  --brand-5: #80a4ff;
-  --brand-6: #739aff;
-  --brand-7: #6691ff;
-  --brand-8: #4d7fff;
-  --brand-9: #336dff;
+  --brand-0: #fff5f5;
+  --brand-1: #ffe0e0;
+  --brand-2: #ffc2c2;
+  --brand-3: #ff9e9e;
+  --brand-4: #ff7a7a;
+  --brand-5: #ff5454;
+  --brand-6: #ff3333;
+  --brand-7: #f02020;
+  --brand-8: #d42329;
+  --brand-9: #b0181d;
 
   --gray-0: #f8f9fa;
   --gray-1: #f1f3f5;
