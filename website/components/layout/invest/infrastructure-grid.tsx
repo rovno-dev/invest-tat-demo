@@ -12,7 +12,7 @@ import { Container } from "@/components/ui/container";
 const zones = [
   {
     name: "Innopolis",
-    type: "IT Special Economic Zone",
+    type: "Robotics, IT & AI",
     icon: <Building size={40} />,
     description:
       "Russia's largest tech hub, with tax-free IT licences and university partnerships.",
@@ -20,7 +20,7 @@ const zones = [
   },
   {
     name: "SEZ Alabuga",
-    type: "Industrial Special Economic Zone",
+    type: "Tech industrial",
     icon: <GearSix size={40} />,
     description:
       "High-scale industrial production with turnkey factories and zero import duties.",
@@ -28,7 +28,7 @@ const zones = [
   },
   {
     name: "Khimgrad",
-    type: "Chemical & Petrochemical Technopark",
+    type: "Chemical industrial",
     icon: <Flask size={40} />,
     description:
       "Advanced materials and polymer production with R&D support and pilot plants.",

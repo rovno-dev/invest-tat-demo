@@ -19,8 +19,8 @@ export const Geist = localFont({
 // });
 
 export const metadata: Metadata = {
-  title: "Amorfa app",
-  description: "Amorfa application",
+  title: "Invest Tatarstan",
+  description: "Make your morey work on you. We have 100+ programs for it!",
 };
 
 export default function RootLayout({

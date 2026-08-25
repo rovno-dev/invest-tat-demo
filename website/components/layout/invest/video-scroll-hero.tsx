@@ -1,17 +1,34 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScenarioCards } from "./scenario-cards";
 import TatarstanFlag from "../tatarstan/tatarstan-flag";
 import { TatarstanFlagText } from "../tatarstan/tatarstan-flag-text";
+import { BookOpenIcon, CpuIcon } from "@phosphor-icons/react";
 
-export function VideoScrollHero() {
+interface VideoScrollHeroProps {
+  /** If true, scroll down moves the video backwards */
+  backward?: boolean;
+}
+
+export function VideoScrollHero({ backward = true }: VideoScrollHeroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
 
-  // Video scrubbing logic (unchanged)
+  // Detect when the hero is actually on screen to avoid unnecessary scrubbing
+  useEffect(() => {
+    const hero = videoRef.current?.parentElement;
+    if (!hero) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsHeroVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     video.pause();
     video.preload = "auto";
     video.defaultMuted = true;
@@ -20,23 +37,40 @@ export function VideoScrollHero() {
     let targetTime = 0;
     let videoReady = false;
     let animationId: number | null = null;
+    let isSeeking = false;
+    let pendingTarget: number | null = null;
 
     const handleLoadedMetadata = () => {
       duration = video.duration || 10;
       videoReady = true;
     };
 
+    // When a seek finishes, apply any pending target immediately
+    const handleSeeked = () => {
+      isSeeking = false;
+      if (pendingTarget !== null) {
+        video.currentTime = pendingTarget;
+        pendingTarget = null;
+        isSeeking = true;
+      }
+    };
+
     const animate = () => {
-      if (!videoReady) {
+      if (!videoReady || !isHeroVisible) {
         animationId = requestAnimationFrame(animate);
         return;
       }
-
       const diff = targetTime - video.currentTime;
-      if (Math.abs(diff) > 0.02) {
-        video.currentTime = targetTime;
+      // Only seek if the difference is meaningful and we're not already seeking
+      if (Math.abs(diff) > 0.2 && !isSeeking) {
+        isSeeking = true;
+        // Set the target directly; if a seek is already in progress, store as pending
+        if (video.seeking) {
+          pendingTarget = targetTime;
+        } else {
+          video.currentTime = targetTime;
+        }
       }
-
       animationId = requestAnimationFrame(animate);
     };
 
@@ -44,23 +78,28 @@ export function VideoScrollHero() {
       const scrollY = window.scrollY;
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = Math.min(scrollY / maxScroll, 1);
-      targetTime = progress * duration;
+      // If backward is true, invert progress so scrolling down goes backwards
+      targetTime = (backward ? 1 - progress : progress) * duration;
     };
 
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("seeked", handleSeeked);
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
 
     animationId = requestAnimationFrame(animate);
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("seeked", handleSeeked);
       if (animationId !== null) {
         cancelAnimationFrame(animationId);
       }
     };
-  }, []);
+  }, [isHeroVisible, backward]);
 
   return (
     <main className="relative">
@@ -77,22 +116,22 @@ export function VideoScrollHero() {
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
-
       {/* Content layers */}
       <div className="relative z-10">
         {/* Hero Section */}
         <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center px-4">
           <div className="relative z-20 max-w-4xl text-center">
-            {/* Flag container – now referenced via ref */}
-            <div className="relative mt-4 flex justify-center">
-              <TatarstanFlagText text="Tatarstan" className="w-full max-w-[600px] h-auto" />
+            <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] ">
+              <TatarstanFlagText text="Tatarstan" className="w-full sm:w-[120%] h-auto" />
+              <h1 className="flex items-center flex-col mt-2 text-display-2 sm:text-display-1 font-bold text-white">
+                <span className="flex items-center gap-4">
+                  Where<span className="flex items-center gap-2"><BookOpenIcon size={40} weight="bold" />heritage</span>{" "}
+                </span>
+                <span className="flex items-center gap-4">
+                  Meets <span className="flex items-center gap-2"><CpuIcon size={40} weight="bold" />innovation</span>
+                </span>
+              </h1>
             </div>
-            <h1 className="mt-2 text-display-2 sm:text-display-1 font-bold text-white">
-              Where Heritage{" "}
-              <br />
-              Meets Innovation
-            </h1>
-            {/* TODO: add 4 infographic cards */}
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <a
                 href="#scenarios"
@@ -109,7 +148,6 @@ export function VideoScrollHero() {
             </div>
           </div>
         </section>
-
         <ScenarioCards />
       </div>
     </main>
