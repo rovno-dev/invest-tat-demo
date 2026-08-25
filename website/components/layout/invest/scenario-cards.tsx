@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Factory, Briefcase, Globe, ArrowRight } from "@phosphor-icons/react";
+import { Factory, Briefcase, Globe, ArrowRight, FireSimpleIcon } from "@phosphor-icons/react";
 import { Container } from "@/components/ui/container";
 
 interface Scenario {
@@ -39,12 +39,12 @@ const scenarios: Scenario[] = [
     cta: "Contact Invest Support",
   },
   {
-    id: "international2",
-    icon: <Globe size={32} />,
-    title: "International Partners",
-    description: "Enter the Russian market through fully-licenced SEZ infrastructure and customs.",
-    metrics: "0% customs duties on imports",
-    cta: "Contact Invest Support",
+    id: "startups",
+    icon: <FireSimpleIcon size={32} />,
+    title: "Startups",
+    description: "Start your business in our business incubator. Show your ideas.",
+    metrics: "Up to 10m on start",
+    cta: "Contact Startup Support",
   },
 ];
 
