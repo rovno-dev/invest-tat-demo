@@ -34,13 +34,13 @@ export default function Header() {
     <header
       className={cn(
         isMobileMenuOpen ? "h-screen" : "",
-        "transition-height duration-200 sticky top-0 z-50 bg-bg/10 backdrop-blur-lg"
+        "-mt-[64px] lg:-mt-[98px] transition-height duration-200 sticky top-0 z-50 bg-bg/10 backdrop-blur-lg"
       )}
     >
       {/* Main row */}
       <Container className="flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center">
-          <Logo className="h-auto w-[8rem]! xl:w-[12rem]!" />
+          <Logo className="h-auto w-[8rem]! md:w-[10rem]! xl:w-[12rem]!" />
         </Link>
         <div className="flex items-center gap-3">
           {/* Desktop navigation - primary */}
@@ -83,7 +83,7 @@ export default function Header() {
       </Container>
 
       {/* Secondary navigation - second floor on desktop (lg+) */}
-      <div className="hidden lg:flex border-t border-border/40 bg-background/40">
+      <div className="hidden lg:flex ">
         <Container className="flex items-center justify-end gap-6 py-2">
           {secondaryNavItems.map((item) => (
             <Link

@@ -83,15 +83,16 @@ export function VideoScrollHero() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
       {/* Content layers */}
-      <div className="relative z-10 -mt-[100vh]">
+      <div className="relative z-10">
         {/* Section 1: Hero Block */}
-        <section className="flex min-h-screen items-center justify-center px-4">
+        <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center px-4">
           <div className="max-w-4xl text-center">
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/80">
-              Invest Tatarstan
-            </p>
             <h1 className="mt-4 text-display-1 font-bold text-white">
-              Tatarstan: Where Heritage Meets Innovation
+              Tatarstan
+            </h1>
+            <h1 className="mt-2 text-display-2 sm:text-display-1 font-bold text-white">
+              Where Heritage{" "}<br />
+              Meets Innovation
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-body-2 text-white/85">
               The Republic of Tatarstan is a top-tier investment destination in Russia, blending centuries of history with cutting-edge industrial infrastructure. The Kazan Kremlin stands as our symbol — a fortress of reliability and progress.
