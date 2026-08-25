@@ -509,7 +509,7 @@
       #FFFFFF 45.4% 54.6%,
       #E62515 54.6% 100%);
 
-  animation: oscillate 1200ms infinite;
+  animation: oscillate 500ms infinite;
   animation-direction: alternate;
   animation-timing-function: ease-in-out;
   animation-fill-mode: backwards;
