@@ -487,39 +487,30 @@
   }
 }
 
-/* Tatarstan Flag Waving Animation */
-.flag-wave-container {
-  z-index: 0;
-}
-
-.flag-wave {
-  animation: flag-wave 6s ease-in-out infinite;
-  transform-origin: 50% 100%;
-  will-change: transform;
-}
-
-@keyframes flag-wave {
-
-  0%,
-  100% {
-    transform: perspective(200px) rotateX(0deg) skewY(0deg);
+@keyframes oscillate {
+  from {
+    transform: translateY(8px);
   }
 
-  25% {
-    transform: perspective(200px) rotateX(-5deg) skewY(1deg);
-  }
-
-  50% {
-    transform: perspective(200px) rotateX(0deg) skewY(0deg) scale(1.02);
-  }
-
-  75% {
-    transform: perspective(200px) rotateX(5deg) skewY(-1deg);
+  to {
+    transform: translateY(-8px);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .flag-wave {
-    animation: none;
-  }
+.flag {
+  display: flex;
+  aspect-ratio: 3 / 2;
+}
+
+.column {
+  flex: 1;
+  background: linear-gradient(to bottom,
+      #008040 0% 45.4%,
+      #FFFFFF 45.4% 54.6%,
+      #E62515 54.6% 100%);
+
+  animation: oscillate 500ms infinite;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: backwards;
 }

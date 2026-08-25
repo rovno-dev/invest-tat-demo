@@ -1,16 +1,17 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { ScenarioCards } from "./scenario-cards";
-import { TatarstanFlag } from "@/components/layout/fancy/tatarstan-flag";
+import TatarstanFlag from "../tatarstan/tatarstan-flag";
+import { TatarstanFlagText } from "../tatarstan/tatarstan-flag-text";
 
 export function VideoScrollHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Video scrubbing logic (unchanged)
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Pause initially — we'll scrub manually, not play
     video.pause();
     video.preload = "auto";
     video.defaultMuted = true;
@@ -25,7 +26,6 @@ export function VideoScrollHero() {
       videoReady = true;
     };
 
-    // Single persistent RAF loop — never cancelled by scroll events
     const animate = () => {
       if (!videoReady) {
         animationId = requestAnimationFrame(animate);
@@ -33,8 +33,6 @@ export function VideoScrollHero() {
       }
 
       const diff = targetTime - video.currentTime;
-
-      // Only seek when the difference is significant (avoids excessive seeks)
       if (Math.abs(diff) > 0.02) {
         video.currentTime = targetTime;
       }
@@ -52,10 +50,7 @@ export function VideoScrollHero() {
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Start the persistent animation loop
     animationId = requestAnimationFrame(animate);
-
-    // Initial scroll call
     handleScroll();
 
     return () => {
@@ -80,23 +75,28 @@ export function VideoScrollHero() {
         >
           <source src="/videos/hero-video.webm" type="video/webm" />
         </video>
-        {/* Overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
+
       {/* Content layers */}
       <div className="relative z-10">
-        {/* Section 1: Hero Block */}
+        {/* Hero Section */}
         <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center px-4">
           <div className="relative z-20 max-w-4xl text-center">
-            <h1 className="mt-4 text-display-1 font-bold text-white">
-              Tatarstan
-            </h1>
+            {/* Flag container – now referenced via ref */}
+            <div className="relative mt-4 flex justify-center">
+              <TatarstanFlagText text="Tatarstan" className="w-full max-w-[600px] h-auto" />
+            </div>
             <h1 className="mt-2 text-display-2 sm:text-display-1 font-bold text-white">
-              Where Heritage{" "}<br />
+              Where Heritage{" "}
+              <br />
               Meets Innovation
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-body-2 text-white/85">
-              The Republic of Tatarstan is a top-tier investment destination in Russia, blending centuries of history with cutting-edge industrial infrastructure. The Kazan Kremlin stands as our symbol — a fortress of reliability and progress.
+              The Republic of Tatarstan is a top-tier investment destination in
+              Russia, blending centuries of history with cutting-edge industrial
+              infrastructure. The Kazan Kremlin stands as our symbol — a fortress
+              of reliability and progress.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <a
@@ -114,6 +114,7 @@ export function VideoScrollHero() {
             </div>
           </div>
         </section>
+
         <ScenarioCards />
       </div>
     </main>

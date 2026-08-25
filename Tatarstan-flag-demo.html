@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wavy Tatarstan Flag</title>
+  <style>
+    @keyframes oscillate {
+      from {
+        transform: translateY(var(--billow));
+      }
+
+      to {
+        transform: translateY(calc(var(--billow) * -1));
+      }
+    }
+
+    .flag-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .flag {
+      display: flex;
+      aspect-ratio: 2 / 1;
+      /* Official aspect ratio of Tatarstan flag */
+      width: 100%;
+      max-width: 600px;
+      /* Hides clipping artifacts from wave */
+      border-radius: 4px;
+    }
+
+    .column {
+      flex: 1;
+      /* Tatarstan proportions: Green (approx 45.4%), White Line (approx 9.2%), Red (approx 45.4%) */
+      background: linear-gradient(to bottom,
+          #008040 0% 45.4%,
+          #FFFFFF 45.4% 54.6%,
+          #E62515 54.6% 100%);
+
+      /* Animation Setup */
+      animation: oscillate 600ms infinite;
+      animation-direction: alternate;
+      animation-timing-function: ease-in-out;
+      animation-fill-mode: backwards;
+
+      /* Uses negative delay to hide the initial load stagger glitch */
+      animation-delay: calc(var(--delay) * 1ms);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="flag-wrapper">
+    <!-- Our target flag container -->
+    <div id="tatarstan-flag" class="flag"></div>
+  </div>
+
+  <script>
+    // --- CONFIGURATION ---
+    const numOfColumns = 60;     // <-- Change this to any amount of segments you want!
+    const staggeredDelay = 30;   // The delay step between columns (lower = tighter wave)
+    const billowAmount = 30;     // The depth of the wave ripple in pixels
+    const desiredWidth = 600;    // The target max-width of the flag
+
+    const flagContainer = document.getElementById('tatarstan-flag');
+
+    // 1. Fix Pixel-Rounding Quirks (Prevents ugly vertical lines/gaps)
+    // Adjusts the width slightly so columns divide perfectly into whole pixels
+    const friendlyWidth = Math.round(desiredWidth / numOfColumns) * numOfColumns;
+    flagContainer.style.maxWidth = `${friendlyWidth}px`;
+
+    // 2. Generate the negative offset baseline so the wave animation starts immediately
+    const firstColumnDelay = numOfColumns * staggeredDelay * -1;
+
+    // 3. Programmatically inject the columns
+    let htmlContent = '';
+    for (let i = 0; i < numOfColumns; i++) {
+      // Calculate dynamic delay and progressive wind billow for each segment
+      const calculatedDelay = firstColumnDelay + (i * staggeredDelay);
+      const calculatedBillow = (i / numOfColumns) * billowAmount;
+
+      htmlContent += `
+        <div class="column" style="
+          --delay: ${calculatedDelay}; 
+          --billow: ${calculatedBillow}px;
+        "></div>
+      `;
+    }
+
+    flagContainer.innerHTML = htmlContent;
+  </script>
+
+</body>
+
+</html>
