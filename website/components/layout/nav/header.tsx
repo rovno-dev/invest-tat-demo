@@ -33,7 +33,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        isMobileMenuOpen ? "h-screen" : "",
+        isMobileMenuOpen ? "h-screen overflow-hidden [scrollbar-gutter:stable]" : "",
         "-mt-[64px] lg:-mt-[98px] transition-height duration-200 sticky top-0 z-50 bg-bg/10 backdrop-blur-lg"
       )}
     >
