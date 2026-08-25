@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { ScenarioCards } from "./scenario-cards";
+import { TatarstanFlag } from "@/components/layout/fancy/tatarstan-flag";
 
 export function VideoScrollHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -86,7 +87,7 @@ export function VideoScrollHero() {
       <div className="relative z-10">
         {/* Section 1: Hero Block */}
         <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center px-4">
-          <div className="max-w-4xl text-center">
+          <div className="relative z-20 max-w-4xl text-center">
             <h1 className="mt-4 text-display-1 font-bold text-white">
               Tatarstan
             </h1>
