@@ -32,32 +32,34 @@ export default function Header() {
 
   return (
     <header
-      className={cn(isMobileMenuOpen ? "h-screen" : "", "transition-height duration-200 sticky top-0 z-50 bg-bg/10 backdrop-blur-lg")}
+      className={cn(
+        isMobileMenuOpen ? "h-screen" : "",
+        "transition-height duration-200 sticky top-0 z-50 bg-bg/10 backdrop-blur-lg"
+      )}
     >
+      {/* Main row */}
       <Container className="flex h-16 items-center justify-between">
-        {/* Logo */}
         <Link href="/" className="flex items-center">
           <Logo className="h-auto w-[8rem]! xl:w-[12rem]!" />
         </Link>
-
         <div className="flex items-center gap-3">
-          {/* Desktop navigation */}
+          {/* Desktop navigation - primary */}
           <nav className="hidden items-center gap-4 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
+                  "text-sm font-medium transition-colors",
                   isActive(item.href)
-                    ? "text-primary bg-primary/10"
-                    : "text-foreground/70 hover:text-foreground hover:bg-muted/50"
+                    ? "text-primary"
+                    : "text-foreground/70 hover:text-foreground"
                 )}
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-
           {/* Request button - desktop/tablet */}
           <Button
             size="small"
@@ -67,8 +69,7 @@ export default function Header() {
           >
             <Link href="/order">Make a Request</Link>
           </Button>
-
-          {/* Burger menu - mobile only (toggle, no slide) */}
+          {/* Burger menu - mobile only */}
           <Button
             variant="text"
             size="icon-medium"
@@ -81,24 +82,68 @@ export default function Header() {
         </div>
       </Container>
 
-      {/* Mobile dropdown - simple conditional render (no slide / no fixed header bug) */}
+      {/* Secondary navigation - second floor on desktop (lg+) */}
+      <div className="hidden lg:flex border-t border-border/40 bg-background/40">
+        <Container className="flex items-center justify-end gap-6 py-2">
+          {secondaryNavItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "text-xs text-foreground/60 hover:text-foreground transition-colors",
+                isActive(item.href) && "text-primary font-medium"
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </Container>
+      </div>
+
+      {/* Mobile dropdown - burger menu */}
       {isMobileMenuOpen && (
         <div className="lg:hidden bg-background shadow-lg h-full">
-          <Container className="py-4 h-full w-full">
-            <div className="overflow-hidden sm:max-w-md">
+          <Container className="py-4">
+            <div className="overflow-hidden sm:max-w-md ml-auto">
               <nav className="flex flex-col">
+                {/* Primary nav items */}
                 {navItems.map((item, index) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "flex items-center justify-end px-4 py-4 border-b border-border/50 transition-colors",
+                      "flex w-full items-center justify-end px-4 py-4 border-b border-border/50 transition-colors",
                       isActive(item.href)
                         ? "text-primary bg-primary/5"
                         : "text-foreground/80 hover:bg-muted/50"
                     )}
-                    style={{ animation: "menu-item-in 0.3s ease forwards", animationDelay: `${index * 40}ms`, opacity: 0 }}
+                    style={{
+                      animation: "menu-item-in 0.3s ease forwards",
+                      animationDelay: `${index * 40}ms`,
+                      opacity: 0,
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                {/* Secondary nav items */}
+                {secondaryNavItems.map((item, index) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      "flex w-full items-center justify-end px-4 py-3 border-b border-border/50 transition-colors text-sm text-foreground/60",
+                      isActive(item.href)
+                        ? "text-primary bg-primary/5 font-medium"
+                        : "hover:bg-muted/50 hover:text-foreground"
+                    )}
+                    style={{
+                      animation: "menu-item-in 0.3s ease forwards",
+                      animationDelay: `${(navItems.length + index) * 40}ms`,
+                      opacity: 0,
+                    }}
                   >
                     {item.label}
                   </Link>
