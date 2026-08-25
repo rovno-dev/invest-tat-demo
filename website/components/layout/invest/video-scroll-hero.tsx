@@ -92,12 +92,7 @@ export function VideoScrollHero() {
               <br />
               Meets Innovation
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-body-2 text-white/85">
-              The Republic of Tatarstan is a top-tier investment destination in
-              Russia, blending centuries of history with cutting-edge industrial
-              infrastructure. The Kazan Kremlin stands as our symbol — a fortress
-              of reliability and progress.
-            </p>
+            {/* TODO: add 4 infographic cards */}
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
               <a
                 href="#scenarios"
