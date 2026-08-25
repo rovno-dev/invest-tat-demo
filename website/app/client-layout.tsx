@@ -29,11 +29,11 @@ export default function ClientRootLayout({
           gap={8}
           visibleToasts={3}
         />
-        <div className="z-50 sticky flex justify-end bottom-4 right-0 px-4">
+        <div className="sm:hidden z-50 sticky flex justify-end bottom-4 right-0 px-4">
           <Button
             size="large"
             shape="round"
-            className="w-full"
+            className="w-full max-w-sm"
             asChild
           >
             <Link href="/order">Make a Request</Link>
