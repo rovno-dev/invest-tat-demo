@@ -1,11 +1,10 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/layout/logo/logo";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
@@ -23,12 +22,7 @@ const navItems = [
 
 export default function Header() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -42,7 +36,6 @@ export default function Header() {
         <Link href="/" className="flex items-center">
           <Logo className="h-8 w-auto text-white" />
         </Link>
-
         <div className="flex gap-3 items-center justify-between">
           {/* Desktop navigation */}
           <nav className="hidden items-center gap-3 lg:flex">
@@ -62,67 +55,91 @@ export default function Header() {
             ))}
           </nav>
 
+          {/* Request button - desktop/tablet */}
           <Button
             size="medium"
             shape="round"
-            className="bg-primary text-primary-foreground hover:bg-primary/80"
+            className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/80"
             asChild
           >
             <Link href="/order">Make a Request</Link>
           </Button>
 
-
-          {/* Mobile burger button */}
-          <div className="flex items-center gap-2 lg:hidden">
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="text"
-                  size="icon-small"
-                  className="text-foreground hover:bg-muted/50"
-                  aria-label="Open menu"
-                >
-                  <Menu strokeWidth={1.5} className="size-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-full! max-w-none! bg-background text-foreground border-border/10">
-                <SheetHeader className="border-b border-border/10 pb-4">
-                  <SheetTitle className="text-foreground">
-                    <Logo className="h-6 w-auto" />
-                  </SheetTitle>
-                </SheetHeader>
-                <nav className="flex flex-col gap-1 p-4 animate-in fade-in duration-300">
-                  {navItems.map((item, index) => (
-                    <SheetClose asChild key={item.href}>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all duration-300",
-                          isActive(item.href)
-                            ? "text-primary bg-primary/10"
-                            : "text-foreground/70 hover:text-foreground hover:bg-muted/50",
-                          "opacity-0 translate-y-2 animate-in slide-in-from-bottom-2 fade-in"
-                        )}
-                        style={{ animationDelay: `${index * 60 + 150}ms`, animationFillMode: "both" }}
-                      >
-                        {item.label}
-                      </Link>
-                    </SheetClose>
-                  ))}
-                </nav>
-                <div className="px-4 pb-4 mt-auto">
+          {/* Burger menu - mobile only */}
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="text"
+                size="icon-medium"
+                className="lg:hidden"
+                aria-label="Open menu"
+              >
+                <Menu className="size-6!" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="top"
+              className="w-full p-0 backdrop-blur-lg"
+              style={{ height: '100dvh', borderBottom: 'none' }}
+              showCloseButton={false}
+            >
+              <SheetHeader className="sr-only">
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex h-full flex-col px-6 pt-4 pb-6">
+                {/* Top bar with logo and close */}
+                <div className="flex h-16 items-center justify-between">
+                  <Link href="/" className="flex items-center" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Logo className="h-8 w-auto text-white" />
+                  </Link>
                   <Button
-                    size="medium"
-                    shape="round"
-                    className="w-full bg-primary text-primary-foreground hover:bg-primary/80"
-                    asChild
+                    variant="text"
+                    size="icon-medium"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    aria-label="Close menu"
                   >
-                    <a href="/order">Make a Request</a>
+                    <X className="size-6!" />
                   </Button>
                 </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+                {/* Nav links */}
+                <nav className="flex flex-col gap-1 mt-8 overflow-y-auto">
+                  {navItems.map((item, index) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-(--on-bg-high)"
+                      // className={cn(
+                      //   "flex items-center justify-between py-4 text-heading-3 font-medium border-b border-border/50 transition-all duration-300",
+                      //   isActive(item.href)
+                      //     ? ""
+                      //     : ""
+                      // )}
+                      style={{
+                        animation: "menu-item-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+                        animationDelay: `${index * 60}ms`,
+                        opacity: 0,
+                      }}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+                {/* Request button - aligned to the right side */}
+                <div className="mt-auto flex justify-end pt-8">
+                  <Button
+                    size="large"
+                    shape="round"
+                    className="bg-primary text-primary-foreground hover:bg-primary/80"
+                    asChild
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Link href="/order">Make a Request</Link>
+                  </Button>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </Container>
     </header>

@@ -1,5 +1,6 @@
 "use client"
 
+import { Footer } from "@/components/layout/nav/footer";
 import "./globals.css";
 import Header from "@/components/layout/nav/header";
 import { Toaster } from "@/components/ui/sonner";
@@ -25,6 +26,7 @@ export default function ClientRootLayout({
         gap={8}
         visibleToasts={3}
       />
+      <Footer />
     </>
   );
 }

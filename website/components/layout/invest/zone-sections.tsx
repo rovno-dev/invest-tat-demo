@@ -14,7 +14,7 @@ const zonesData = [
     logo: "/images/logos/alabuga.svg",
     description:
       "One of Russia's largest industrial zones with turnkey factories, zero import duties, and direct access to international logistics corridors. Ideal for manufacturing, automotive, and chemical companies. Enjoy a 0% profit tax for 7 years, no customs duties on imports, and fully subsidized infrastructure.",
-    image: "/videos/alabuga.webm",
+    video: "/videos/alabuga.webm",
     href: "/alabuga",
     stats: [
       { label: "Residents", value: "120+" },
@@ -29,7 +29,7 @@ const zonesData = [
     logo: "/images/logos/innopolis.png",
     description:
       "Russia's premier IT city, home to 1,500+ resident companies and top universities. Tax-free IT licences, innovation infrastructure, and a thriving startup ecosystem await. Benefit from reduced insurance premiums, preferential rent, and up to ₽5M grants for SMEs.",
-    image: "/videos/innopolis.webm",
+    video: "/videos/innopolis.webm",
     href: "/innopolis",
     stats: [
       { label: "Residents", value: "1,500+" },
@@ -65,7 +65,7 @@ export function ZoneSections() {
         }`}
     >
       <Container>
-        <h2 className="text-display-3 font-semibold text-white">Explore Leading Zones</h2>
+        <h2 className="text-display-2 font-semibold text-white">Explore Leading Zones</h2>
         <p className="mt-3 max-w-2xl text-body-3 text-white/75">
           Get detailed insights into Tatarstan's flagship industrial and innovation hubs.
         </p>
@@ -87,7 +87,7 @@ export function ZoneSections() {
                   loop
                   preload="auto"
                 >
-                  <source src={zone.image} type="video/webm" />
+                  <source src={zone.video} type="video/webm" />
                 </video>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
@@ -100,11 +100,11 @@ export function ZoneSections() {
 
               {/* Content */}
               <div className="space-y-6">
-                <h3 className="text-[3rem] font-semibold text-white">{zone.title}</h3>
+                <h3 className="text-display-3 font-semibold text-white">{zone.title}</h3>
                 <p className="text-body-3 text-white/75 leading-relaxed">{zone.description}</p>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/10 pt-6">
                   {zone.stats.map((stat) => (
                     <div key={stat.label}>
                       <p className="text-display-3 font-bold text-white">{stat.value}</p>
@@ -118,7 +118,7 @@ export function ZoneSections() {
                   size="medium"
                   shape="round"
                   variant="outlined"
-                  className="border-white/40 text-white hover:bg-white/10"
+                  className="w-full sm:w-fit border-white/40 text-white hover:bg-white/10"
                   asChild
                 >
                   <Link href={zone.href}>

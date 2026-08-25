@@ -1,42 +1,68 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { ScenarioCards } from "./scenario-cards";
-import { InfrastructureGrid } from "./infrastructure-grid";
-import { ZoneSections } from "./zone-sections";
 
 export function VideoScrollHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const frameRef = useRef<number>(0);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    let duration = 10;
+    // Pause initially — we'll scrub manually, not play
+    video.pause();
+    video.preload = "auto";
+    video.defaultMuted = true;
+
+    let duration = 0;
+    let targetTime = 0;
+    let videoReady = false;
+    let animationId: number | null = null;
 
     const handleLoadedMetadata = () => {
       duration = video.duration || 10;
+      videoReady = true;
+    };
+
+    // Single persistent RAF loop — never cancelled by scroll events
+    const animate = () => {
+      if (!videoReady) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
+      const diff = targetTime - video.currentTime;
+
+      // Only seek when the difference is significant (avoids excessive seeks)
+      if (Math.abs(diff) > 0.02) {
+        video.currentTime = targetTime;
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(scrollY / maxScroll, 1);
+      targetTime = progress * duration;
     };
 
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
-
-    const handleScroll = () => {
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
-      frameRef.current = requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = Math.min(scrollY / maxScroll, 1);
-        video.currentTime = progress * duration;
-      });
-    };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Start the persistent animation loop
+    animationId = requestAnimationFrame(animate);
+
+    // Initial scroll call
     handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      if (animationId !== null) {
+        cancelAnimationFrame(animationId);
+      }
     };
   }, []);
 
@@ -56,7 +82,6 @@ export function VideoScrollHero() {
         {/* Overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
-
       {/* Content layers */}
       <div className="relative z-10 -mt-[100vh]">
         {/* Section 1: Hero Block */}
