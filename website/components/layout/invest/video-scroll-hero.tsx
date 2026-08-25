@@ -93,7 +93,7 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
           <div className="relative z-20 max-w-4xl text-center">
             {/* Flag container – now referenced via ref */}
             <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] ">
-              <TatarstanFlagText text="Tatarstan" className="w-full sm:w-[120%] h-auto" />
+              {/* <TatarstanFlagText text="Tatarstan" className="w-full sm:w-[120%] h-auto" /> */}
               <h1 className="flex items-center flex-col mt-2 text-display-2 sm:text-display-1 font-bold text-white">
                 <span className="flex items-center gap-3">
                   Where<span className="flex items-center gap-2"><BookOpenIcon size={40} weight="bold" />heritage</span>{" "}
@@ -122,6 +122,14 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
         </section>
 
         <ScenarioCards />
+
+      </div>
+      <div className="overflow-hidden absolute bottom-[-20px] left-0 z-9 w-full">
+        <TatarstanFlag
+          numOfColumns={50}
+          staggeredDelay={10}
+          className="w-full aspect-[21/9]! h-[200px]"
+        />
       </div>
     </main>
   );

@@ -71,7 +71,7 @@ export function ScenarioCards() {
     <section
       id="scenarios"
       ref={sectionRef}
-      className={`pb-[15vh] pt-12 transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"
+      className={`z-20 pb-[15vh] pt-12 transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"
         }`}
     >
       <Container>
