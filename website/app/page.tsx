@@ -1,7 +1,7 @@
 "use client";
 
 import { ScrollReveal } from "@/components/layout/animation/scroll-reveal";
-import { InfrastructureGrid } from "@/components/layout/invest/infrastructure-grid";
+import { InvestorPath } from "@/components/layout/invest/investor-path";
 import { VideoScrollHero } from "@/components/layout/invest/video-scroll-hero";
 import { ZoneSections } from "@/components/layout/invest/zone-sections";
 import { OpportunitiesBlock } from "@/components/layout/invest/opportunities-block";
@@ -22,7 +22,7 @@ export default function Home() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <InfrastructureGrid />
+        <InvestorPath />
       </ScrollReveal>
     </>
   )

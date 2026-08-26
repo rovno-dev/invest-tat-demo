@@ -1,0 +1,255 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { Container } from "@/components/ui/container";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+/* SVG Illustrations */
+
+function PenDocument() {
+  return (
+    <svg viewBox="0 0 400 320" className="w-full max-w-md h-auto" fill="none">
+      <circle cx="50" cy="40" r="3" fill="#93C5FD" />
+      <circle cx="80" cy="120" r="2" fill="#93C5FD" />
+      <circle cx="40" cy="200" r="2" fill="#93C5FD" />
+      <circle cx="350" cy="50" r="2" fill="#93C5FD" />
+      <circle cx="320" cy="280" r="3" fill="#93C5FD" />
+      <circle cx="380" cy="160" r="2" fill="#93C5FD" />
+      <rect x="100" y="60" width="200" height="240" rx="4" fill="white" stroke="#1E293B" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="100" x2="280" y2="100" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="130" x2="280" y2="130" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="160" x2="280" y2="160" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="190" x2="280" y2="190" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="220" x2="280" y2="220" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="250" x2="280" y2="250" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <path d="M290 160 C 320 140, 340 110, 360 90" stroke="#E03131" strokeWidth="4" strokeLinecap="round" />
+      <path d="M360 90 L370 100 L360 90" stroke="#E03131" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <path d="M340 120 L350 110 L340 120" stroke="#E03131" strokeWidth="3" strokeLinecap="round" fill="none" />
+    </svg>
+  );
+}
+
+function MapPin() {
+  return (
+    <svg viewBox="0 0 400 320" className="w-full max-w-md h-auto" fill="none">
+      <circle cx="60" cy="50" r="3" fill="#93C5FD" />
+      <circle cx="100" cy="150" r="2" fill="#93C5FD" />
+      <circle cx="340" cy="80" r="2" fill="#93C5FD" />
+      <circle cx="320" cy="260" r="3" fill="#93C5FD" />
+      <path d="M80 80 L180 60 L250 80 L330 70 L330 240 L230 260 L160 240 L80 250 Z" stroke="#1E293B" strokeWidth="2" fill="white" />
+      <path d="M80 80 L180 60 L250 80 L330 70" stroke="#1E293B" strokeWidth="2" />
+      <path d="M180 60 L180 240" stroke="#94A3B8" strokeWidth="1" />
+      <path d="M250 80 L250 260" stroke="#94A3B8" strokeWidth="1" />
+      <path d="M230 130 C 220 130, 210 150, 210 170 C 210 200, 230 230, 230 230 C 230 230, 250 200, 250 170 C 250 150, 240 130, 230 130 Z" fill="#E03131" />
+      <circle cx="230" cy="170" r="10" fill="white" />
+    </svg>
+  );
+}
+
+function Scissors() {
+  return (
+    <svg viewBox="0 0 400 320" className="w-full max-w-md h-auto" fill="none">
+      <circle cx="60" cy="100" r="3" fill="#93C5FD" />
+      <circle cx="330" cy="50" r="2" fill="#93C5FD" />
+      <circle cx="350" cy="240" r="2" fill="#93C5FD" />
+      <circle cx="80" cy="250" r="3" fill="#93C5FD" />
+      <path d="M100 100 C 200 100, 300 120, 350 160" stroke="#E03131" strokeWidth="6" strokeLinecap="round" />
+      <path d="M100 150 C 200 150, 300 170, 350 210" stroke="#E03131" strokeWidth="6" strokeLinecap="round" />
+      <path d="M180 140 L220 100" stroke="#1E293B" strokeWidth="2" />
+      <path d="M180 140 L220 190" stroke="#1E293B" strokeWidth="2" />
+      <circle cx="180" cy="140" r="8" fill="#1E293B" />
+      <path d="M220 100 C 250 80, 280 80, 300 100" stroke="#1E293B" strokeWidth="2" fill="none" />
+      <path d="M220 190 C 250 210, 280 210, 300 190" stroke="#1E293B" strokeWidth="2" fill="none" />
+    </svg>
+  );
+}
+
+function StampDocument() {
+  return (
+    <svg viewBox="0 0 400 320" className="w-full max-w-md h-auto" fill="none">
+      <circle cx="50" cy="40" r="3" fill="#93C5FD" />
+      <circle cx="80" cy="120" r="2" fill="#93C5FD" />
+      <circle cx="40" cy="200" r="2" fill="#93C5FD" />
+      <circle cx="350" cy="50" r="2" fill="#93C5FD" />
+      <circle cx="320" cy="280" r="3" fill="#93C5FD" />
+      <circle cx="380" cy="160" r="2" fill="#93C5FD" />
+      <rect x="100" y="60" width="200" height="240" rx="4" fill="white" stroke="#1E293B" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="100" x2="280" y2="100" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="130" x2="280" y2="130" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="160" x2="280" y2="160" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="190" x2="280" y2="190" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="220" x2="280" y2="220" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <line x1="120" y1="250" x2="280" y2="250" stroke="#60A5FA" strokeWidth="2" transform="rotate(-3 200 180)" />
+      <circle cx="230" cy="200" r="30" fill="#E03131" opacity="0.8" transform="rotate(-15 230 200)" />
+      <circle cx="230" cy="200" r="22" stroke="white" strokeWidth="2" transform="rotate(-15 230 200)" />
+      <circle cx="270" cy="230" r="25" fill="#E03131" opacity="0.6" transform="rotate(10 270 230)" />
+      <circle cx="270" cy="230" r="18" stroke="white" strokeWidth="2" transform="rotate(10 270 230)" />
+    </svg>
+  );
+}
+
+/* Data */
+
+const steps = [
+  {
+    id: 1,
+    title: "Project Strategy Development",
+    items: [
+      "We will perform a research of the market for implementation of your business potential as investor.",
+      "We will provide you with the following information: infrastructure and resource potential of the Republic of Tatarstan, key industries; government support for businesses; tax structure.",
+      "Assistance in selecting an optimal strategy for entering the market of the Republic of Tatarstan.",
+      "Assistance in sourcing of raw industrial materials required for final product manufacturing.",
+      "Selecting manufacturers and service providers required for implementation of the business project.",
+      "Assistance in negotiation with government institutions and public authorities regarding the legal basis of the project.",
+    ],
+    illustration: <PenDocument />,
+  },
+  {
+    id: 2,
+    title: "Choosing the Investment Site",
+    items: [
+      "We will offer an optimal business site based on the provided information and technical specifications of the project.",
+      "We will organise site visits before you make a final decision.",
+    ],
+    illustration: <MapPin />,
+  },
+  {
+    id: 3,
+    title: "Setting up a business entity",
+    items: [
+      "Consultation on any matters arising in the process of the investment project implementation: tax and statute legislation; project financing; forms of state support provision; staff resourcing.",
+      "Support at all important stages of the investment project implementation. The staff of the Agency will improve your time schedule; render support in negotiation with authorities.",
+      "We will give information assistance in establishment of the form entity.",
+    ],
+    illustration: <Scissors />,
+  },
+  {
+    id: 4,
+    title: "Investors Support",
+    items: [
+      "An investor of implementable or implemented project is invited to become a member of the Investment Club of the Republic of Tatarstan.",
+      "Free support by the Tatarstan Investment Development Agency.",
+      "Informational support related to the continuous development in the region.",
+      "Quarterly meetings of Investors Club with participation of the local Government, relevant ministries and departments for informal discussions and problem solving.",
+      "Invitation to regional, national, federal and global business events of Tatarstan.",
+    ],
+    illustration: <StampDocument />,
+  },
+];
+
+export function InvestorPath() {
+  const [activeStep, setActiveStep] = useState(1);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const stepId = Number(entry.target.getAttribute("data-step-id"));
+            if (stepId) setActiveStep(stepId);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0.1 }
+    );
+
+    stepRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToStep = (id: number) => {
+    const ref = stepRefs.current[id - 1];
+    if (ref) ref.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <section id="investor-path" className="py-16 bg-(--bg)">
+      <Container>
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h2 className="text-display-2 font-semibold">Single window for investors</h2>
+          <p className="mt-3 text-body-3 text-(--on-bg-medium) max-w-2xl mx-auto">
+            Investors are supported on a one stop shop basis in the Republic of Tatarstan
+          </p>
+          <Link href="/order" className="inline-block mt-4 text-(--primary) hover:underline">
+            How to register a business in Russia
+          </Link>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="relative mb-16 max-w-4xl mx-auto">
+          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-(--outline) -translate-y-1/2" />
+          <div
+            className="absolute top-1/2 left-0 h-0.5 bg-(--primary) -translate-y-1/2 transition-all duration-500"
+            style={{ width: `${((activeStep - 1) / 3) * 100}%` }}
+          />
+          <div className="relative flex justify-between">
+            {steps.map((step) => (
+              <button
+                key={step.id}
+                onClick={() => scrollToStep(step.id)}
+                className="flex flex-col items-center gap-2 group"
+              >
+                <span
+                  className={`size-4 rounded-full transition-all duration-300 ${
+                    activeStep >= step.id ? "bg-(--primary)" : "bg-(--outline) group-hover:bg-(--on-bg-low)"
+                  }`}
+                />
+                <span
+                  className={`text-xs font-medium transition-colors ${
+                    activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)"
+                  }`}
+                >
+                  Step {step.id}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Steps */}
+        <div className="space-y-24">
+          {steps.map((step, index) => (
+            <div
+              key={step.id}
+              data-step-id={step.id}
+              ref={(el) => {
+                stepRefs.current[index] = el;
+              }}
+              className={`grid lg:grid-cols-2 gap-12 items-center transition-opacity duration-500 ${
+                activeStep === step.id ? "opacity-100" : "opacity-60"
+              }`}
+            >
+              {/* Text Content */}
+              <div className="order-2 lg:order-1">
+                <h3 className="text-display-3 font-semibold mb-8">{step.title}</h3>
+                <ol className="space-y-4">
+                  {step.items.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex gap-3 text-body-3 leading-relaxed text-(--on-bg-medium)"
+                    >
+                      <span className="font-medium text-(--primary) mt-0.5 shrink-0">{idx + 1}.</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ol>
+                <div className="mt-10 flex justify-end">
+                  <Button variant="outlined" size="large" shape="round" asChild>
+                    <Link href="/contacts">Contact the Agency</Link>
+                  </Button>
+                </div>
+              </div>
+              {/* Illustration */}
+              <div className="order-1 lg:order-2 flex justify-center">{step.illustration}</div>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+}
