@@ -97,7 +97,7 @@ export function ZoneSections() {
     <section
       id="zones-detail"
       ref={sectionRef}
-      className={`py-12 transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"
+      className={`pt-24 pb-12 transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"
         }`}
     >
       <Container>
@@ -108,7 +108,7 @@ export function ZoneSections() {
           Get detailed insights into Tatarstan's flagship industrial and innovation hubs.
         </p>
 
-        <div className="mt-12 space-y-16">
+        <div className="mt-12 grid grid-cols-1 gap-10">
           {zonesData.map((zone) => (
             <div
               key={zone.id}
