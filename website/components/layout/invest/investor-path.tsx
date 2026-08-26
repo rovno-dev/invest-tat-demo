@@ -164,7 +164,7 @@ export function InvestorPath() {
 
   return (
     <section id="investor-path" className="py-16 bg-(--bg)">
-      <Container>
+      <Container className="relative">
         {/* Header */}
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <h2 className="text-display-2 font-semibold">Single window for investors</h2>
@@ -176,105 +176,89 @@ export function InvestorPath() {
           </Link>
         </div>
 
-        {/* Timeline Layout */}
-        <div className="relative flex gap-16 lg:gap-24">
-          {/* Sticky Left Panel */}
-          <div className="hidden lg:block w-1/4 shrink-0">
-            <div className="sticky top-32">
-              <div className="relative pl-8">
-                {/* Vertical Line */}
-                <div className="absolute left-4 top-0 bottom-0 w-px bg-(--outline)" />
-                {/* Filled Line indicating progress */}
-                <div
-                  className="absolute left-4 top-0 w-px bg-(--primary) transition-all duration-500"
-                  style={{ height: `${((activeStep - 1) / (steps.length - 1)) * 100}%` }}
-                />
-                {/* Steps */}
-                <div className="flex flex-col gap-12">
-                  {steps.map((step) => (
-                    <button
-                      key={step.id}
-                      onClick={() => scrollToStep(step.id)}
-                      className="relative flex items-center gap-4 text-left group"
-                    >
-                      <span
-                        className={cn(
-                          "absolute -left-11 size-8 rounded-full border-2 flex items-center justify-center text-sm font-medium transition-all duration-300 bg-(--bg)",
-                          activeStep === step.id
-                            ? "border-(--primary) text-(--primary) scale-110"
-                            : "border-(--outline) text-(--on-bg-low) group-hover:border-(--primary)"
-                        )}
-                      >
-                        {String(step.id).padStart(2, "0")}
-                      </span>
-                      <span
-                        className={cn(
-                          "text-heading-4 font-semibold transition-colors",
-                          activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)"
-                        )}
-                      >
-                        {step.title}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Content Column */}
-          <div className="flex-1 min-w-0">
-            <div className="space-y-32">
-              {steps.map((step, index) => (
-                <div
+        {/* Sticky Top Timeline Bar */}
+        <div className="sticky top-[80px] lg:top-[110px] -mx-4 rounded-full px-4 z-50 bg-bg/40 backdrop-blur-lg mb-16">
+          <div className="relative py-4 max-w-5xl mx-auto">
+            {/* Progress Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-(--outline) -translate-y-1/2" />
+            <div
+              className="absolute top-1/2 left-0 h-0.5 bg-(--primary) -translate-y-1/2 transition-all duration-500"
+              style={{ width: `${((activeStep - 1) / (steps.length - 1)) * 100}%` }}
+            />
+            {/* Step Dots */}
+            <div className="relative flex justify-between">
+              {steps.map((step) => (
+                <button
                   key={step.id}
-                  data-step-id={step.id}
-                  ref={(el) => {
-                    stepRefs.current[index] = el;
-                  }}
-                  className={cn(
-                    "transition-opacity duration-500",
-                    activeStep === step.id ? "opacity-100" : "opacity-60"
-                  )}
+                  onClick={() => scrollToStep(step.id)}
+                  className="flex flex-col items-center gap-2 group"
                 >
-                  {/* Mobile Step Label */}
-                  <div className="lg:hidden flex items-center gap-3 mb-6">
-                    <span className="size-8 rounded-full border-2 border-(--primary) text-(--primary) flex items-center justify-center text-sm font-medium">
-                      {String(step.id).padStart(2, "0")}
-                    </span>
-                    <h3 className="text-heading-4 font-semibold">{step.title}</h3>
-                  </div>
-
-                  {/* Desktop Step Title */}
-                  <h3 className="hidden lg:block text-display-3 font-semibold mb-8">{step.title}</h3>
-
-                  {/* Illustration */}
-                  <div className="flex justify-center mb-8">{step.illustration}</div>
-
-                  {/* Text Content */}
-                  <ol className="space-y-4">
-                    {step.items.map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="flex gap-3 text-body-3 leading-relaxed text-(--on-bg-medium)"
-                      >
-                        <span className="font-medium text-(--primary) mt-0.5 shrink-0">{idx + 1}.</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ol>
-
-                  {/* CTA (visible only on last step) */}
-                  {step.id === steps.length && (
-                    <div className="mt-10 flex justify-end">
-                      <Button variant="outlined" size="large" shape="round" asChild>
-                        <Link href="/contacts">Contact the Agency</Link>
-                      </Button>
-                    </div>
-                  )}
-                </div>
+                  <span
+                    className={cn(
+                      "size-4 rounded-full border-2 transition-all duration-300 bg-(--bg)",
+                      activeStep === step.id
+                        ? "border-(--primary) scale-125"
+                        : "border-(--outline) group-hover:border-(--primary)"
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "text-xs font-medium transition-colors",
+                      activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)"
+                    )}
+                  >
+                    Step {step.id}
+                  </span>
+                </button>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Content - Vertical Steps */}
+        <div className="max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 gap-12">
+            {steps.map((step, index) => (
+              <div
+                key={step.id}
+                data-step-id={step.id}
+                ref={(el) => {
+                  stepRefs.current[index] = el;
+                }}
+                className={cn(
+                  "transition-opacity duration-500",
+                  activeStep === step.id ? "opacity-100" : "opacity-60"
+                )}
+              >
+                {/* Step Title */}
+                <h3 className="text-display-3 font-semibold mb-8">{step.title}</h3>
+
+                {/* Illustration */}
+                <div className="flex justify-center mb-8">{step.illustration}</div>
+
+                {/* Text Content */}
+                <ol className="space-y-4">
+                  {step.items.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex gap-3 text-body-3 leading-relaxed text-(--on-bg-medium)"
+                    >
+                      <span className="font-medium text-(--primary) mt-0.5 shrink-0">{idx + 1}.</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ol>
+
+                {/* CTA (visible only on last step) */}
+                {step.id === steps.length && (
+                  <div className="mt-10 flex justify-end">
+                    <Button variant="outlined" size="large" shape="round" asChild>
+                      <Link href="/contacts">Contact the Agency</Link>
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </Container>
