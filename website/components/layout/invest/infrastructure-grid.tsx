@@ -70,34 +70,34 @@ export function InfrastructureGrid() {
         }`}
     >
       <Container>
-        <h2 className="text-display-3 font-semibold text-white">
+        <h2 className="text-display-3 font-semibold ">
           Key Investment Zones
         </h2>
-        <p className="mt-3 max-w-2xl text-body-3 text-white/75">
+        <p className="mt-3 max-w-2xl text-body-3 ">
           Explore the Republic's flagship industrial and innovation hubs.
         </p>
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {zones.map((zone, index) => (
             <div
               key={zone.name}
-              className="group min-w-0 rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur-md transition-all hover:border-white/35 hover:bg-white/10 hover:-translate-y-1"
+              className="group min-w-0 rounded-2xl border dark:border-white/15 border-outline bg-(--card-glass) p-6 backdrop-blur-md transition-all hover:border-white/35 hover:bg-white/10 hover:-translate-y-1"
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="flex items-center justify-between">
-                <div className="text-white">{zone.icon}</div>
-                <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] uppercase tracking-wider text-white/60">
+                <div className="">{zone.icon}</div>
+                <span className="rounded-full border border-white/20 px-2 py-0.5 text-[10px] uppercase tracking-wider ">
                   {zone.type}
                 </span>
               </div>
-              <h3 className="mt-4 text-heading-3 font-semibold text-white">
+              <h3 className="mt-4 text-heading-3 font-semibold ">
                 {zone.name}
               </h3>
-              <p className="mt-4 text-body-3 text-white/75 leading-relaxed">
+              <p className="mt-4 text-body-3  leading-relaxed">
                 {zone.description}
               </p>
               <div className="mt-6 border-t border-white/10 pt-4">
-                <p className="text-body-2 font-semibold text-white">{zone.stat}</p>
-                <button className="mt-4 inline-flex items-center gap-2 text-sm text-white/80 underline-offset-4 hover:underline">
+                <p className="text-body-2 font-semibold ">{zone.stat}</p>
+                <button className="mt-4 inline-flex items-center gap-2 text-sm  underline-offset-4 hover:underline">
                   Explore {zone.name}{" "}
                   <ArrowRight
                     size={16}

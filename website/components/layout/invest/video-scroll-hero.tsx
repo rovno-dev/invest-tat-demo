@@ -4,6 +4,8 @@ import { ScenarioCards } from "./scenario-cards";
 import TatarstanFlag from "../tatarstan/tatarstan-flag";
 import { TatarstanFlagText } from "../tatarstan/tatarstan-flag-text";
 import { CpuIcon, BookOpenIcon } from "@phosphor-icons/react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 interface VideoScrollHeroProps {
   /** If true, scrolling down moves the video backwards */
@@ -94,29 +96,27 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
             {/* Flag container – now referenced via ref */}
             <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] ">
               {/* <TatarstanFlagText text="Tatarstan" className="w-full sm:w-[120%] h-auto" /> */}
-              <h1 className="flex items-center flex-col mt-2 text-display-2 sm:text-display-1 lg:text-[5rem] font-bold text-white">
+              <h1 className="text-white flex items-center flex-col mt-2 text-display-2 sm:text-display-1 lg:text-[5rem] font-bold ">
                 <span className="flex items-center gap-3">
-                  Where<span className="flex items-center gap-2"><BookOpenIcon size={40} weight="bold" />heritage</span>{" "}
+                  Where<span className="flex items-center gap-2"><BookOpenIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />heritage</span>{" "}
                 </span>
                 <span className="flex items-center gap-3">
-                  Meets <span className="flex items-center gap-2"><CpuIcon size={40} weight="bold" />innovation</span>
+                  Meets <span className="flex items-center gap-2"><CpuIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />innovation</span>
                 </span>
               </h1>
             </div>
             {/* TODO: add 4 infographic cards */}
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <a
-                href="#scenarios"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-medium text-black transition hover:bg-white/90"
+              <Button
+                variant={'tonal-card'}
+                asChild
               >
-                Explore Scenarios
-              </a>
-              <a
-                href="#infrastructure"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-white/40 px-8 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/10"
-              >
-                View Infrastructure
-              </a>
+                <Link
+                  href="#scenarios"
+                >
+                  Explore Scenarios
+                </Link>
+              </Button>
             </div>
           </div>
         </section>

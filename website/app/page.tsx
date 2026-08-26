@@ -14,7 +14,7 @@ export default function Home() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <InfrastructureGrid />
+        <ZoneSections />
       </ScrollReveal>
 
       <ScrollReveal>
@@ -22,7 +22,7 @@ export default function Home() {
       </ScrollReveal>
 
       <ScrollReveal>
-        <ZoneSections />
+        <InfrastructureGrid />
       </ScrollReveal>
     </>
   )

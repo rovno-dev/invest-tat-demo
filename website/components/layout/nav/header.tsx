@@ -64,7 +64,7 @@ export default function Header() {
           <Button
             size="small"
             shape="round"
-            className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/80"
+            className="hidden sm:flex bg-primary text-primary-foreground"
             asChild
           >
             <Link href="/order">Make a Request</Link>

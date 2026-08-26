@@ -20,7 +20,7 @@ export function MediaLightbox({ src, alt, children }: { src: string; alt: string
       >
         <Button
           variant="text"
-          className="absolute top-4 right-4 z-50 text-white hover:bg-white/20"
+          className="absolute top-4 right-4 z-50  hover:bg-white/20"
           size="icon-medium"
           onClick={() => setOpen(false)}
         >

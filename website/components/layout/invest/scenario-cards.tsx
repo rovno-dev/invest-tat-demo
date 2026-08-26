@@ -16,7 +16,7 @@ interface Scenario {
 const scenarios: Scenario[] = [
   {
     id: "industrialists",
-    icon: <Factory size={32} />,
+    icon: <Factory size={32} color="white" />,
     title: "Industrialists",
     description: "Scale your manufacturing with ready-made industrial parks and tax incentives.",
     metrics: "0% profit tax for 7 years",
@@ -24,7 +24,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "smes",
-    icon: <Briefcase size={32} />,
+    icon: <Briefcase size={32} color="white" />,
     title: "SMEs",
     description: "Access micro-credit programs and co-working infrastructure across the region.",
     metrics: "Up to ₽5M grant support",
@@ -32,7 +32,7 @@ const scenarios: Scenario[] = [
   },
   {
     id: "international",
-    icon: <Globe size={32} />,
+    icon: <Globe size={32} color="white" />,
     title: "International Partners",
     description: "Enter the Russian market through fully-licenced SEZ infrastructure and customs.",
     metrics: "0% customs duties on imports",
@@ -40,9 +40,9 @@ const scenarios: Scenario[] = [
   },
   {
     id: "startups",
-    icon: <FireSimpleIcon size={32} />,
+    icon: <FireSimpleIcon size={32} color="white" />,
     title: "Startups",
-    description: "Start your business in our business incubator. Show your ideas.",
+    description: "Grab your unicorn. Great opportunities, verified and resulting startups with energized founders.",
     metrics: "Up to 10m on start",
     cta: "Contact Startup Support",
   },
@@ -78,7 +78,7 @@ export function ScenarioCards() {
         <h2 className="text-display-3 font-semibold text-white">
           Your Investment Path
         </h2>
-        <p className="mt-3 max-w-2xl text-body-3 text-white/75">
+        <p className="mt-3 max-w-2xl text-body-3 text-white/80">
           Choose your profile to see how Tatarstan's incentives apply to you.
         </p>
 
@@ -94,15 +94,15 @@ export function ScenarioCards() {
                 }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="text-white">{scenario.icon}</div>
+              <div className="">{scenario.icon}</div>
               <h3 className="mt-4 text-heading-3 font-semibold text-white">
                 {scenario.title}
               </h3>
-              <p className="mt-2 text-body-4 text-white/70">
+              <p className="mt-2 text-body-4 text-white/80">
                 {scenario.description}
               </p>
               <div className="mt-4 border-t border-white/10 pt-4">
-                <p className="font-mono text-xs uppercase tracking-wider text-white/60">
+                <p className="font-mono text-xs uppercase tracking-wider text-white/70">
                   Key Metric
                 </p>
                 <p className="mt-1 text-body-3 font-medium text-white">
