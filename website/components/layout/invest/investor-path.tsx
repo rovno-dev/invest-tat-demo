@@ -84,7 +84,6 @@ function StampDocument() {
     </svg>
   );
 }
-
 /* Data */
 const steps = [
   {
@@ -132,7 +131,6 @@ const steps = [
     illustration: <StampDocument />,
   },
 ];
-
 export function InvestorPath() {
   const [activeStep, setActiveStep] = useState(1);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -149,18 +147,20 @@ export function InvestorPath() {
       },
       { rootMargin: "-40% 0px -40% 0px", threshold: 0.1 }
     );
-
     stepRefs.current.forEach((ref) => {
       if (ref) observer.observe(ref);
     });
-
     return () => observer.disconnect();
   }, []);
 
   const scrollToStep = (id: number) => {
     const ref = stepRefs.current[id - 1];
-    if (ref) ref.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (ref) {
+      ref.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
+
+  const progress = ((activeStep - 1) / (steps.length - 1)) * 100;
 
   return (
     <section id="investor-path" className="py-16 bg-(--bg)">
@@ -177,40 +177,45 @@ export function InvestorPath() {
         </div>
 
         {/* Sticky Top Timeline Bar */}
-        <div className="sticky top-[80px] lg:top-[110px] -mx-4 rounded-full px-4 z-50 bg-bg/40 backdrop-blur-lg mb-16">
-          <div className="relative py-4 max-w-5xl mx-auto">
-            {/* Progress Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-(--outline) -translate-y-1/2" />
-            <div
-              className="absolute top-1/2 left-0 h-0.5 bg-(--primary) -translate-y-1/2 transition-all duration-500"
-              style={{ width: `${((activeStep - 1) / (steps.length - 1)) * 100}%` }}
-            />
-            {/* Step Dots */}
-            <div className="relative flex justify-between">
-              {steps.map((step) => (
-                <button
-                  key={step.id}
-                  onClick={() => scrollToStep(step.id)}
-                  className="flex flex-col items-center gap-2 group"
-                >
-                  <span
-                    className={cn(
-                      "size-4 rounded-full border-2 transition-all duration-300 bg-(--bg)",
-                      activeStep === step.id
-                        ? "border-(--primary) scale-125"
-                        : "border-(--outline) group-hover:border-(--primary)"
-                    )}
-                  />
-                  <span
-                    className={cn(
-                      "text-xs font-medium transition-colors",
-                      activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)"
-                    )}
+        <div className="sticky top-[80px] lg:top-[110px] -mx-4 px-4 z-50 mb-16">
+          <div className="bg-bg/80 backdrop-blur-lg rounded-2xl border border-(--outline) shadow-lg p-4 max-w-5xl mx-auto">
+            <div className="relative">
+              {/* Step Dots */}
+              <div className="relative flex justify-between">
+                {steps.map((step) => (
+                  <Button
+                    variant={'text'}
+                    key={step.id}
+                    onClick={() => scrollToStep(step.id)}
+                    className="flex flex-col items-center gap-2 group py-2"
                   >
-                    Step {step.id}
-                  </span>
-                </button>
-              ))}
+                    <span
+                      className={cn(
+                        "size-4 rounded-full border-2 transition-all duration-300 bg-(--bg)",
+                        activeStep === step.id
+                          ? "border-(--primary) scale-125"
+                          : "border-(--outline) group-hover:border-(--primary)"
+                      )}
+                    />
+                    <span
+                      className={cn(
+                        "text-xs transition-colors",
+                        activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)"
+                      )}
+                    >
+                      Step {step.id}
+                    </span>
+                  </Button>
+                ))}
+              </div>
+              {/* Progress Line */}
+              <div className="relative h-0.5">
+                <div className="top-0 left-0 absolute right-0 h-full bg-(--outline) -translate-y-1/2" />
+                <div
+                  className="top-0 left-0 absolute h-full bg-(--primary) -translate-y-1/2 transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -226,16 +231,14 @@ export function InvestorPath() {
                   stepRefs.current[index] = el;
                 }}
                 className={cn(
-                  "transition-opacity duration-500",
+                  "transition-opacity duration-500 scroll-mt-[150px] lg:scroll-mt-[180px]",
                   activeStep === step.id ? "opacity-100" : "opacity-60"
                 )}
               >
                 {/* Step Title */}
                 <h3 className="text-display-3 font-semibold mb-8">{step.title}</h3>
-
                 {/* Illustration */}
                 <div className="flex justify-center mb-8">{step.illustration}</div>
-
                 {/* Text Content */}
                 <ol className="space-y-4">
                   {step.items.map((item, idx) => (
@@ -248,7 +251,6 @@ export function InvestorPath() {
                     </li>
                   ))}
                 </ol>
-
                 {/* CTA (visible only on last step) */}
                 {step.id === steps.length && (
                   <div className="mt-10 flex justify-end">
