@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Stars Boom</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000;
+      overflow: hidden;
+    }
+
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="100" height="100"></canvas>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const W = 100, H = 100;
+    canvas.width = W;
+    canvas.height = H;
+
+    // Star states
+    let leftStar = { x: 10, y: 50 };
+    let rightStar = { x: 90, y: 50 };
+    const centerX = 50, centerY = 50;
+    const collisionDist = 4;       // collision distance threshold
+    const approachSpeed = 1.2;      // base speed, we'll ease it
+
+    // Particles and effects
+    const particles = [];
+    let phase = 'approach';         // approach, boom, reset
+    let boomTimer = 0;
+    let flashAlpha = 0;
+    let shakeX = 0, shakeY = 0;
+    let shakeIntensity = 0;
+
+    // Colors: bold, vibrant
+    const color1 = '#ffcc00';       // bright gold
+    const color2 = '#ff5e00';       // vivid orange
+
+    function resetStars() {
+      leftStar.x = 12;
+      rightStar.x = 88;
+      leftStar.y = 48 + Math.random() * 4;
+      rightStar.y = 48 + Math.random() * 4;
+      phase = 'approach';
+      boomTimer = 0;
+      flashAlpha = 0;
+      shakeIntensity = 0;
+      shakeX = shakeY = 0;
+      particles.length = 0;
+    }
+
+    // draw a bold pixel star (bigger than before, with thick arms)
+    function drawBoldStar(x, y, color) {
+      ctx.fillStyle = color;
+      // central core 2x2
+      ctx.fillRect(x - 1, y - 1, 3, 3);
+      // thick arms
+      ctx.fillRect(x - 5, y - 1, 4, 3);  // left
+      ctx.fillRect(x + 1, y - 1, 4, 3);  // right
+      ctx.fillRect(x - 1, y - 5, 3, 4);  // up
+      ctx.fillRect(x - 1, y + 2, 3, 4);  // down
+      // diagonal corners (pixelated)
+      ctx.fillRect(x - 4, y - 4, 3, 3);
+      ctx.fillRect(x + 1, y - 4, 3, 3);
+      ctx.fillRect(x - 4, y + 1, 3, 3);
+      ctx.fillRect(x + 1, y + 1, 3, 3);
+    }
+
+    // spawn an explosion (big, dramatic)
+    function spawnBoom(cx, cy) {
+      // ===== large shockwave particles =====
+      for (let i = 0; i < 60; i++) {
+        const angle = (Math.PI * 2 * i) / 60 + Math.random() * 0.5;
+        const speed = 1.5 + Math.random() * 4;
+        particles.push({
+          x: cx, y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1.0,
+          decay: 0.012 + Math.random() * 0.015,
+          size: 2 + Math.floor(Math.random() * 3), // 2-4px
+          color: Math.random() < 0.5 ? color1 : color2
+        });
+      }
+
+      // additional random particles
+      for (let i = 0; i < 40; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 2 + Math.random() * 5;
+        particles.push({
+          x: cx, y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 0.8 + Math.random() * 0.4,
+          decay: 0.02 + Math.random() * 0.02,
+          size: 1 + Math.floor(Math.random() * 3),
+          color: Math.random() < 0.5 ? '#ffffff' : (Math.random() < 0.5 ? color1 : color2)
+        });
+      }
+
+      // flash + shake
+      flashAlpha = 1;
+      shakeIntensity = 8;
+      boomTimer = 0;
+    }
+
+    function update() {
+      if (phase === 'approach') {
+        // ease-in speed: slow at start, fast near center
+        const distLeft = leftStar.x - centerX;
+        const distRight = rightStar.x - centerX;
+        const speedFactor = Math.min(1, Math.abs(distLeft) / 50) * 2 + 0.4;
+        leftStar.x -= speedFactor * approachSpeed;
+        rightStar.x += speedFactor * approachSpeed;
+
+        // check collision
+        if (rightStar.x - leftStar.x <= collisionDist * 2) {
+          // set to boom
+          phase = 'boom';
+          spawnBoom(centerX, centerY);
+        }
+      } else if (phase === 'boom') {
+        boomTimer++;
+        // update particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vx *= 0.98;
+          p.vy *= 0.98;
+          p.life -= p.decay;
+          if (p.life <= 0) particles.splice(i, 1);
+        }
+
+        // fade flash
+        flashAlpha *= 0.9;
+
+        // shake decay
+        shakeIntensity *= 0.9;
+        shakeX = (Math.random() - 0.5) * shakeIntensity * 2;
+        shakeY = (Math.random() - 0.5) * shakeIntensity * 2;
+
+        // after boom duration, reset
+        if (boomTimer > 60) {
+          resetStars();
+        }
+      }
+    }
+
+    function render() {
+      // clear with black, and apply shake offset
+      ctx.save();
+      ctx.translate(shakeX, shakeY);
+      ctx.fillStyle = '#000';
+      ctx.fillRect(-10, -10, W + 20, H + 20);
+
+      // draw stars (if approaching)
+      if (phase === 'approach') {
+        drawBoldStar(leftStar.x, leftStar.y, color1);
+        drawBoldStar(rightStar.x, rightStar.y, color2);
+      }
+
+      // draw particles (explosion)
+      for (const p of particles) {
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillRect(Math.round(p.x), Math.round(p.y), p.size, p.size);
+      }
+      ctx.globalAlpha = 1;
+
+      // draw flash overlay (white/yellow boom effect)
+      if (flashAlpha > 0.01) {
+        ctx.globalAlpha = flashAlpha;
+        const grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 25);
+        grad.addColorStop(0, '#ffffff');
+        grad.addColorStop(0.4, '#ffee88');
+        grad.addColorStop(1, 'rgba(255, 100, 0, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 25, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      ctx.restore();
+    }
+
+    function loop() {
+      update();
+      render();
+      requestAnimationFrame(loop);
+    }
+
+    // init
+    resetStars();
+    requestAnimationFrame(loop);
+  </script>
+</body>
+
+</html>

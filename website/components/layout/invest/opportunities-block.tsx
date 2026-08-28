@@ -2,21 +2,22 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { ArrowRight } from "@phosphor-icons/react";
-import TatarstanFlag from "../tatarstan/tatarstan-flag";
-import { ClimatePixel, ResourcePixel, InvestorClubPixel } from "./pixel-illustrations";
+import TatarstanFlag from "../pixel-animations/tatarstan/tatarstan-flag";
+import { PixelWave } from "../pixel-animations/pixel-wave";
+import { GrowingGraph } from "../pixel-animations/growing-graph";
 
 const opportunities = [
   {
     number: "1",
     title: "Best investment climate in Russia",
     description: "The highest rate and quality of investment projects implementation",
-    illustration: <ClimatePixel className="w-full h-full" />,
+    illustration: <GrowingGraph className="w-full h-full" />,
   },
   {
     number: "2",
     title: "Extensive resource potential",
     description: "Natural, water, land and transport resources",
-    illustration: <ResourcePixel className="w-full h-full" />,
+    illustration: <PixelWave className="w-full h-full" />,
   },
   {
     number: "3",
@@ -28,7 +29,7 @@ const opportunities = [
     number: "4",
     title: "Investor's club",
     description: "Join a community of successful investors",
-    illustration: <InvestorClubPixel className="w-full h-full" />,
+    illustration: <TatarstanFlag className="w-full h-full" />,
   },
 ];
 
@@ -44,8 +45,8 @@ export function OpportunitiesBlock() {
               href="/order"
               className="group relative flex flex-col border border-border rounded-lg bg-card overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/30"
             >
-              {/* Illustration - flush top-right, no padding */}
-              <div className="absolute top-0 right-0 aspect-[16/10] w-18 overflow-hidden opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-300">
+              {/* Illustration - larger and more visible */}
+              <div className="absolute top-0 right-0 aspect-[16/10] w-28 overflow-hidden opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-transform duration-300">
                 {item.illustration}
               </div>
               <div className="p-6 flex flex-col flex-1">

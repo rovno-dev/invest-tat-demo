@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { ScenarioCards } from "./scenario-cards";
-import TatarstanFlag from "../tatarstan/tatarstan-flag";
-import { TatarstanFlagText } from "../tatarstan/tatarstan-flag-text";
+import TatarstanFlag from "../pixel-animations/tatarstan/tatarstan-flag";
+import { TatarstanFlagText } from "../pixel-animations/tatarstan/tatarstan-flag-text";
 import { CpuIcon, BookOpenIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
