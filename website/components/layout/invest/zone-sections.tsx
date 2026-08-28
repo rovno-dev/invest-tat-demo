@@ -76,28 +76,11 @@ const zonesData = [
 ];
 
 export function ZoneSections() {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section
       id="zones-detail"
-      ref={sectionRef}
-      className={`pt-24 pb-12 transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"
+      className={`pt-24 pb-12 transition-opacity duration-1000
         }`}
     >
       <Container>

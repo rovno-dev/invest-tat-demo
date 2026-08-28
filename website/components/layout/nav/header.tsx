@@ -42,6 +42,16 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
+
+  // Dispatch custom events for OrderButton to listen to
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      window.dispatchEvent(new Event("mobileMenuOpen"));
+    } else {
+      window.dispatchEvent(new Event("mobileMenuClose"));
+    }
+  }, [isMobileMenuOpen]);
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);

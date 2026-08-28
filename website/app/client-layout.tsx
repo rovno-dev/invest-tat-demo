@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import OrderButton from "@/components/layout/nav/order-button";
 
 export default function ClientRootLayout({
   children,
@@ -29,16 +30,7 @@ export default function ClientRootLayout({
           gap={8}
           visibleToasts={3}
         />
-        <div className="sm:hidden z-50 sticky flex justify-end bottom-4 right-0 px-4">
-          <Button
-            size="large"
-            shape="round"
-            className="w-full max-w-sm"
-            asChild
-          >
-            <Link href="/order">Make a Request</Link>
-          </Button>
-        </div>
+        <OrderButton />
       </div>
       <Footer />
     </>
