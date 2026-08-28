@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/container";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -261,9 +262,11 @@ export function InvestorPath() {
                 {/* CTA (visible only on last step) */}
                 {step.id === steps.length && (
                   <div className="mt-10 flex justify-end">
-                    <Button variant="outlined" size="large" shape="round" asChild>
-                      <Link href="/contacts">Contact the Agency</Link>
-                    </Button>
+                    <RequestDialog>
+                      <Button variant="outlined" size="large" shape="round">
+                        Contact the Agency
+                      </Button>
+                    </RequestDialog>
                   </div>
                 )}
               </div>

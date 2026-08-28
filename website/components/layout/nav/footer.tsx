@@ -54,7 +54,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border/50">
           <p className="text-xs text-muted-foreground">
-            © {year} Amorfa. All rights reserved.
+            © {year} Rovno.dev's Invest Tatarstan site demo. Just enjoy.
           </p>
           <p className="text-xs text-muted-foreground">
             Made with <span className="text-primary">♥</span> in{" "}
