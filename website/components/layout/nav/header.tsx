@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
+
 
 const navItems = [
   { label: "Investment standard", href: "/investment-standard" },
@@ -61,14 +63,15 @@ export default function Header() {
             ))}
           </nav>
           {/* Request button - desktop/tablet */}
-          <Button
-            size="small"
-            shape="round"
-            className="hidden sm:flex bg-primary text-primary-foreground"
-            asChild
-          >
-            <Link href="/order">Make a Request</Link>
-          </Button>
+          <RequestDialog>
+            <Button
+              size="small"
+              shape="round"
+              className="hidden sm:flex bg-primary text-primary-foreground"
+            >
+              Make a Request
+            </Button>
+          </RequestDialog>
           {/* Burger menu - mobile only */}
           <Button
             variant="text"

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ROUTES } from "@/utils/constants/routes";
 import { TerminalStyledInline } from "@/components/layout/fancy/terminal-styled-inline";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
 
 export default function HeroSection() {
   return (
@@ -27,17 +28,16 @@ export default function HeroSection() {
         </h1>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center w-full">
-          <Button
-            size="xlarge"
-            shape="round"
-            className="w-full sm:w-fit"
-            variant={'filled'}
-            asChild
-          >
-            <Link href={ROUTES.order.href}>
+          <RequestDialog>
+            <Button
+              size="xlarge"
+              shape="round"
+              className="w-full sm:w-fit"
+              variant={'filled'}
+            >
               Начать проект
-            </Link>
-          </Button>
+            </Button>
+          </RequestDialog>
         </div>
       </Container>
     </section>
