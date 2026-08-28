@@ -51,13 +51,20 @@ function Scissors() {
       <circle cx="330" cy="50" r="2" fill="#93C5FD" />
       <circle cx="350" cy="240" r="2" fill="#93C5FD" />
       <circle cx="80" cy="250" r="3" fill="#93C5FD" />
-      <path d="M100 100 C 200 100, 300 120, 350 160" stroke="#E03131" strokeWidth="6" strokeLinecap="round" />
-      <path d="M100 150 C 200 150, 300 170, 350 210" stroke="#E03131" strokeWidth="6" strokeLinecap="round" />
-      <path d="M180 140 L220 100" stroke="#1E293B" strokeWidth="2" />
-      <path d="M180 140 L220 190" stroke="#1E293B" strokeWidth="2" />
-      <circle cx="180" cy="140" r="8" fill="#1E293B" />
-      <path d="M220 100 C 250 80, 280 80, 300 100" stroke="#1E293B" strokeWidth="2" fill="none" />
-      <path d="M220 190 C 250 210, 280 210, 300 190" stroke="#1E293B" strokeWidth="2" fill="none" />
+      <rect x="70" y="60" width="240" height="230" rx="6" fill="white" stroke="#1E293B" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="90" y1="100" x2="290" y2="100" stroke="#60A5FA" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="90" y1="130" x2="290" y2="130" stroke="#60A5FA" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="90" y1="160" x2="290" y2="160" stroke="#60A5FA" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="90" y1="190" x2="290" y2="190" stroke="#60A5FA" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="90" y1="220" x2="290" y2="220" stroke="#60A5FA" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="90" y1="250" x2="290" y2="250" stroke="#60A5FA" strokeWidth="2" transform="rotate(-2 190 175)" />
+      <line x1="70" y1="175" x2="310" y2="175" stroke="#E03131" strokeWidth="2.5" strokeDasharray="8 5" transform="rotate(-2 190 175)" />
+      <path d="M240 175 L150 125" stroke="#E03131" strokeWidth="4" strokeLinecap="round" />
+      <path d="M240 175 L150 225" stroke="#E03131" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="240" cy="175" r="6" fill="#E03131" />
+      <circle cx="240" cy="175" r="2.5" fill="white" />
+      <circle cx="310" cy="115" r="10" stroke="#E03131" strokeWidth="3" fill="none" />
+      <circle cx="310" cy="235" r="10" stroke="#E03131" strokeWidth="3" fill="none" />
     </svg>
   );
 }

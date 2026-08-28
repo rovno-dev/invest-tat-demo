@@ -12,13 +12,13 @@ const opportunities = [
     number: "1",
     title: "Best investment climate in Russia",
     description: "The highest rate and quality of investment projects implementation",
-    illustration: <GrowingGraph className="w-full h-full" />,
+    illustration: <TatarstanFlag numOfColumns={10} staggeredDelay={80} className="w-full h-full" />,
   },
   {
     number: "2",
     title: "Extensive resource potential",
     description: "Natural, water, land and transport resources",
-    illustration: <PixelWave className="w-full h-full" />,
+    illustration: <TatarstanFlag numOfColumns={10} staggeredDelay={80} className="w-full h-full" />,
   },
   {
     number: "3",
@@ -30,7 +30,7 @@ const opportunities = [
     number: "4",
     title: "Investor's club",
     description: "Join a community of successful investors",
-    illustration: <StarsBoom className="w-full h-full" />,
+    illustration: <TatarstanFlag numOfColumns={10} staggeredDelay={80} className="w-full h-full" />,
   },
 ];
 
