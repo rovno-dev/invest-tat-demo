@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/layout/logo/logo";
@@ -24,8 +24,23 @@ const secondaryNavItems = [
 ];
 
 export default function Header() {
-  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Lock body scroll and add scrollbar-gutter when menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.documentElement.classList.add('scrollbar-gutter-stable');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.documentElement.classList.remove('scrollbar-gutter-stable');
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.documentElement.classList.remove('scrollbar-gutter-stable');
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -35,7 +50,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        isMobileMenuOpen ? "h-screen overflow-hidden [scrollbar-gutter:stable]" : "",
+        isMobileMenuOpen ? "fixed inset-0 z-[100] h-screen overflow-y-auto" : "",
         "-mt-[64px] lg:-mt-[98px] transition-height duration-200 sticky top-0 z-50 bg-bg/40 backdrop-blur-lg"
       )}
     >
@@ -105,9 +120,9 @@ export default function Header() {
 
       {/* Mobile dropdown - burger menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-background shadow-lg h-full">
-          <Container className="py-4">
-            <div className="overflow-hidden sm:max-w-md ml-auto">
+        <div className="lg:hidden fixed inset-0 top-16 bg-background h-[calc(100vh-4rem)] overflow-y-auto">
+          <Container className="py-6">
+            <div className="w-full">
               <nav className="flex flex-col">
                 {/* Primary nav items */}
                 {navItems.map((item, index) => (
