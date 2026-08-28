@@ -5,6 +5,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 import TatarstanFlag from "../pixel-animations/tatarstan/tatarstan-flag";
 import { PixelWave } from "../pixel-animations/pixel-wave";
 import { GrowingGraph } from "../pixel-animations/growing-graph";
+import { StarsBoom } from "../pixel-animations/stars-boom";
 
 const opportunities = [
   {
@@ -29,7 +30,7 @@ const opportunities = [
     number: "4",
     title: "Investor's club",
     description: "Join a community of successful investors",
-    illustration: <TatarstanFlag className="w-full h-full" />,
+    illustration: <StarsBoom className="w-full h-full" />,
   },
 ];
 

@@ -34,8 +34,6 @@ export function PixelWave({ className = "" }: PixelWaveProps) {
       const dt = (now - lastTime) / 1000;
       lastTime = now;
 
-      // Fade trail
-      ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
       ctx.fillRect(0, 0, w, h);
 
       for (const wave of waves) {
