@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ROUTES } from "@/utils/constants/routes";
-import { TerminalStyledInline } from "@/components/layout/fancy/terminal-styled-inline";
+// import { TerminalStyledInline } from "@/components/layout/fancy/terminal-styled-inline";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
 
 export default function HeroSection() {
@@ -23,7 +23,7 @@ export default function HeroSection() {
 
       <Container className="relative z-10 flex flex-col items-center text-center">
         <h1 className="text-display-2 sm:text-display-1 md:text-[3.5rem] lg:text-[5rem] font-italic leading-[1.05] tracking-tight text-(--white) mb-6">
-          Цифровые продукты <br />
+          Цифровые продукты <br className="sm:hidden" />
           <span className="text-(--dark-1)">любой сложности</span>
         </h1>
 

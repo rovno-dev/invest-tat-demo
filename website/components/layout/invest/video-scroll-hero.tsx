@@ -6,6 +6,7 @@ import { TatarstanFlagText } from "../pixel-animations/tatarstan/tatarstan-flag-
 import { CpuIcon, BookOpenIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 
 interface VideoScrollHeroProps {
   /** If true, scrolling down moves the video backwards */
@@ -91,14 +92,14 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
       {/* Content layers */}
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center px-4">
-          <div className="relative z-20 max-w-4xl text-center">
+        <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center">
+          <Container className="relative z-20 max-w-4xl text-center">
             {/* Flag container – now referenced via ref */}
             <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] ">
               {/* <TatarstanFlagText text="Tatarstan" className="w-full sm:w-[120%] h-auto" /> */}
               <h1 className="text-white flex items-center flex-col mt-2 text-display-2 sm:text-display-1 lg:text-[5rem] font-bold ">
                 <span className="flex items-center gap-3">
-                  Where<span className="flex items-center gap-2"><BookOpenIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />heritage</span>{" "}
+                  Where<br className="block sm:hidden" /><span className="flex items-center gap-2"><BookOpenIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />heritage</span>{" "}
                 </span>
                 <span className="flex items-center gap-3">
                   Meets <span className="flex items-center gap-2"><CpuIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />innovation</span>
@@ -110,6 +111,7 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
               <Button
                 variant={'tonal-card'}
                 asChild
+                className="w-full sm:w-fit"
               >
                 <Link
                   href="#scenarios"
@@ -118,11 +120,11 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
                 </Link>
               </Button>
             </div>
-          </div>
+          </Container>
         </section>
 
         <ScenarioCards />
       </div>
-    </main>
+    </main >
   );
 }

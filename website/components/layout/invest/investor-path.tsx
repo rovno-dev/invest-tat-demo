@@ -186,10 +186,10 @@ export function InvestorPath() {
 
         {/* Sticky Top Timeline Bar */}
         <div className="sticky top-[80px] lg:top-[110px] -mx-4 px-4 z-50 mb-16">
-          <div className="bg-bg/80 backdrop-blur-lg rounded-2xl border border-(--outline) shadow-lg p-4 max-w-5xl mx-auto">
+          <div className=" bg-bg/80 backdrop-blur-lg rounded-2xl border border-(--outline) shadow-lg p-4 max-w-5xl mx-auto">
             <div className="relative">
               {/* Step Dots */}
-              <div className="relative flex justify-between">
+              <div className="no-scrollbar overflow-x-scroll relative flex justify-between">
                 {steps.map((step) => (
                   <Button
                     variant={'text'}
