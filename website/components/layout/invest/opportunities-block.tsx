@@ -3,22 +3,20 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 import { ArrowRight } from "@phosphor-icons/react";
 import TatarstanFlag from "../tatarstan/tatarstan-flag";
-import { ClimateIllustration } from "./climate-illustration";
-import { ResourceIllustration } from "./resource-illustration";
-import { InvestorClubIllustration } from "./investor-club-illustration";
+import { ClimatePixel, ResourcePixel, InvestorClubPixel } from "./pixel-illustrations";
 
 const opportunities = [
   {
     number: "1",
     title: "Best investment climate in Russia",
     description: "The highest rate and quality of investment projects implementation",
-    illustration: <ClimateIllustration className="w-full h-full" />,
+    illustration: <ClimatePixel className="w-full h-full" />,
   },
   {
     number: "2",
     title: "Extensive resource potential",
     description: "Natural, water, land and transport resources",
-    illustration: <ResourceIllustration className="w-full h-full" />,
+    illustration: <ResourcePixel className="w-full h-full" />,
   },
   {
     number: "3",
@@ -30,7 +28,7 @@ const opportunities = [
     number: "4",
     title: "Investor's club",
     description: "Join a community of successful investors",
-    illustration: <InvestorClubIllustration className="w-full h-full" />,
+    illustration: <InvestorClubPixel className="w-full h-full" />,
   },
 ];
 
