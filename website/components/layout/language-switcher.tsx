@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/providers/language-provider";
-import { Globe, Check, ChevronDown } from "lucide-react";
+import { GlobeIcon, CheckIcon, CaretDownIcon } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 export function LanguageSwitcher() {
@@ -37,9 +37,9 @@ export function LanguageSwitcher() {
           )}
           aria-label="Change language"
         >
-          <Globe className="size-4 text-(--on-bg-low) group-hover:text-(--primary) transition-colors" />
+          <GlobeIcon className="size-4 text-(--on-bg-low) group-hover:text-(--primary) transition-colors" />
           {mounted && <span className="uppercase font-semibold tracking-wide">{lang}</span>}
-          <ChevronDown className="size-3 text-(--on-bg-low) transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          <CaretDownIcon className="size-3 text-(--on-bg-low) transition-transform duration-200 group-data-[state=open]:rotate-180" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44 p-1.5">
@@ -58,7 +58,7 @@ export function LanguageSwitcher() {
             <span className="text-lg leading-none">🇬🇧</span>
             <span className="text-sm font-medium">English</span>
           </span>
-          {lang === "en" && <Check className="size-4" />}
+          {lang === "en" && <CheckIcon className="size-4" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleSelect("ru")}
@@ -71,7 +71,7 @@ export function LanguageSwitcher() {
             <span className="text-lg leading-none">🇷🇺</span>
             <span className="text-sm font-medium">Русский</span>
           </span>
-          {lang === "ru" && <Check className="size-4" />}
+          {lang === "ru" && <CheckIcon className="size-4" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

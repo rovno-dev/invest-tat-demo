@@ -10,7 +10,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
-import { KeyboardArrowLeftIcon, SquareArrowRight, SquareArrowDown } from "lucide-react"
+import { CaretLeftIcon, ArrowRightIcon, CaretDownIcon } from "@phosphor-icons/react"
 
 function Calendar({
   className,
@@ -147,18 +147,18 @@ function Calendar({
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === "left") {
             return (
-              <KeyboardArrowLeftIcon className={cn("size-4", className)} {...props} />
+              <CaretLeftIcon className={cn("size-4", className)} {...props} />
             )
           }
 
           if (orientation === "right") {
             return (
-              <SquareArrowRight className={cn("size-4", className)} {...props} />
+              <ArrowRightIcon className={cn("size-4", className)} {...props} />
             )
           }
 
           return (
-            <SquareArrowDown className={cn("size-4", className)} {...props} />
+            <CaretDownIcon className={cn("size-4", className)} {...props} />
           )
         },
         DayButton: ({ ...props }) => (

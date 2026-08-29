@@ -4,12 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/layout/logo/logo";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { useLanguage } from "@/providers/language-provider";
+import { ListIcon, XIcon } from "@phosphor-icons/react";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -102,7 +102,7 @@ export default function Header() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X className="size-6!" /> : <Menu className="size-6!" />}
+            {isMobileMenuOpen ? <XIcon className="size-6!" /> : <ListIcon className="size-6!" />}
           </Button>
         </div>
       </Container>
