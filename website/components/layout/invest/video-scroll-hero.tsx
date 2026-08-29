@@ -97,13 +97,24 @@ export function VideoScrollHero({ backward = false }: VideoScrollHeroProps) {
             {/* Flag container – now referenced via ref */}
             <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] ">
               {/* <TatarstanFlagText text="Tatarstan" className="w-full sm:w-[120%] h-auto" /> */}
-              <h1 className="text-white flex items-center flex-col mt-2 text-display-2 sm:text-display-1 lg:text-[5rem] font-bold ">
-                <span className="flex items-center gap-3">
-                  Where<br className="block sm:hidden" /><span className="flex items-center gap-2"><BookOpenIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />heritage</span>{" "}
-                </span>
-                <span className="flex items-center gap-3">
-                  Meets <span className="flex items-center gap-2"><CpuIcon className="text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />innovation</span>
-                </span>
+              <h1 className="text-white text-display-2 sm:text-display-1 lg:text-[5rem] font-bold mt-2 max-w-2xl leading-tight">
+                {/* Line 1 */}
+                <div className="mb-2 sm:mb-4">
+                  <span className="mr-0 sm:mr-3">Where</span>
+                  <span className="inline-flex items-center gap-2 vertical-middle">
+                    <BookOpenIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
+                    <span>heritage</span>
+                  </span>
+                </div>
+
+                {/* Line 2 */}
+                <div>
+                  <span className="mr-0 sm:mr-3">Meets</span>
+                  <span className="inline-flex items-center gap-2 vertical-middle">
+                    <CpuIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
+                    <span>innovation</span>
+                  </span>
+                </div>
               </h1>
             </div>
             {/* TODO: add 4 infographic cards */}

@@ -50,29 +50,11 @@ const scenarios: Scenario[] = [
 
 export function ScenarioCards() {
   const [active, setActive] = useState<string | null>(null);
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section
       id="scenarios"
-      ref={sectionRef}
-      className={`z-20 pb-[15vh] pt-12 transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0"
-        }`}
+      className={`z-20 pb-[15vh] pt-12 transition-opacity duration-1000`}
     >
       <Container>
         <h2 className="text-display-3 font-semibold text-white">
