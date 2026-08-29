@@ -27,7 +27,7 @@ export default function OrderButton() {
   return (
     <div
       className={cn(
-        "sm:hidden z-50 sticky flex justify-end bottom-4 right-0 px-4 transition-opacity duration-200",
+        "sm:hidden z-40 sticky flex justify-end bottom-4 right-0 px-4 transition-opacity duration-200",
         isMobileMenuOpen ? "pointer-events-none opacity-0" : "opacity-100"
       )}
     >
