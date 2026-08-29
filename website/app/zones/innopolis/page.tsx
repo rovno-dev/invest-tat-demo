@@ -20,6 +20,7 @@ import {
   CheckCircle,
   Lightning,
 } from "@phosphor-icons/react";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
 
 const features = [
   {
@@ -251,12 +252,12 @@ export default function InnopolisPage() {
           <div className="text-center text-white">
             <h2 className="text-display-2 font-semibold">Join Innopolis</h2>
             <p className="mt-2 text-body-3 opacity-80">Build your IT company in Russia's tech capital</p>
-            <Button variant="tonal-card" size="large" shape="round" asChild className="mt-8">
-              <Link href="/order">
+            <RequestDialog>
+              <Button variant="tonal-card" size="large" shape="round" className="mt-8">
                 Submit Request
                 <ArrowRight size={16} weight="bold" />
-              </Link>
-            </Button>
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
       </section>

@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
 import {
   ArrowRight,
-  BuildingIcon,
+  Building,
   Users,
   Globe,
   Rocket,
@@ -47,7 +48,7 @@ const features = [
 ];
 
 const stats = [
-  { icon: BuildingIcon, value: "49,300 m²", label: "Total Area" },
+  { icon: Building, value: "49,300 m²", label: "Total Area" },
   { icon: Users, value: "3,000+", label: "Tech Workspaces" },
   { icon: Rocket, value: "150+", label: "Digital Startups" },
 ];
@@ -57,7 +58,7 @@ const facilities = [
   { icon: WifiHighIcon, title: "Digital Sandbox", desc: "Testing environments for software products" },
   { icon: Globe, title: "Global Network", desc: "International partnerships and events" },
   { icon: TrendUp, title: "VC Access", desc: "Direct connection to venture capital funds" },
-  { icon: BuildingIcon, title: "Office Spaces", desc: "Equipped offices from 20 to 500 m²" },
+  { icon: Building, title: "Office Spaces", desc: "Equipped offices from 20 to 500 m²" },
   { icon: Users, title: "Community", desc: "150+ startups and tech enthusiasts" },
 ];
 
@@ -85,7 +86,7 @@ export default function ItParkPage() {
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
         <Container className="relative z-10 text-center">
-          <Badge variant="default" className="mb-6 text-sm tracking-wider uppercase">
+          <Badge variant="glass-static" className="mb-6 text-sm tracking-wider uppercase">
             IT & Innovation Hub
           </Badge>
           <h1 className="text-display-1 text-white font-bold leading-[1.05] max-w-3xl mx-auto">
@@ -102,9 +103,16 @@ export default function ItParkPage() {
                 <ArrowRight size={16} weight="bold" />
               </Link>
             </Button>
-            <Button variant="text" size="large" shape="round" asChild className="text-white border border-white/30 hover:bg-white/10">
-              <Link href="/order">Request Info</Link>
-            </Button>
+            <RequestDialog>
+              <Button
+                variant="text"
+                size="large"
+                shape="round"
+                className="text-white border border-white/30 hover:bg-white/10"
+              >
+                Request Info
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 text-xs tracking-[0.3em] uppercase">
@@ -121,7 +129,7 @@ export default function ItParkPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div className="md:col-span-8 rounded-2xl bg-gradient-to-br from-violet-500 to-violet-700 p-8 text-white">
-              <BuildingIcon className="size-14 opacity-80" weight="duotone" />
+              <Building className="size-14 opacity-80" weight="duotone" />
               <p className="mt-8 text-5xl font-bold leading-none">49,300 m²</p>
               <p className="mt-3 text-sm opacity-80">Total Area</p>
             </div>
@@ -157,12 +165,14 @@ export default function ItParkPage() {
               </p>
               <ul className="mt-6 space-y-3">
                 {(features && features[0] && features[0].points) && (
-                  features[0].points.map((point) => (
-                    <li key={point} className="flex items-start gap-3">
-                      <CheckCircle className="size-5 text-(--primary) shrink-0" />
-                      <span className="text-body-4 text-(--on-bg-medium)">{point}</span>
-                    </li>
-                  ))
+                  <ul className="mt-6 space-y-3">
+                    {features[0].points.map((point) => (
+                      <li key={point} className="flex items-start gap-3">
+                        <CheckCircle className="size-5 text-(--primary) shrink-0" />
+                        <span className="text-body-4 text-(--on-bg-medium)">{point}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
               </ul>
             </div>
@@ -220,12 +230,12 @@ export default function ItParkPage() {
           <div className="text-center text-white">
             <h2 className="text-display-2 font-semibold">Start Your Journey</h2>
             <p className="mt-2 text-body-3 opacity-80">Launch your startup from Kazan's tech hub</p>
-            <Button variant="tonal-card" size="large" shape="round" asChild className="mt-8">
-              <Link href="/order">
+            <RequestDialog>
+              <Button variant="tonal-card" size="large" shape="round" className="mt-8">
                 Submit Request
                 <ArrowRight size={16} weight="bold" />
-              </Link>
-            </Button>
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
       </section>

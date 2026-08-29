@@ -20,6 +20,7 @@ import {
   Microscope,
   Recycle,
 } from "@phosphor-icons/react";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
 
 const features = [
   {
@@ -87,7 +88,7 @@ export default function HimgradPage() {
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
         <Container className="relative z-10 text-center">
-          <Badge variant="default" className="mb-6 text-sm tracking-wider uppercase">
+          <Badge variant="glass-static" className="mb-6 text-sm tracking-wider uppercase">
             Chemical Industrial Park
           </Badge>
           <h1 className="text-display-1 text-white font-bold leading-[1.05] max-w-3xl mx-auto">
@@ -216,12 +217,12 @@ export default function HimgradPage() {
           <div className="text-center text-white">
             <h2 className="text-display-2 font-semibold">Join Himgrad</h2>
             <p className="mt-2 text-body-3 opacity-80">Scale your chemistry or biotech business in Tatarstan</p>
-            <Button variant="tonal-card" size="large" shape="round" asChild className="mt-8">
-              <Link href="/order">
+            <RequestDialog>
+              <Button variant="tonal-card" size="large" shape="round" className="mt-8">
                 Submit Request
                 <ArrowRight size={16} weight="bold" />
-              </Link>
-            </Button>
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
       </section>

@@ -21,6 +21,7 @@ import {
   CheckCircle,
   XCircle,
 } from "@phosphor-icons/react";
+import { RequestDialog } from "@/components/layout/request/request-dialog";
 
 const features = [
   {
@@ -109,7 +110,7 @@ export default function AlabugaPage() {
         <div className="absolute inset-0 opacity-10 [background-image:linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:60px_60px]" />
         <Container className="relative z-10 text-center">
           <div className="mb-6 flex justify-center">
-            <Badge variant="default" className="text-sm tracking-wider uppercase">
+            <Badge variant="glass-static" className="text-sm tracking-wider uppercase">
               Industrial Resident
             </Badge>
           </div>
@@ -304,18 +305,17 @@ export default function AlabugaPage() {
             <p className="mt-2 text-body-3 opacity-80">
               Get a consultation on locating your production in SEZ Alabuga
             </p>
-            <Button
-              variant="tonal-card"
-              size="large"
-              shape="round"
-              asChild
-              className="mt-8"
-            >
-              <Link href="/order">
+            <RequestDialog>
+              <Button
+                variant="tonal-card"
+                size="large"
+                shape="round"
+                className="mt-8"
+              >
                 Submit Request
                 <ArrowRight size={16} weight="bold" />
-              </Link>
-            </Button>
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
       </section>
