@@ -5,7 +5,6 @@ import { Container } from "@/components/ui/container";
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { NavLink } from "@/components/layout/nav/nav-link";
 import { useLanguage } from "@/providers/language-provider";
-import { cn } from "@/lib/utils";
 
 export function Footer() {
   const { t } = useLanguage();
@@ -29,7 +28,6 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-background/80 backdrop-blur-lg">
       <Container className="py-12">
-        {/* Top row: Logo + ThemeSwitcher */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
           <Link href="/" className="flex items-center">
             <Logo className="h-8 w-auto text-foreground" />
@@ -38,7 +36,6 @@ export function Footer() {
             <ThemeSwitcher />
           </div>
         </div>
-        {/* Navigation grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
           {footerNavItems.map((item) => (
             <NavLink
@@ -50,7 +47,6 @@ export function Footer() {
             </NavLink>
           ))}
         </div>
-        {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border/50">
           <p className="text-xs text-muted-foreground">
             © {year} Rovno.dev's Invest Tatarstan site demo. Just enjoy.

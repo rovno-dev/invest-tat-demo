@@ -7,19 +7,17 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { LanguageProvider } from "@/providers/language-provider";
 import UserProvider from "@/entities/user/model/user-context";
 import ClientRootLayout from "./client-layout";
-// Import fonts locally here
+
 export const Geist = localFont({
   src: '../public/fonts/Geist-VariableFont_wght.woff2',
   variable: '--font-sans',
 });
-// export const OtherLocalFont = localFont({
-//   src: '../public/fonts/OtherLocalFont.woff2',
-//   variable: '--font-heading',
-// });
+
 export const metadata: Metadata = {
   title: "Invest Tatarstan",
   description: "Make your morey work on you. We have 100+ programs for it!",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -13,7 +13,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>("en");
 
-  // Initialize immediately from localStorage if available (avoids hydration delay)
+  // Initialize from localStorage or OS language
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Language | null;
     if (stored === "en" || stored === "ru") {
@@ -26,7 +26,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Keep html lang attr in sync
+  // Keep <html lang> in sync
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
@@ -36,7 +36,6 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLangState(newLang);
   };
 
-  // Simple t function - creates fresh closure on every render
   const t = (key: string) => translations[lang][key] || translations.en[key] || key;
 
   return (

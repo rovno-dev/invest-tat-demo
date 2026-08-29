@@ -22,6 +22,7 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
+import { useLanguage } from "@/providers/language-provider";
 
 const features = [
   {
@@ -83,6 +84,7 @@ const infrastructure = [
 ];
 
 export default function AlabugaPage() {
+  const { lang } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {

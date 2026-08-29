@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/container";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/providers/language-provider";
 
 /* SVG Illustrations (kept from previous version) */
 function PenDocument() {
@@ -92,56 +92,78 @@ function StampDocument() {
     </svg>
   );
 }
-/* Data */
-const steps = [
-  {
-    id: 1,
-    title: "Project Strategy Development",
-    items: [
-      "We will perform a research of the market for implementation of your business potential as investor.",
-      "We will provide you with the following information: infrastructure and resource potential of the Republic of Tatarstan, key industries; government support for businesses; tax structure.",
-      "Assistance in selecting an optimal strategy for entering the market of the Republic of Tatarstan.",
-      "Assistance in sourcing of raw industrial materials required for final product manufacturing.",
-      "Selecting manufacturers and service providers required for implementation of the business project.",
-      "Assistance in negotiation with government institutions and public authorities regarding the legal basis of the project.",
-    ],
-    illustration: <PenDocument />,
-  },
-  {
-    id: 2,
-    title: "Choosing the Investment Site",
-    items: [
-      "We will offer an optimal business site based on the provided information and technical specifications of the project.",
-      "We will organise site visits before you make a final decision.",
-    ],
-    illustration: <MapPin />,
-  },
-  {
-    id: 3,
-    title: "Setting up a business entity",
-    items: [
-      "Consultation on any matters arising in the process of the investment project implementation: tax and statute legislation; project financing; forms of state support provision; staff resourcing.",
-      "Support at all important stages of the investment project implementation. The staff of the Agency will improve your time schedule; render support in negotiation with authorities.",
-      "We will give information assistance in establishment of the form entity.",
-    ],
-    illustration: <Scissors />,
-  },
-  {
-    id: 4,
-    title: "Investors Support",
-    items: [
-      "An investor of implementable or implemented project is invited to become a member of the Investment Club of the Republic of Tatarstan.",
-      "Free support by the Tatarstan Investment Development Agency.",
-      "Informational support related to the continuous development in the region.",
-      "Quarterly meetings of Investors Club with participation of the local Government, relevant ministries and departments for informal discussions and problem solving.",
-      "Invitation to regional, national, federal and global business events of Tatarstan.",
-    ],
-    illustration: <StampDocument />,
-  },
-];
+
 export function InvestorPath() {
+  const { lang } = useLanguage();
   const [activeStep, setActiveStep] = useState(1);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const steps = [
+    {
+      id: 1,
+      title: lang === "ru" ? "Разработка стратегии проекта" : "Project Strategy Development",
+      items: lang === "ru" ? [
+        "Мы проведём исследование рынка для реализации вашего бизнес-потенциала как инвестора.",
+        "Мы предоставим вам следующую информацию: инфраструктурный и ресурсный потенциал Республики Татарстан, ключевые отрасли; государственную поддержку бизнеса; налоговую структуру.",
+        "Помощь в выборе оптимальной стратегии выхода на рынок Республики Татарстан.",
+        "Помощь в поиске сырья, необходимого для производства конечной продукции.",
+        "Подбор производителей и поставщиков услуг, необходимых для реализации бизнес-проекта.",
+        "Помощь в переговорах с государственными учреждениями и органами власти по правовым основам проекта.",
+      ] : [
+        "We will perform a research of the market for implementation of your business potential as investor.",
+        "We will provide you with the following information: infrastructure and resource potential of the Republic of Tatarstan, key industries; government support for businesses; tax structure.",
+        "Assistance in selecting an optimal strategy for entering the market of the Republic of Tatarstan.",
+        "Assistance in sourcing of raw industrial materials required for final product manufacturing.",
+        "Selecting manufacturers and service providers required for implementation of the business project.",
+        "Assistance in negotiation with government institutions and public authorities regarding the legal basis of the project.",
+      ],
+      illustration: <PenDocument />,
+    },
+    {
+      id: 2,
+      title: lang === "ru" ? "Выбор инвестиционной площадки" : "Choosing the Investment Site",
+      items: lang === "ru" ? [
+        "Мы предложим оптимальную площадку на основе предоставленной информации и технических характеристик проекта.",
+        "Мы организуем осмотр площадок до принятия вами окончательного решения.",
+      ] : [
+        "We will offer an optimal business site based on the provided information and technical specifications of the project.",
+        "We will organise site visits before you make a final decision.",
+      ],
+      illustration: <MapPin />,
+    },
+    {
+      id: 3,
+      title: lang === "ru" ? "Создание юридического лица" : "Setting up a business entity",
+      items: lang === "ru" ? [
+        "Консультации по любым вопросам, возникающим в процессе реализации инвестиционного проекта: налоговое и законодательное регулирование; финансирование проекта; формы государственной поддержки; кадровое обеспечение.",
+        "Поддержка на всех важных этапах реализации инвестиционного проекта. Сотрудники Агентства улучшат ваш график; окажут поддержку в переговорах с властями.",
+        "Мы окажем информационную помощь в создании юридического лица.",
+      ] : [
+        "Consultation on any matters arising in the process of the investment project implementation: tax and statute legislation; project financing; forms of state support provision; staff resourcing.",
+        "Support at all important stages of the investment project implementation. The staff of the Agency will improve your time schedule; render support in negotiation with authorities.",
+        "We will give information assistance in establishment of the form entity.",
+      ],
+      illustration: <Scissors />,
+    },
+    {
+      id: 4,
+      title: lang === "ru" ? "Поддержка инвесторов" : "Investors Support",
+      items: lang === "ru" ? [
+        "Инвестор реализуемого или реализованного проекта приглашается стать членом Инвестиционного клуба Республики Татарстан.",
+        "Бесплатная поддержка Агентства инвестиционного развития Республики Татарстан.",
+        "Информационная поддержка по вопросам дальнейшего развития региона.",
+        "Ежеквартальные встречи Инвестиционного клуба с участием руководства региона, профильных министерств и ведомств для неформального обсуждения и решения проблем.",
+        "Приглашение на региональные, национальные, федеральные и глобальные деловые мероприятия Татарстана.",
+      ] : [
+        "An investor of implementable or implemented project is invited to become a member of the Investment Club of the Republic of Tatarstan.",
+        "Free support by the Tatarstan Investment Development Agency.",
+        "Informational support related to the continuous development in the region.",
+        "Quarterly meetings of Investors Club with participation of the local Government, relevant ministries and departments for informal discussions and problem solving.",
+        "Invitation to regional, national, federal and global business events of Tatarstan.",
+      ],
+      illustration: <StampDocument />,
+    },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -173,95 +195,60 @@ export function InvestorPath() {
   return (
     <section id="investor-path" className="py-16 bg-(--bg)">
       <Container className="relative">
-        {/* Header */}
         <div className="text-center mb-16 max-w-2xl mx-auto">
-          <h2 className="text-display-2 font-semibold">Single window for investors</h2>
+          <h2 className="text-display-2 font-semibold">
+            {lang === "ru" ? "Единое окно для инвесторов" : "Single window for investors"}
+          </h2>
           <p className="mt-3 text-body-3 text-(--on-bg-medium)">
-            Investors are supported on a one stop shop basis in the Republic of Tatarstan
+            {lang === "ru"
+              ? "Инвесторы поддерживаются по принципу «одного окна» в Республике Татарстан"
+              : "Investors are supported on a one stop shop basis in the Republic of Tatarstan"}
           </p>
         </div>
-
-        {/* Sticky Top Timeline Bar */}
         <div className="sticky top-[80px] lg:top-[110px] -mx-4 px-4 z-50 mb-16">
-          <div className=" bg-bg/80 backdrop-blur-lg rounded-2xl border border-(--outline) shadow-lg p-4 max-w-5xl mx-auto">
+          <div className="bg-bg/80 backdrop-blur-lg rounded-2xl border border-(--outline) shadow-lg p-4 max-w-5xl mx-auto">
             <div className="relative">
-              {/* Step Dots */}
               <div className="no-scrollbar overflow-x-scroll relative flex justify-between">
                 {steps.map((step) => (
-                  <Button
-                    variant={'text'}
-                    key={step.id}
-                    onClick={() => scrollToStep(step.id)}
-                    className="flex flex-col items-center gap-2 group py-2"
-                  >
-                    <span
-                      className={cn(
-                        "size-4 rounded-full border-2 transition-all duration-300 bg-(--bg)",
-                        activeStep === step.id
-                          ? "border-(--primary) scale-125"
-                          : "border-(--outline) group-hover:border-(--primary)"
-                      )}
-                    />
-                    <span
-                      className={cn(
-                        "text-xs transition-colors",
-                        activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)"
-                      )}
-                    >
-                      Step {step.id}
+                  <Button key={step.id} variant={'text'} onClick={() => scrollToStep(step.id)} className="flex flex-col items-center gap-2 group py-2">
+                    <span className={cn("size-4 rounded-full border-2 transition-all duration-300 bg-(--bg)", activeStep === step.id ? "border-(--primary) scale-125" : "border-(--outline) group-hover:border-(--primary)")} />
+                    <span className={cn("text-xs transition-colors", activeStep === step.id ? "text-(--primary)" : "text-(--on-bg-low)")}>
+                      {lang === "ru" ? `Шаг ${step.id}` : `Step ${step.id}`}
                     </span>
                   </Button>
                 ))}
               </div>
-              {/* Progress Line */}
               <div className="relative h-0.5">
                 <div className="top-0 left-0 absolute right-0 h-full bg-(--outline) -translate-y-1/2" />
-                <div
-                  className="top-0 left-0 absolute h-full bg-(--primary) -translate-y-1/2 transition-all duration-500"
-                  style={{ width: `${progress}%` }}
-                />
+                <div className="top-0 left-0 absolute h-full bg-(--primary) -translate-y-1/2 transition-all duration-500" style={{ width: `${progress}%` }} />
               </div>
             </div>
           </div>
         </div>
-
-        {/* Content - Vertical Steps */}
         <div className="max-w-3xl mx-auto">
           <div className="grid grid-cols-1 gap-12">
             {steps.map((step, index) => (
               <div
                 key={step.id}
                 data-step-id={step.id}
-                ref={(el) => {
-                  stepRefs.current[index] = el;
-                }}
-                className={cn(
-                  "transition-opacity duration-500 scroll-mt-[150px] lg:scroll-mt-[180px]",
-                  activeStep === step.id ? "opacity-100" : "opacity-60"
-                )}
+                ref={(el) => { stepRefs.current[index] = el; }}
+                className={cn("transition-opacity duration-500 scroll-mt-[150px] lg:scroll-mt-[180px]", activeStep === step.id ? "opacity-100" : "opacity-60")}
               >
-                {/* Step Title */}
                 <h3 className="text-display-3 font-semibold mb-8">{step.title}</h3>
-                {/* Illustration */}
                 <div className="flex justify-center mb-8">{step.illustration}</div>
-                {/* Text Content */}
                 <ol className="space-y-4">
                   {step.items.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="flex gap-3 text-body-3 leading-relaxed text-(--on-bg-medium)"
-                    >
+                    <li key={idx} className="flex gap-3 text-body-3 leading-relaxed text-(--on-bg-medium)">
                       <span className="font-medium text-(--primary) mt-0.5 shrink-0">{idx + 1}.</span>
                       <span>{item}</span>
                     </li>
                   ))}
                 </ol>
-                {/* CTA (visible only on last step) */}
                 {step.id === steps.length && (
                   <div className="mt-10 flex justify-end">
                     <RequestDialog>
                       <Button variant="outlined" size="large" shape="round">
-                        Contact the Agency
+                        {lang === "ru" ? "Связаться с Агентством" : "Contact the Agency"}
                       </Button>
                     </RequestDialog>
                   </div>

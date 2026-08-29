@@ -16,22 +16,19 @@ export default function Header() {
   const pathname = usePathname();
   const { lang, t } = useLanguage();
 
-  // Force re-render when language changes
-  const languageKey = lang;
-
   const navItems = useMemo(() => [
     { label: t("nav.investment_standard"), href: "/investment-standard" },
     { label: t("nav.business_guide"), href: "/business-guide" },
     { label: t("nav.investment_map"), href: "/investment-map" },
     { label: t("nav.advantages"), href: "/advantages" },
     { label: t("nav.tatarstan"), href: "/tatarstan" },
-  ], [languageKey]);
+  ], [lang, t]);
 
   const secondaryNavItems = useMemo(() => [
     { label: t("nav.events"), href: "/events" },
     { label: t("nav.news"), href: "/news" },
     { label: t("nav.strategy_2030"), href: "/strategy-2030" },
-  ], [languageKey]);
+  ], [lang, t]);
 
   useEffect(() => {
     if (isMobileMenuOpen) {

@@ -23,7 +23,7 @@ export function LanguageSwitcher() {
 
   const handleSelect = (newLang: "en" | "ru") => {
     setLang(newLang);
-    setOpen(false); // Close the dropdown
+    setOpen(false);
   };
 
   return (

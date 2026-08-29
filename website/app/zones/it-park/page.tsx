@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
+import { useLanguage } from "@/providers/language-provider";
 import {
   ArrowRight,
   Building,
@@ -63,6 +64,7 @@ const facilities = [
 ];
 
 export default function ItParkPage() {
+  const { lang } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const video = videoRef.current;

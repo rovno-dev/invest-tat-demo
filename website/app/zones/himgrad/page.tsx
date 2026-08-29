@@ -21,6 +21,7 @@ import {
   Recycle,
 } from "@phosphor-icons/react";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
+import { useLanguage } from "@/providers/language-provider";
 
 const features = [
   {
@@ -65,6 +66,7 @@ const facilities = [
 ];
 
 export default function HimgradPage() {
+  const { lang } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const video = videoRef.current;
