@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/layout/logo/logo";
@@ -8,26 +8,31 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/container";
 import { RequestDialog } from "@/components/layout/request/request-dialog";
-
-
-const navItems = [
-  { label: "Investment standard", href: "/investment-standard" },
-  { label: "Business Guide", href: "/business-guide" },
-  { label: "Investment map", href: "/investment-map" },
-  { label: "Our advantages", href: "/advantages" },
-  { label: "Tatarstan", href: "/tatarstan" },
-];
-const secondaryNavItems = [
-  { label: "Events", href: "/events" },
-  { label: "News", href: "/news" },
-  { label: "Strategy 2030", href: "/strategy-2030" },
-];
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { useLanguage } from "@/providers/language-provider";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { lang, t } = useLanguage();
 
-  // Lock body scroll and add scrollbar-gutter when menu is open
+  // Force re-render when language changes
+  const languageKey = lang;
+
+  const navItems = useMemo(() => [
+    { label: t("nav.investment_standard"), href: "/investment-standard" },
+    { label: t("nav.business_guide"), href: "/business-guide" },
+    { label: t("nav.investment_map"), href: "/investment-map" },
+    { label: t("nav.advantages"), href: "/advantages" },
+    { label: t("nav.tatarstan"), href: "/tatarstan" },
+  ], [languageKey]);
+
+  const secondaryNavItems = useMemo(() => [
+    { label: t("nav.events"), href: "/events" },
+    { label: t("nav.news"), href: "/news" },
+    { label: t("nav.strategy_2030"), href: "/strategy-2030" },
+  ], [languageKey]);
+
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.documentElement.classList.add('scrollbar-gutter-stable');
@@ -42,8 +47,6 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-
-  // Dispatch custom events for OrderButton to listen to
   useEffect(() => {
     if (isMobileMenuOpen) {
       window.dispatchEvent(new Event("mobileMenuOpen"));
@@ -64,13 +67,11 @@ export default function Header() {
         "-mt-[64px] lg:-mt-[98px] transition-height duration-200 sticky top-0 z-50 bg-bg/40 backdrop-blur-lg"
       )}
     >
-      {/* Main row */}
       <Container className="flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center">
           <Logo className="h-auto w-[8rem]! md:w-[10rem]! xl:w-[12rem]!" />
         </Link>
-        <div className="flex items-center gap-3">
-          {/* Desktop navigation - primary */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <nav className="hidden items-center gap-4 lg:flex">
             {navItems.map((item) => (
               <Link
@@ -87,17 +88,16 @@ export default function Header() {
               </Link>
             ))}
           </nav>
-          {/* Request button - desktop/tablet */}
+          <LanguageSwitcher />
           <RequestDialog>
             <Button
               size="small"
               shape="round"
               className="hidden sm:flex bg-primary text-primary-foreground"
             >
-              Make a Request
+              {t("nav.make_request")}
             </Button>
           </RequestDialog>
-          {/* Burger menu - mobile only */}
           <Button
             variant="text"
             size="icon-medium"
@@ -109,8 +109,6 @@ export default function Header() {
           </Button>
         </div>
       </Container>
-
-      {/* Secondary navigation - second floor on desktop (lg+) */}
       <div className="hidden lg:flex ">
         <Container className="flex items-center justify-end gap-6 py-2">
           {secondaryNavItems.map((item) => (
@@ -127,14 +125,11 @@ export default function Header() {
           ))}
         </Container>
       </div>
-
-      {/* Mobile dropdown - burger menu */}
       {isMobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 top-16 bg-background h-[calc(100vh-4rem)] overflow-y-auto">
           <Container className="py-6">
             <div className="w-full">
               <nav className="flex flex-col">
-                {/* Primary nav items */}
                 {navItems.map((item, index) => (
                   <Link
                     key={item.href}
@@ -155,7 +150,6 @@ export default function Header() {
                     {item.label}
                   </Link>
                 ))}
-                {/* Secondary nav items */}
                 {secondaryNavItems.map((item, index) => (
                   <Link
                     key={item.href}
@@ -185,7 +179,7 @@ export default function Header() {
                     className="w-full"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Make a Request
+                    {t("nav.make_request")}
                   </Button>
                 </RequestDialog>
               </div>

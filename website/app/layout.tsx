@@ -4,25 +4,22 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils";
 import localFont from 'next/font/local'
 import { ThemeProvider } from "@/providers/theme-provider";
+import { LanguageProvider } from "@/providers/language-provider";
 import UserProvider from "@/entities/user/model/user-context";
 import ClientRootLayout from "./client-layout";
-
 // Import fonts locally here
 export const Geist = localFont({
   src: '../public/fonts/Geist-VariableFont_wght.woff2',
   variable: '--font-sans',
 });
-
 // export const OtherLocalFont = localFont({
 //   src: '../public/fonts/OtherLocalFont.woff2',
 //   variable: '--font-heading',
 // });
-
 export const metadata: Metadata = {
   title: "Invest Tatarstan",
   description: "Make your morey work on you. We have 100+ programs for it!",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -54,15 +51,17 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider>
-          <UserProvider>
-            <TooltipProvider>
-              <ClientRootLayout>
-                {children}
-              </ClientRootLayout>
-            </TooltipProvider>
-          </UserProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <UserProvider>
+              <TooltipProvider>
+                <ClientRootLayout>
+                  {children}
+                </ClientRootLayout>
+              </TooltipProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

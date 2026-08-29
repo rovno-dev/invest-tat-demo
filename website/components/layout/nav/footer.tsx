@@ -4,26 +4,27 @@ import Logo from "@/components/layout/logo/logo";
 import { Container } from "@/components/ui/container";
 import { ThemeSwitcher } from "@/components/layout/theme-switcher";
 import { NavLink } from "@/components/layout/nav/nav-link";
+import { useLanguage } from "@/providers/language-provider";
 import { cn } from "@/lib/utils";
 
-const footerNavItems = [
-  { label: "Investment standard", href: "/investment-standard" },
-  { label: "Business Guide", href: "/business-guide" },
-  { label: "Investment map", href: "/investment-map" },
-  { label: "Our advantages", href: "/advantages" },
-  { label: "Tatarstan", href: "/tatarstan" },
-  { label: "Events", href: "/events" },
-  { label: "News", href: "/news" },
-  { label: "Strategy 2030", href: "/strategy-2030" },
-  // Additional items
-  { label: "About us", href: "/about" },
-  { label: "Contact", href: "/contacts" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-];
-
 export function Footer() {
+  const { t } = useLanguage();
   const year = new Date().getFullYear();
+
+  const footerNavItems = [
+    { label: t("footer.investment"), href: "/investment-standard" },
+    { label: t("footer.business"), href: "/business-guide" },
+    { label: t("footer.map"), href: "/investment-map" },
+    { label: t("footer.advantages"), href: "/advantages" },
+    { label: t("footer.tatarstan"), href: "/tatarstan" },
+    { label: t("footer.events"), href: "/events" },
+    { label: t("footer.news"), href: "/news" },
+    { label: t("footer.strategy"), href: "/strategy-2030" },
+    { label: t("footer.about"), href: "/about" },
+    { label: t("footer.contact"), href: "/contacts" },
+    { label: t("footer.privacy"), href: "/privacy" },
+    { label: t("footer.terms"), href: "/terms" },
+  ];
 
   return (
     <footer className="border-t border-border bg-background/80 backdrop-blur-lg">
@@ -37,7 +38,6 @@ export function Footer() {
             <ThemeSwitcher />
           </div>
         </div>
-
         {/* Navigation grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
           {footerNavItems.map((item) => (
@@ -50,7 +50,6 @@ export function Footer() {
             </NavLink>
           ))}
         </div>
-
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border/50">
           <p className="text-xs text-muted-foreground">

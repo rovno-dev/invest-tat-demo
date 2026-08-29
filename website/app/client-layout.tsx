@@ -1,5 +1,4 @@
 "use client"
-
 import { Footer } from "@/components/layout/nav/footer";
 import "./globals.css";
 import Header from "@/components/layout/nav/header";
@@ -9,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import OrderButton from "@/components/layout/nav/order-button";
+import { useLanguage } from "@/providers/language-provider";
 
 export default function ClientRootLayout({
   children,
@@ -16,11 +16,12 @@ export default function ClientRootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const { lang } = useLanguage(); // Get current language
 
   return (
     <>
       <Header />
-      <div className="relative">
+      <div className="relative" key={lang}> {/* ← key forces re‑mount when language changes */}
         <main className={cn(pathname == '/' ? "mt-0" : "mt-0", "mb-0")}>
           {children}
         </main>
