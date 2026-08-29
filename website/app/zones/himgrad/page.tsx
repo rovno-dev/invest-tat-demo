@@ -105,9 +105,11 @@ export default function HimgradPage() {
                 <ArrowRight size={16} weight="bold" />
               </Link>
             </Button>
-            <Button variant="text" size="large" shape="round" asChild className="text-white border border-white/30 hover:bg-white/10">
-              <Link href="/order">Request Info</Link>
-            </Button>
+            <RequestDialog>
+              <Button variant="text" size="large" shape="round" className="text-white border border-white/30 hover:bg-white/10">
+                Request Info
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 text-xs tracking-[0.3em] uppercase">

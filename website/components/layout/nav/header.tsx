@@ -178,15 +178,16 @@ export default function Header() {
                 ))}
               </nav>
               <div className="flex justify-end p-4 mt-4">
-                <Button
-                  size="large"
-                  shape="round"
-                  className="w-full"
-                  asChild
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <Link href="/order">Make a Request</Link>
-                </Button>
+                <RequestDialog>
+                  <Button
+                    size="large"
+                    shape="round"
+                    className="w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Make a Request
+                  </Button>
+                </RequestDialog>
               </div>
             </div>
           </Container>

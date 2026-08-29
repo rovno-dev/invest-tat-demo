@@ -129,15 +129,16 @@ export default function AlabugaPage() {
                 <ArrowRight size={16} weight="bold" />
               </Link>
             </Button>
-            <Button
-              variant="text"
-              size="large"
-              shape="round"
-              asChild
-              className="text-white border border-white/30 hover:bg-white/10"
-            >
-              <Link href="/order">Request Info</Link>
-            </Button>
+            <RequestDialog>
+              <Button
+                variant="text"
+                size="large"
+                shape="round"
+                className="text-white border border-white/30 hover:bg-white/10"
+              >
+                Request Info
+              </Button>
+            </RequestDialog>
           </div>
         </Container>
         {/* Scroll indicator */}

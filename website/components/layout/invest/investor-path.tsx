@@ -179,9 +179,6 @@ export function InvestorPath() {
           <p className="mt-3 text-body-3 text-(--on-bg-medium)">
             Investors are supported on a one stop shop basis in the Republic of Tatarstan
           </p>
-          <Link href="/order" className="inline-block mt-4 text-(--primary) hover:underline">
-            How to register a business in Russia
-          </Link>
         </div>
 
         {/* Sticky Top Timeline Bar */}

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button'; // Adjust path based on your setup
 import { cn } from '@/lib/utils';
+import { RequestDialog } from '../request/request-dialog';
 
 export default function OrderButton() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -30,14 +31,15 @@ export default function OrderButton() {
         isMobileMenuOpen ? "pointer-events-none opacity-0" : "opacity-100"
       )}
     >
-      <Button
-        size="large"
-        shape="round"
-        className="w-full max-w-sm shadow-lg"
-        asChild
-      >
-        <Link href="/order">Make a Request</Link>
-      </Button>
+      <RequestDialog>
+        <Button
+          size="large"
+          shape="round"
+          className="w-full max-w-sm shadow-lg"
+        >
+          Make a Request
+        </Button>
+      </RequestDialog>
     </div>
   );
 }
