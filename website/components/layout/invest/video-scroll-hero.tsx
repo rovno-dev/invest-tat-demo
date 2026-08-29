@@ -58,14 +58,14 @@ export function VideoScrollHero({ backward = false }: { backward?: boolean }) {
   const heroTitle = lang === "ru" ? (
     <>
       <div className="mb-2 sm:mb-4">
-        <span className="mr-0 sm:mr-3">Где</span>
+        <span className="mr-0 sm:mr-3">Где</span><br />
         <span className="inline-flex items-center gap-2 vertical-middle">
           <BookOpenIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
           <span>наследие</span>
         </span>
       </div>
       <div>
-        <span className="mr-0 sm:mr-3">Встречается с</span>
+        <span className="mr-0 sm:mr-3">Встречается с</span><br />
         <span className="inline-flex items-center gap-2 vertical-middle">
           <CpuIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
           <span>инновациями</span>
@@ -75,14 +75,14 @@ export function VideoScrollHero({ backward = false }: { backward?: boolean }) {
   ) : (
     <>
       <div className="mb-2 sm:mb-4">
-        <span className="mr-0 sm:mr-3">Where</span>
+        <span className="mr-0 sm:mr-3">Where</span><br />
         <span className="inline-flex items-center gap-2 vertical-middle">
           <BookOpenIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
           <span>heritage</span>
         </span>
       </div>
       <div>
-        <span className="mr-0 sm:mr-3">Meets</span>
+        <span className="mr-0 sm:mr-3">Meets</span><br />
         <span className="inline-flex items-center gap-2 vertical-middle">
           <CpuIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
           <span>innovation</span>
@@ -110,7 +110,7 @@ export function VideoScrollHero({ backward = false }: { backward?: boolean }) {
       <div className="relative z-10">
         <section className="-mt-[100vh] pt-[15vh] lg:pt-[18vh] pb-[5vh] flex items-center justify-center">
           <Container className="relative z-20 max-w-4xl text-center">
-            <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] ">
+            <div className="relative mt-4 flex flex-col items-center justify-center sm:max-w-[600px] md:max-w-[800px] mx-auto">
               <h1 className="text-white text-display-2 sm:text-display-1 lg:text-[5rem] font-bold mt-2 max-w-2xl leading-tight">
                 {heroTitle}
               </h1>
@@ -119,6 +119,7 @@ export function VideoScrollHero({ backward = false }: { backward?: boolean }) {
               <Button
                 variant={'tonal-card'}
                 asChild
+                size={'xlarge'}
                 className="w-full sm:w-fit"
               >
                 <Link href="#scenarios">
