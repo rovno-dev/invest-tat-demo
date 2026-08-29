@@ -75,14 +75,14 @@ export function VideoScrollHero({ backward = false }: { backward?: boolean }) {
   ) : (
     <>
       <div className="mb-2 sm:mb-4">
-        <span className="mr-0 sm:mr-3">Where</span>
+        <span className="mr-0 sm:mr-3">Where</span><br />
         <span className="inline-flex items-center gap-2 vertical-middle">
           <BookOpenIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
           <span>heritage</span>
         </span>
       </div>
       <div>
-        <span className="mr-0 sm:mr-3">Meets</span>
+        <span className="mr-0 sm:mr-3">Meets</span><br />
         <span className="inline-flex items-center gap-2 vertical-middle">
           <CpuIcon className="w-[1em] h-[1em] text-display-3 sm:text-display-2 lg:text-[4rem]" weight="bold" />
           <span>innovation</span>
@@ -119,6 +119,7 @@ export function VideoScrollHero({ backward = false }: { backward?: boolean }) {
               <Button
                 variant={'tonal-card'}
                 asChild
+                size={'xlarge'}
                 className="w-full sm:w-fit"
               >
                 <Link href="#scenarios">
